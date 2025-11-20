@@ -46,6 +46,7 @@
       color: white;
     }
 
+    /* Sidebar links w/ white outline halo */
     nav a {
       display: block;
       margin-top: 14px;
@@ -55,10 +56,22 @@
       font-weight: 600;
       text-align: left;
       padding-left: 10px;
+
+      /* white halo outline */
+      text-shadow:
+        -1px -1px 0 white,
+         1px -1px 0 white,
+        -1px  1px 0 white,
+         1px  1px 0 white;
     }
 
     nav a:hover {
       color: var(--accent-red-light);
+      text-shadow:
+        -1px -1px 0 white,
+         1px -1px 0 white,
+        -1px  1px 0 white,
+         1px  1px 0 white;
     }
 
     /* MAIN CONTENT */
@@ -70,9 +83,7 @@
       color: var(--accent-red);
     }
 
-    h1, h2 {
-      color: var(--accent-red);
-    }
+    h1, h2 { color: var(--accent-red); }
 
     .section {
       background: white;
@@ -80,7 +91,7 @@
       margin-bottom: 30px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      color: #333; /* body text stays readable */
+      color: #333;
     }
 
     .header-photo {
@@ -113,7 +124,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
-    /* MOBILE */
+    /* MOBILE LAYOUT */
     @media (max-width: 768px) {
       .pdf-row { flex-direction: column; }
 
@@ -125,19 +136,20 @@
         transform: translateX(-100%);
         z-index: 998;
       }
+
       nav.open { transform: translateX(0); }
 
       main { padding-top: 80px; }
     }
 
-    /* HAMBURGER */
+    /* HAMBURGER BUTTON — restored */
     .hamburger {
       display: none;
       position: fixed;
       top: 15px;
       left: 15px;
-      width: 35px;
-      height: 30px;
+      width: 40px;
+      height: 34px;
       background: var(--accent-red);
       color: white;
       border-radius: 6px;
@@ -158,7 +170,7 @@
     }
     .overlay.show { display: block; }
 
-    /* ---------- MODAL (simple X only) ---------- */
+    /* ---------- MODAL ---------- */
     .modal {
       position: fixed;
       inset: 0;
@@ -179,6 +191,7 @@
       object-fit: contain;
     }
 
+    /* CLOSE (X) BUTTON */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -187,14 +200,42 @@
       color: white;
       cursor: pointer;
       user-select: none;
+      z-index: 3000;
     }
 
+    /* ---------- DESKTOP-ONLY ARROWS ---------- */
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 50px;
+      color: white;
+      cursor: pointer;
+      padding: 10px 18px;
+      user-select: none;
+      z-index: 3000;
+    }
+
+    .modal-arrow.left { left: 20px; }
+    .modal-arrow.right { right: 20px; }
+
+    /* Hide arrows on mobile */
+    @media (max-width: 768px) {
+      .modal-arrow { display: none; }
+    }
+
+    /* Show arrows on desktop */
+    @media (min-width: 769px) {
+      .modal-arrow { display: block; }
+    }
   </style>
 </head>
 
 <body>
 
+<!-- MOBILE HAMBURGER -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
+
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
@@ -262,7 +303,11 @@
 <!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-close" id="modalClose">✕</div>
+
+  <!-- Desktop-only arrows -->
+  <div class="modal-arrow left" id="modalPrev">❮</div>
   <img id="modalImage" src="">
+  <div class="modal-arrow right" id="modalNext">❯</div>
 </div>
 
 <script>
@@ -277,6 +322,8 @@ function toggleMenu() {
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
+const modalPrev = document.getElementById("modalPrev");
+const modalNext = document.getElementById("modalNext");
 
 const images = [
   "/assets/wedding-trail-map-photo.jpg",
@@ -306,12 +353,23 @@ document.querySelectorAll(".modal-trigger").forEach(item => {
 
 modalClose.addEventListener("click", closeModal);
 
-/* Tap outside closes modal */
+/* Click outside closes modal */
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
 });
 
-/* Swipe support */
+/* Desktop arrow controls */
+modalPrev.addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  modalImage.src = images[currentIndex];
+});
+
+modalNext.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  modalImage.src = images[currentIndex];
+});
+
+/* Swipe for mobile */
 let startX = 0;
 
 modal.addEventListener("touchstart", (e) => {
