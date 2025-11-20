@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Parker J. LeClair</title>
+  <title>Projects – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/png" href="assets/PJL_Favicon2.png">
+  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
 
   <style>
     body {
@@ -14,63 +13,44 @@
       background: #f3f4f6;
     }
 
-    /* ---------- LAYOUT ---------- */
     .layout {
       display: flex;
       min-height: 100vh;
     }
 
-    /* ---------- SIDEBAR ---------- */
     nav {
       width: 280px;
       background: #0085B4;
       color: white;
       padding: 20px;
       box-sizing: border-box;
-      transition: transform 0.3s ease;
-      text-align: center; /* ← centers your name + tagline */
+      text-align: center;
     }
 
-    /* Profile photo */
     .profile-pic {
       width: 120px;
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      display: block;
       margin: 0 auto 20px auto;
       border: 3px solid #53D2FF;
     }
 
-    .home-header {
-      width: 100%;
-      max-width: 900px;   /* matches your content width */
-      border-radius: 10px;
-      display: block;
-      margin: 0 auto 30px auto; /* centers + adds spacing */
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    /* Keep menu links left-aligned */
     nav a {
       display: block;
       margin-top: 12px;
       color: #FFFF85;
       text-decoration: none;
-      font-size: 1.1rem;      /* bigger */
-      font-weight: 600;       /* bold */
-      letter-spacing: 0.3px;  /* slight polish */
+      font-size: 1.1rem;
+      font-weight: 600;
       text-align: left;
       padding-left: 10px;
     }
-
 
     nav a:hover {
       color: #B6DF89;
     }
 
-
-    /* ---------- MAIN CONTENT ---------- */
     main {
       flex: 1;
       padding: 30px;
@@ -78,15 +58,49 @@
       margin: 0 auto;
     }
 
-    .section {
+    .project-card {
       background: white;
       padding: 20px;
-      margin-bottom: 30px;
-      border-radius: 8px;
+      margin-bottom: 25px;
+      border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* ---------- HAMBURGER BUTTON ---------- */
+    .project-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .project-card h2 {
+      margin-top: 0;
+    }
+
+    .project-card a {
+      font-weight: bold;
+      color: #0085B4;
+      text-decoration: none;
+    }
+
+    .project-card a:hover {
+      color: #005f7d;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 998;
+      }
+      nav.open { transform: translateX(0); }
+      main { padding-top: 80px; }
+    }
+
     .hamburger {
       display: none;
       position: fixed;
@@ -104,36 +118,6 @@
       z-index: 999;
     }
 
-    /* ---------- MOBILE ONLY ---------- */
-    @media (max-width: 768px) {
-
-      /* Show hamburger button */
-      .hamburger {
-        display: flex;
-      }
-
-      /* Sidebar initially hidden */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        transform: translateX(-100%);
-        z-index: 998;
-      }
-
-      /* When open */
-      nav.open {
-        transform: translateX(0);
-      }
-
-      /* Add space at top so text isn't covered */
-      main {
-        padding-top: 80px;
-      }
-    }
-
-    /* Optional dark overlay */
     .overlay {
       display: none;
       position: fixed;
@@ -141,25 +125,20 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
-    .overlay.show {
-      display: block;
-    }
+    .overlay.show { display: block; }
+
   </style>
 </head>
 
 <body>
 
-<!-- MOBILE HAMBURGER BUTTON -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-<!-- Overlay -->
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
 
   <nav id="sidebar">
-    <img src="assets/PJL.jpg" class="profile-pic" alt="Profile picture">
-
+    <img src="/assets/PJL.jpg" class="profile-pic">
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
 
@@ -169,24 +148,26 @@
   </nav>
 
   <main>
-    
-    <img src="assets/ParkerandSadie.jpg" class="home-header" alt="Parker LeClair">
-    
-    <div class="section">
-      <h2>About Me</h2>
+    <h1>Projects</h1>
+
+    <!-- Wedding Trail Map -->
+    <div class="project-card">
+      <img src="/assets/wedding-trail-map-photo.jpg" alt="Wedding Trail Map Project">
+      <h2>Wedding Trail Map – Custom Cartography in QGIS</h2>
       <p>
-        Geologist and GIS graduate student building technical expertise in spatial data analysis 
-        and workflow development. Experienced in field-based mapping and volumetric analysis using 
-        drone point clouds, R, and GIS to reconcile modeled geology with mined production data. 
-        Seeking to transition into a GIS-focused role applying geoscience knowledge to spatial 
-        analysis and data-driven problem solving.
+        A custom navigation map created as a wedding gift, featuring trail networks, contours, hydrology, 
+        and custom artwork. Designed and produced in QGIS.
       </p>
+      <a href="/wedding-trail-map">View Project →</a>
     </div>
 
-    <div class="section">
-      <h2>Welcome</h2>
-      <p>Use the navigation on the left to explore my GIS projects and contact information.</p>
+    <!-- Mine Reconciliation -->
+    <div class="project-card">
+      <h2>Mine Reconciliation Using UAV Photogrammetry & R</h2>
+      <p>Monthly photogrammetry surveys processed to compare modeled and actual ore/waste volumes.</p>
+      <a href="/projects/mine-recon">View Project →</a>
     </div>
+
   </main>
 
 </div>
