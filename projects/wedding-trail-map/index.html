@@ -7,6 +7,12 @@
   <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
 
   <style>
+    :root {
+      --accent-red: #FD3E5E;
+      --accent-red-light: #FF758A;
+      --sidebar-green: #77A361;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
@@ -21,7 +27,7 @@
     /* SIDEBAR */
     nav {
       width: 280px;
-      background: #0085B4;
+      background: var(--sidebar-green);
       color: white;
       padding: 20px;
       box-sizing: border-box;
@@ -33,20 +39,27 @@
       width: 120px; height: 120px;
       border-radius: 50%; object-fit: cover;
       margin: 0 auto 20px auto;
-      border: 3px solid #53D2FF;
+      border: 4px solid var(--accent-red);
+    }
+
+    nav h1, nav p {
+      color: white;
     }
 
     nav a {
       display: block;
-      margin-top: 12px;
-      color: #FFFF85;
+      margin-top: 14px;
+      color: var(--accent-red);
       text-decoration: none;
       font-size: 1.1rem;
       font-weight: 600;
       text-align: left;
       padding-left: 10px;
     }
-    nav a:hover { color: #B6DF89; }
+
+    nav a:hover {
+      color: var(--accent-red-light);
+    }
 
     /* MAIN CONTENT */
     main {
@@ -54,6 +67,11 @@
       padding: 30px;
       max-width: 900px;
       margin: 0 auto;
+      color: var(--accent-red);
+    }
+
+    h1, h2 {
+      color: var(--accent-red);
     }
 
     .section {
@@ -62,6 +80,7 @@
       margin-bottom: 30px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      color: #333; /* body text stays readable */
     }
 
     .header-photo {
@@ -111,6 +130,7 @@
       main { padding-top: 80px; }
     }
 
+    /* HAMBURGER */
     .hamburger {
       display: none;
       position: fixed;
@@ -118,7 +138,7 @@
       left: 15px;
       width: 35px;
       height: 30px;
-      background: #53D2FF;
+      background: var(--accent-red);
       color: white;
       border-radius: 6px;
       justify-content: center;
@@ -128,6 +148,7 @@
       z-index: 999;
     }
 
+    /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
@@ -137,7 +158,7 @@
     }
     .overlay.show { display: block; }
 
-    /* ---------- SIMPLE MODAL (NO ARROWS) ---------- */
+    /* ---------- MODAL (simple X only) ---------- */
     .modal {
       position: fixed;
       inset: 0;
@@ -156,19 +177,18 @@
       max-height: 95%;
       border-radius: 8px;
       object-fit: contain;
-      pointer-events: none;
     }
 
-    /* Classic clean top-right X (Option A) */
     .modal-close {
       position: absolute;
       top: 20px;
       right: 25px;
-      font-size: 38px;
+      font-size: 40px;
       color: white;
       cursor: pointer;
       user-select: none;
     }
+
   </style>
 </head>
 
@@ -253,7 +273,7 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-/* ---------- MODAL LOGIC (NO ARROWS) ---------- */
+/* MODAL LOGIC */
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
@@ -286,12 +306,12 @@ document.querySelectorAll(".modal-trigger").forEach(item => {
 
 modalClose.addEventListener("click", closeModal);
 
-/* Tap outside image closes modal */
+/* Tap outside closes modal */
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
 });
 
-/* Optional: left/right swipe still cycles */
+/* Swipe support */
 let startX = 0;
 
 modal.addEventListener("touchstart", (e) => {
@@ -301,11 +321,11 @@ modal.addEventListener("touchstart", (e) => {
 modal.addEventListener("touchend", (e) => {
   let endX = e.changedTouches[0].clientX;
 
-  if (endX - startX > 50) {  
+  if (endX - startX > 50) {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     modalImage.src = images[currentIndex];
   }
-  if (startX - endX > 50) {  
+  if (startX - endX > 50) {
     currentIndex = (currentIndex + 1) % images.length;
     modalImage.src = images[currentIndex];
   }
