@@ -4,69 +4,171 @@
   <meta charset="UTF-8">
   <title>Mine Reconciliation – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="../../assets/PJL_Favicon2.png">
+  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png">
 
   <style>
-    body { margin:0; font-family:system-ui,sans-serif; background:#f3f4f6; }
-    .layout { display:flex; min-height:100vh; }
+    :root {
+      --sidebar-blue: #0085B4;
+      --button-blue-top: #27A3D1;
+      --button-blue-bottom: #1C92BD;
+    }
 
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f3f4f6;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ---------- SIDEBAR ---------- */
     nav {
-      width:280px; background:#0085B4; color:white;
-      padding:20px; text-align:center;
-      transition:transform .3s ease;
+      width: 280px;
+      background: var(--sidebar-blue);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-sizing: border-box;
+      transition: transform .3s ease;
     }
 
     .profile-pic {
-      width:120px; height:120px; border-radius:50%;
-      object-fit:cover; margin:0 auto 20px;
-      border:3px solid #53D2FF;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 3px solid #53D2FF;
     }
 
+    /* ---------- 3D BUTTON LINKS ---------- */
     nav a {
-      display:block; margin-top:12px;
-      color:#FFFF85; font-size:1.1rem; font-weight:600;
-      text-decoration:none; text-align:left; padding-left:10px;
-    }
-    nav a:hover { color:#B6DF89; }
+      display: block;
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: left;
+      color: white;
 
+      background: linear-gradient(
+        to bottom,
+        var(--button-blue-top),
+        var(--button-blue-bottom)
+      );
+
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.5),
+        0 3px 6px rgba(0,0,0,0.25);
+
+      letter-spacing: 0.3px;
+      transition: transform 0.08s ease, box-shadow 0.1s ease;
+    }
+
+    /* Hover effect — Option A (subtle lift + brighten) */
+    nav a:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.7),
+        0 5px 8px rgba(0,0,0,0.28);
+      filter: brightness(1.07);
+    }
+
+    /* Pressed click animation */
+    nav a:active {
+      transform: translateY(1px);
+      box-shadow:
+        inset 0 1px 2px rgba(0,0,0,0.35),
+        0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
     main {
-      flex:1; padding:30px; max-width:900px; margin:0 auto;
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     .section {
-      background:white; padding:20px;
-      border-radius:8px; margin-bottom:20px;
-      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
+    /* ---------- HAMBURGER (same as main theme) ---------- */
     .hamburger {
-      display:none; position:fixed; top:15px; left:15px;
-      width:35px; height:30px; background:#53D2FF;
-      color:white; border-radius:6px; justify-content:center; align-items:center;
-      font-size:22px; cursor:pointer; z-index:999;
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 34px;
+      background: #53D2FF;
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 999;
     }
 
-    @media(max-width:768px){
-      .hamburger{display:flex;}
-      nav{position:fixed;top:0;left:0;height:100%;transform:translateX(-100%);z-index:998;}
-      nav.open{transform:translateX(0);}
-      main{padding-top:80px;}
+    /* ---------- MOBILE RESPONSIVENESS ---------- */
+    @media(max-width: 768px) {
+      .hamburger { display: flex; }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+
+      nav.open {
+        transform: translateX(0);
+      }
+
+      main {
+        padding-top: 80px;
+      }
     }
 
-    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:900;}
-    .overlay.show{display:block;}
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+
+    .overlay.show {
+      display: block;
+    }
   </style>
 </head>
 
 <body>
 
+<!-- HAMBURGER BUTTON -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
 
+  <!-- SIDEBAR -->
   <nav id="sidebar">
-    <img src="../../assets/PJL.jpg" class="profile-pic">
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture">
 
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
@@ -76,22 +178,38 @@
     <a href="/contact">Contact & Resume</a>
   </nav>
 
+  <!-- MAIN CONTENT -->
   <main>
+
     <div class="section">
       <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
+
       <p>
-        Your full write-up goes here — methodology, workflow, screenshots,
-        point cloud steps, DSM generation, R code, reconciliation charts, etc.
+        This page will contain the full write-up of your mine reconciliation workflow:
+        UAV acquisition → photogrammetry processing → point cloud filtering →
+        DSM generation → statistical outlier removal → lowest-surface model →
+        spatial alignment → ore/waste comparison → production tracking.
+      </p>
+
+      <p>
+        When you're ready, I can help you format:
+        <br>• Image galleries
+        <br>• R code blocks with syntax highlighting
+        <br>• Before/after DSM comparisons
+        <br>• Charts (volumetrics, benches, monthly trends)
+        <br>• Interactive maps (Leaflet/Mapbox/etc.)
       </p>
     </div>
+
   </main>
 
 </div>
 
 <script>
-function toggleMenu(){
-  sidebar = document.getElementById("sidebar");
-  overlay = document.getElementById("overlay");
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
 }
