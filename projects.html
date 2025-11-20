@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Projects – Parker LeClair</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f3f4f6;
+    }
+    .layout { display: flex; min-height: 100vh; }
+    nav {
+      width: 230px;
+      background: #1f2933;
+      color: #f9fafb;
+      padding: 20px;
+    }
+    nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      display: block;
+      padding: 6px 0;
+    }
+    nav a:hover { color: #38bdf8; }
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .project-card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .project-card h2 { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+  <nav>
+    <h1>Parker LeClair</h1>
+    <p>GIS • Remote Sensing • Geology</p>
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact & Resume</a>
+  </nav>
+
+  <main>
+    <h1>Projects</h1>
+
+    <!-- PROJECT EXAMPLE -->
+    <div class="project-card">
+      <h2>Mine Reconciliation Using UAV Photogrammetry & R</h2>
+      <p>
+        Monthly photogrammetry surveys processed to generate DSMs, remove outliers,
+        compute lowest-elevation surfaces, and compare modeled vs actual ore/waste.
+      </p>
+      <a href="projects/mine-recon.html">View project →</a>
+    </div>
+
+    <!-- Add more project cards here later -->
+
+  </main>
+</div>
+
+</body>
+</html>
