@@ -98,6 +98,7 @@
       z-index: 9999;
       justify-content: center;
       align-items: center;
+      transition: opacity 0.2s ease;
     }
     #lightboxImage {
       max-width: 95%;
@@ -105,7 +106,26 @@
       border-radius: 8px;
       cursor: zoom-out;
       box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      transition: opacity 0.2s ease;
     }
+
+    /* ARROWS */
+    .arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3.2rem;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10000;
+      opacity: 0.75;
+      transition: opacity 0.2s ease;
+    }
+    .arrow:hover { opacity: 1; }
+
+    #leftArrow { left: 30px; }
+    #rightArrow { right: 30px; }
 
     /* MOBILE */
     @media (max-width: 768px) {
@@ -119,6 +139,10 @@
       }
       nav.open { transform: translateX(0); }
       main { padding-top: 80px; }
+
+      .arrow {
+        font-size: 2.6rem;
+      }
     }
 
     .hamburger {
@@ -182,13 +206,13 @@
         <div class="pdf-card">
           <img src="/assets/WeddingTrailMap_Page1.png"
                alt="Trail Map Page 1"
-               onclick="openLightbox(this.src)">
+               onclick="openLightbox(0)">
         </div>
 
         <div class="pdf-card">
           <img src="/assets/WeddingTrailMap_Page2.png"
                alt="Trail Map Page 2"
-               onclick="openLightbox(this.src)">
+               onclick="openLightbox(1)">
         </div>
 
       </div>
@@ -217,12 +241,21 @@
   </main>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightboxOverlay" onclick="closeLightbox()">
+<!-- LIGHTBOX + ARROWS -->
+<div id="lightboxOverlay">
+  <span id="leftArrow" class="arrow" onclick="prevImage()">❮</span>
   <img id="lightboxImage">
+  <span id="rightArrow" class="arrow" onclick="nextImage()">❯</span>
 </div>
 
 <script>
+const images = [
+  "/assets/WeddingTrailMap_Page1.png",
+  "/assets/WeddingTrailMap_Page2.png"
+];
+let currentIndex = 0;
+
+/* ----- SIDEBAR ----- */
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
@@ -230,35 +263,51 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-function openLightbox(src) {
-  document.getElementById("lightboxImage").src = src;
+/* ----- LIGHTBOX ----- */
+function openLightbox(index) {
+  currentIndex = index;
+  document.getElementById("lightboxImage").src = images[index];
   document.getElementById("lightboxOverlay").style.display = "flex";
-  document.addEventListener("keydown", arrowNav);
+  document.addEventListener("keydown", keyNav);
 }
 
 function closeLightbox() {
   document.getElementById("lightboxOverlay").style.display = "none";
-  document.removeEventListener("keydown", arrowNav);
+  document.removeEventListener("keydown", keyNav);
 }
 
-function arrowNav(e) {
-  const images = [
-    "/assets/WeddingTrailMap_Page1.png",
-    "/assets/WeddingTrailMap_Page2.png"
-  ];
-
-  let current = document.getElementById("lightboxImage").src;
-  let index = images.findIndex(img => current.includes(img));
-
-  if (e.key === "ArrowRight") {
-    index = (index + 1) % images.length;
-    document.getElementById("lightboxImage").src = images[index];
-  }
-  if (e.key === "ArrowLeft") {
-    index = (index - 1 + images.length) % images.length;
-    document.getElementById("lightboxImage").src = images[index];
-  }
+function nextImage() {
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("lightboxImage").src = images[currentIndex];
 }
+
+function prevImage() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  document.getElementById("lightboxImage").src = images[currentIndex];
+}
+
+/* ----- KEYBOARD ARROWS ----- */
+function keyNav(e) {
+  if (e.key === "ArrowRight") nextImage();
+  if (e.key === "ArrowLeft") prevImage();
+  if (e.key === "Escape") closeLightbox();
+}
+
+/* ----- TOUCH SWIPE SUPPORT ----- */
+let startX = 0;
+document.getElementById("lightboxOverlay").addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.getElementById("lightboxOverlay").addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) nextImage(); // swipe left
+    else prevImage();          // swipe right
+  }
+});
 </script>
 
 </body>
