@@ -46,7 +46,7 @@
       color: white;
     }
 
-    /* Sidebar links w/ white outline halo */
+    /* Sidebar links with halo */
     nav a {
       display: block;
       margin-top: 14px;
@@ -57,7 +57,6 @@
       text-align: left;
       padding-left: 10px;
 
-      /* white halo outline */
       text-shadow:
         -1px -1px 0 white,
          1px -1px 0 white,
@@ -67,11 +66,6 @@
 
     nav a:hover {
       color: var(--accent-red-light);
-      text-shadow:
-        -1px -1px 0 white,
-         1px -1px 0 white,
-        -1px  1px 0 white,
-         1px  1px 0 white;
     }
 
     /* MAIN CONTENT */
@@ -124,7 +118,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
-    /* MOBILE LAYOUT */
+    /* ---------- MOBILE ---------- */
     @media (max-width: 768px) {
       .pdf-row { flex-direction: column; }
 
@@ -132,17 +126,22 @@
 
       nav {
         position: fixed;
-        top: 0; left: 0; height: 100%;
-        transform: translateX(-100%);
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);   /* ← THE FIX */
+        transition: transform 0.3s ease;
         z-index: 998;
       }
 
-      nav.open { transform: translateX(0); }
+      nav.open {
+        transform: translateX(0);
+      }
 
       main { padding-top: 80px; }
     }
 
-    /* HAMBURGER BUTTON — restored */
+    /* ---------- HAMBURGER ---------- */
     .hamburger {
       display: none;
       position: fixed;
@@ -168,6 +167,7 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
+
     .overlay.show { display: block; }
 
     /* ---------- MODAL ---------- */
@@ -191,7 +191,7 @@
       object-fit: contain;
     }
 
-    /* CLOSE (X) BUTTON */
+    /* Close button */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -203,7 +203,7 @@
       z-index: 3000;
     }
 
-    /* ---------- DESKTOP-ONLY ARROWS ---------- */
+    /* Desktop arrows */
     .modal-arrow {
       position: absolute;
       top: 50%;
@@ -219,23 +219,15 @@
     .modal-arrow.left { left: 20px; }
     .modal-arrow.right { right: 20px; }
 
-    /* Hide arrows on mobile */
     @media (max-width: 768px) {
       .modal-arrow { display: none; }
-    }
-
-    /* Show arrows on desktop */
-    @media (min-width: 769px) {
-      .modal-arrow { display: block; }
     }
   </style>
 </head>
 
 <body>
 
-<!-- MOBILE HAMBURGER -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
-
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
@@ -292,8 +284,7 @@
 
         Custom artwork provided by Sage was incorporated into the layout to create consistent, personalized branding for 
         the event. The final deliverable consisted of two high-resolution, double-sided printed maps on letter-sized paper, 
-        folded and distributed to wedding guests to help them navigate the property and enjoy the trails throughout the 
-        day’s activities.
+        folded and distributed to wedding guests.
       </p>
     </div>
 
@@ -304,7 +295,6 @@
 <div id="modal" class="modal">
   <div class="modal-close" id="modalClose">✕</div>
 
-  <!-- Desktop-only arrows -->
   <div class="modal-arrow left" id="modalPrev">❮</div>
   <img id="modalImage" src="">
   <div class="modal-arrow right" id="modalNext">❯</div>
@@ -318,7 +308,7 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-/* MODAL LOGIC */
+/* MODAL */
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
@@ -353,12 +343,11 @@ document.querySelectorAll(".modal-trigger").forEach(item => {
 
 modalClose.addEventListener("click", closeModal);
 
-/* Click outside closes modal */
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
 });
 
-/* Desktop arrow controls */
+/* Arrows */
 modalPrev.addEventListener("click", () => {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   modalImage.src = images[currentIndex];
@@ -369,7 +358,7 @@ modalNext.addEventListener("click", () => {
   modalImage.src = images[currentIndex];
 });
 
-/* Swipe for mobile */
+/* Swipe */
 let startX = 0;
 
 modal.addEventListener("touchstart", (e) => {
@@ -377,7 +366,7 @@ modal.addEventListener("touchstart", (e) => {
 }, { passive: true });
 
 modal.addEventListener("touchend", (e) => {
-  let endX = e.changedTouches[0].clientX;
+  const endX = e.changedTouches[0].clientX;
 
   if (endX - startX > 50) {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
