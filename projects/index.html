@@ -11,14 +11,21 @@
       margin: 0;
       font-family: system-ui, sans-serif;
       background: #f3f4f6;
+      overflow-x: hidden;
     }
 
+    body.no-scroll {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* ---------- LAYOUT ---------- */
     .layout {
       display: flex;
       min-height: 100vh;
     }
 
-    /* SIDEBAR */
+    /* ---------- SIDEBAR ---------- */
     nav {
       width: 280px;
       background: #0085B4;
@@ -28,12 +35,16 @@
       transition: transform 0.3s ease;
       text-align: center;
     }
+
     .profile-pic {
-      width: 120px; height: 120px;
-      border-radius: 50%; object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
       margin: 0 auto 20px auto;
       border: 3px solid #53D2FF;
     }
+
     nav a {
       display: block;
       margin-top: 12px;
@@ -44,15 +55,19 @@
       text-align: left;
       padding-left: 10px;
     }
-    nav a:hover { color: #B6DF89; }
 
-    /* MAIN CONTENT */
+    nav a:hover {
+      color: #B6DF89;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
     main {
       flex: 1;
       padding: 30px;
       max-width: 900px;
       margin: 0 auto;
     }
+
     .section {
       background: white;
       padding: 20px;
@@ -68,12 +83,13 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    /* MAP PAGE THUMBNAILS */
+    /* ---------- MAP PAGES ---------- */
     .pdf-row {
       display: flex;
       gap: 20px;
       margin-top: 20px;
     }
+
     .pdf-card {
       flex: 1;
       background: white;
@@ -82,89 +98,44 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: center;
     }
+
     .pdf-card img {
       width: 100%;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-      cursor: zoom-in;
-    }
-
-    /* LIGHTBOX OVERLAY */
-    #lightboxOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.2s ease;
-    }
-
-    /* ZOOM CONTAINER */
-    #zoomContainer {
-      touch-action: none;
-      position: relative;
-      overflow: hidden;
-      max-width: 95%;
-      max-height: 95%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #zoomContainer img {
-      will-change: transform;
-      transition: transform 0.05s linear;
-    }
-
-    /* ARROWS */
-    .arrow {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 3.2rem;
-      color: white;
       cursor: pointer;
-      user-select: none;
-      z-index: 10000;
-      opacity: 0.75;
-      transition: opacity 0.2s ease;
+      transition: 0.2s;
     }
-    .arrow:hover { opacity: 1; }
 
-    #leftArrow { left: 30px; }
-    #rightArrow { right: 30px; }
-
-    /* CLOSE X BUTTON */
-    #closeBtn {
-      position: fixed;
-      top: 25px;
-      right: 30px;
-      font-size: 2.7rem;
-      color: white;
-      cursor: pointer;
-      z-index: 10001;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
+    .pdf-card img:hover {
+      opacity: 0.9;
     }
-    #closeBtn:hover { opacity: 1; }
 
-    /* MOBILE */
+    /* ---------- MOBILE ---------- */
     @media (max-width: 768px) {
-      .pdf-row { flex-direction: column; }
-      .hamburger { display: flex; }
+      .pdf-row {
+        flex-direction: column;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
       nav {
         position: fixed;
-        top: 0; left: 0; height: 100%;
+        top: 0;
+        left: 0;
+        height: 100%;
         transform: translateX(-100%);
         z-index: 998;
       }
-      nav.open { transform: translateX(0); }
-      main { padding-top: 80px; }
 
-      .arrow {
-        font-size: 2.6rem;
+      nav.open {
+        transform: translateX(0);
+      }
+
+      main {
+        padding-top: 80px;
       }
     }
 
@@ -192,10 +163,69 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
-    .overlay.show { display: block; }
+    .overlay.show {
+      display: block;
+    }
+
+    /* ---------- LIGHTBOX ---------- */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    #lightbox.show {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      touch-action: pan-x pan-y;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 32px;
+      color: white;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 50px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px;
+    }
+
+    .arrow.left { left: 20px; }
+    .arrow.right { right: 20px; }
+
   </style>
 </head>
-
 
 <body>
 
@@ -218,28 +248,19 @@
 
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
-    <img src="/assets/wedding-trail-map-photo.jpg"
-         class="header-photo"
-         alt="Wedding Trail Map printed at event">
+    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo" alt="Wedding Trail Map printed at event">
 
     <div class="section">
       <h2>Map Pages</h2>
-      <p>Below are the front and back pages of the printed wedding trail map.</p>
 
       <div class="pdf-row">
-
         <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page1.png"
-               alt="Trail Map Page 1"
-               onclick="openLightbox(0)">
+          <img src="/assets/WeddingTrailMap_Page1.png" alt="Trail Map Page 1" onclick="openLightbox(0)">
         </div>
 
         <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page2.png"
-               alt="Trail Map Page 2"
-               onclick="openLightbox(1)">
+          <img src="/assets/WeddingTrailMap_Page2.png" alt="Trail Map Page 2" onclick="openLightbox(1)">
         </div>
-
       </div>
     </div>
 
@@ -266,26 +287,23 @@
   </main>
 </div>
 
-<!-- LIGHTBOX + ARROWS + CLOSE BUTTON -->
-<div id="lightboxOverlay">
-  <span id="closeBtn" onclick="closeLightbox()">✕</span>
-  <span id="leftArrow" class="arrow" onclick="prevImage()">❮</span>
-
-  <div id="zoomContainer">
-    <img id="lightboxImage">
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <div class="lightbox-content">
+    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+    <span class="arrow left" onclick="prevImage()">❮</span>
+    <img id="lightbox-img" src="">
+    <span class="arrow right" onclick="nextImage()">❯</span>
   </div>
-
-  <span id="rightArrow" class="arrow" onclick="nextImage()">❯</span>
 </div>
 
 <script>
+let currentIndex = 0;
 const images = [
   "/assets/WeddingTrailMap_Page1.png",
   "/assets/WeddingTrailMap_Page2.png"
 ];
-let currentIndex = 0;
 
-/* ----- SIDEBAR ----- */
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
@@ -293,107 +311,38 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-/* ----- LIGHTBOX ----- */
 function openLightbox(index) {
   currentIndex = index;
-  document.getElementById("lightboxImage").src = images[index];
-  document.getElementById("lightboxOverlay").style.display = "flex";
-  document.addEventListener("keydown", keyNav);
-
-  // Reset zoom
-  resetZoom();
+  updateLightboxImage();
+  document.getElementById("lightbox").classList.add("show");
+  document.body.classList.add("no-scroll");
 }
 
 function closeLightbox() {
-  document.getElementById("lightboxOverlay").style.display = "none";
-  document.removeEventListener("keydown", keyNav);
-  resetZoom();
+  document.getElementById("lightbox").classList.remove("show");
+  document.body.classList.remove("no-scroll");
+}
+
+function updateLightboxImage() {
+  document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
 function nextImage() {
   currentIndex = (currentIndex + 1) % images.length;
-  document.getElementById("lightboxImage").src = images[currentIndex];
-  resetZoom();
+  updateLightboxImage();
 }
 
 function prevImage() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
-  document.getElementById("lightboxImage").src = images[currentIndex];
-  resetZoom();
+  updateLightboxImage();
 }
 
-/* ----- KEYBOARD ARROWS ----- */
-function keyNav(e) {
+document.addEventListener("keydown", (e) => {
+  if (!document.getElementById("lightbox").classList.contains("show")) return;
   if (e.key === "ArrowRight") nextImage();
   if (e.key === "ArrowLeft") prevImage();
   if (e.key === "Escape") closeLightbox();
-}
-
-/* ----- SWIPE SUPPORT ----- */
-let startX = 0;
-document.getElementById("lightboxOverlay").addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
 });
-
-document.getElementById("lightboxOverlay").addEventListener("touchend", e => {
-  let endX = e.changedTouches[0].clientX;
-  let diff = startX - endX;
-
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) nextImage();  // swipe left
-    else prevImage();           // swipe right
-  }
-});
-
-/* ----- PINCH TO ZOOM ----- */
-const zoomContainer = document.getElementById("zoomContainer");
-const zoomImg = document.getElementById("lightboxImage");
-
-let scale = 1;
-let startDistance = 0;
-let currentX = 0, currentY = 0;
-let lastX = 0, lastY = 0;
-
-function getDistance(touches) {
-  let dx = touches[0].clientX - touches[1].clientX;
-  let dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-zoomContainer.addEventListener("touchstart", e => {
-  if (e.touches.length === 2) {
-    startDistance = getDistance(e.touches);
-    lastX = currentX;
-    lastY = currentY;
-  }
-});
-
-zoomContainer.addEventListener("touchmove", e => {
-  if (e.touches.length === 2) {
-    e.preventDefault();
-    let newDist = getDistance(e.touches);
-
-    let newScale = (newDist / startDistance) * scale;
-    newScale = Math.min(Math.max(newScale, 1), 5);
-
-    zoomImg.style.transform =
-      `translate(${currentX}px, ${currentY}px) scale(${newScale})`;
-  }
-});
-
-zoomContainer.addEventListener("touchend", e => {
-  scale = Math.min(Math.max(scale, 1), 5);
-});
-
-/* Reset zoom when closing or switching */
-function resetZoom() {
-  scale = 1;
-  currentX = 0;
-  currentY = 0;
-  lastX = 0;
-  lastY = 0;
-  zoomImg.style.transform = "translate(0px, 0px) scale(1)";
-}
 </script>
 
 </body>
