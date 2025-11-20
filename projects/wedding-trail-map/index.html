@@ -108,9 +108,7 @@
       }
       nav.open { transform: translateX(0); }
 
-      main {
-        padding-top: 80px;
-      }
+      main { padding-top: 80px; }
     }
 
     .hamburger {
@@ -139,7 +137,7 @@
     }
     .overlay.show { display: block; }
 
-    /* ---------- MODAL (DESKTOP STYLE) ---------- */
+    /* ---------- SIMPLE MODAL (NO ARROWS) ---------- */
     .modal {
       position: fixed;
       inset: 0;
@@ -150,6 +148,7 @@
       z-index: 2000;
       overflow: hidden;
     }
+
     .modal.show { display: flex; }
 
     .modal img {
@@ -160,20 +159,7 @@
       pointer-events: none;
     }
 
-    .modal-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 50px;
-      color: white;
-      cursor: pointer;
-      padding: 10px 18px;
-      user-select: none;
-    }
-
-    .modal-arrow.left { left: 20px; }
-    .modal-arrow.right { right: 20px; }
-
+    /* Classic clean top-right X (Option A) */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -183,40 +169,6 @@
       cursor: pointer;
       user-select: none;
     }
-
-    /* ---------- MOBILE-ONLY ARROW + CLOSE STYLING ---------- */
-    @media (max-width: 768px) {
-
-      .modal-arrow {
-        font-size: 34px;
-        width: 48px;
-        height: 48px;
-        line-height: 48px;
-        text-align: center;
-        border-radius: 50%;
-        color: #FD3E5E;
-        background: white;
-        border: 3px solid #FD3E5E;
-        padding: 0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-      }
-
-      .modal-arrow.left { left: 12px; }
-      .modal-arrow.right { right: 12px; }
-
-      .modal-close {
-        font-size: 44px;
-        top: 16px;
-        right: 20px;
-        color: #FD3E5E;
-        background: white;
-        border-radius: 50%;
-        padding: 2px 12px 6px 12px;
-        border: 3px solid #FD3E5E;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-      }
-    }
-
   </style>
 </head>
 
@@ -242,8 +194,8 @@
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
     <img 
-      src="/assets/wedding-trail-map-photo.jpg" 
-      class="header-photo modal-trigger" 
+      src="/assets/wedding-trail-map-photo.jpg"
+      class="header-photo modal-trigger"
       data-index="0"
     >
 
@@ -290,9 +242,7 @@
 <!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-close" id="modalClose">✕</div>
-  <div class="modal-arrow left" id="modalPrev">❮</div>
   <img id="modalImage" src="">
-  <div class="modal-arrow right" id="modalNext">❯</div>
 </div>
 
 <script>
@@ -303,12 +253,10 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-/* ---------- MODAL LOGIC ---------- */
+/* ---------- MODAL LOGIC (NO ARROWS) ---------- */
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
-const modalPrev = document.getElementById("modalPrev");
-const modalNext = document.getElementById("modalNext");
 
 const images = [
   "/assets/wedding-trail-map-photo.jpg",
@@ -338,30 +286,12 @@ document.querySelectorAll(".modal-trigger").forEach(item => {
 
 modalClose.addEventListener("click", closeModal);
 
-modalPrev.addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  modalImage.src = images[currentIndex];
-});
-
-modalNext.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % images.length;
-  modalImage.src = images[currentIndex];
-});
-
-/* Click outside image closes modal */
+/* Tap outside image closes modal */
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
 });
 
-/* Keyboard navigation */
-document.addEventListener("keydown", (e) => {
-  if (!modal.classList.contains("show")) return;
-  if (e.key === "Escape") closeModal();
-  if (e.key === "ArrowLeft") modalPrev.click();
-  if (e.key === "ArrowRight") modalNext.click();
-});
-
-/* Mobile swipe support */
+/* Optional: left/right swipe still cycles */
 let startX = 0;
 
 modal.addEventListener("touchstart", (e) => {
@@ -370,8 +300,15 @@ modal.addEventListener("touchstart", (e) => {
 
 modal.addEventListener("touchend", (e) => {
   let endX = e.changedTouches[0].clientX;
-  if (endX - startX > 50) modalPrev.click();
-  if (startX - endX > 50) modalNext.click();
+
+  if (endX - startX > 50) {  
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImage.src = images[currentIndex];
+  }
+  if (startX - endX > 50) {  
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImage.src = images[currentIndex];
+  }
 });
 </script>
 
