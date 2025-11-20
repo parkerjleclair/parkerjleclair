@@ -89,7 +89,7 @@
       cursor: zoom-in;
     }
 
-    /* LIGHTBOX */
+    /* LIGHTBOX OVERLAY */
     #lightboxOverlay {
       display: none;
       position: fixed;
@@ -100,13 +100,22 @@
       align-items: center;
       transition: opacity 0.2s ease;
     }
-    #lightboxImage {
+
+    /* ZOOM CONTAINER */
+    #zoomContainer {
+      touch-action: none;
+      position: relative;
+      overflow: hidden;
       max-width: 95%;
       max-height: 95%;
-      border-radius: 8px;
-      cursor: zoom-out;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-      transition: opacity 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #zoomContainer img {
+      will-change: transform;
+      transition: transform 0.05s linear;
     }
 
     /* ARROWS */
@@ -209,7 +218,9 @@
 
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
-    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo" alt="Wedding Trail Map printed at event">
+    <img src="/assets/wedding-trail-map-photo.jpg"
+         class="header-photo"
+         alt="Wedding Trail Map printed at event">
 
     <div class="section">
       <h2>Map Pages</h2>
@@ -259,7 +270,11 @@
 <div id="lightboxOverlay">
   <span id="closeBtn" onclick="closeLightbox()">✕</span>
   <span id="leftArrow" class="arrow" onclick="prevImage()">❮</span>
-  <img id="lightboxImage">
+
+  <div id="zoomContainer">
+    <img id="lightboxImage">
+  </div>
+
   <span id="rightArrow" class="arrow" onclick="nextImage()">❯</span>
 </div>
 
@@ -284,21 +299,27 @@ function openLightbox(index) {
   document.getElementById("lightboxImage").src = images[index];
   document.getElementById("lightboxOverlay").style.display = "flex";
   document.addEventListener("keydown", keyNav);
+
+  // Reset zoom
+  resetZoom();
 }
 
 function closeLightbox() {
   document.getElementById("lightboxOverlay").style.display = "none";
   document.removeEventListener("keydown", keyNav);
+  resetZoom();
 }
 
 function nextImage() {
   currentIndex = (currentIndex + 1) % images.length;
   document.getElementById("lightboxImage").src = images[currentIndex];
+  resetZoom();
 }
 
 function prevImage() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   document.getElementById("lightboxImage").src = images[currentIndex];
+  resetZoom();
 }
 
 /* ----- KEYBOARD ARROWS ----- */
@@ -308,7 +329,7 @@ function keyNav(e) {
   if (e.key === "Escape") closeLightbox();
 }
 
-/* ----- TOUCH SWIPE SUPPORT ----- */
+/* ----- SWIPE SUPPORT ----- */
 let startX = 0;
 document.getElementById("lightboxOverlay").addEventListener("touchstart", e => {
   startX = e.touches[0].clientX;
@@ -323,6 +344,56 @@ document.getElementById("lightboxOverlay").addEventListener("touchend", e => {
     else prevImage();           // swipe right
   }
 });
+
+/* ----- PINCH TO ZOOM ----- */
+const zoomContainer = document.getElementById("zoomContainer");
+const zoomImg = document.getElementById("lightboxImage");
+
+let scale = 1;
+let startDistance = 0;
+let currentX = 0, currentY = 0;
+let lastX = 0, lastY = 0;
+
+function getDistance(touches) {
+  let dx = touches[0].clientX - touches[1].clientX;
+  let dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+zoomContainer.addEventListener("touchstart", e => {
+  if (e.touches.length === 2) {
+    startDistance = getDistance(e.touches);
+    lastX = currentX;
+    lastY = currentY;
+  }
+});
+
+zoomContainer.addEventListener("touchmove", e => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    let newDist = getDistance(e.touches);
+
+    let newScale = (newDist / startDistance) * scale;
+    newScale = Math.min(Math.max(newScale, 1), 5);
+
+    zoomImg.style.transform =
+      `translate(${currentX}px, ${currentY}px) scale(${newScale})`;
+  }
+});
+
+zoomContainer.addEventListener("touchend", e => {
+  scale = Math.min(Math.max(scale, 1), 5);
+});
+
+/* Reset zoom when closing or switching */
+function resetZoom() {
+  scale = 1;
+  currentX = 0;
+  currentY = 0;
+  lastX = 0;
+  lastY = 0;
+  zoomImg.style.transform = "translate(0px, 0px) scale(1)";
+}
 </script>
 
 </body>
