@@ -16,7 +16,7 @@
     }
     nav {
       width: 230px;
-      background: #1f2933;
+      background: #3A5A40;
       color: #f9fafb;
       padding: 20px;
       box-sizing: border-box;
@@ -38,7 +38,7 @@
       font-size: 0.95rem;
     }
     nav a:hover {
-      color: #38bdf8;
+      color: #344E41;
     }
     main {
       flex: 1;
@@ -54,6 +54,16 @@
       margin-bottom: 30px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 3px solid #38bdf8;
+    }
+
   </style>
 </head>
 
@@ -62,12 +72,16 @@
 <div class="layout">
 
   <nav>
-    <h1>Parker LeClair</h1>
-    <p>GIS • Remote Sensing • Geology</p>
-    <a href="index.html">Home</a>
-    <a href="projects.html">Projects</a>
-    <a href="contact.html">Contact & Resume</a>
+      <img src="assets/pjl.jpg" alt="Parker LeClair" class="profile-pic">
+
+      <h1>Parker LeClair</h1>
+      <p>GIS • Remote Sensing • Geology</p>
+
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact & Resume</a>
   </nav>
+
 
   <main>
     <div class="section">
