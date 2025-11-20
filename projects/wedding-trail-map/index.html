@@ -68,7 +68,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    /* SIDE-BY-SIDE PDF PREVIEW */
+    /* MAP PAGE THUMBNAILS */
     .pdf-row {
       display: flex;
       gap: 20px;
@@ -86,12 +86,31 @@
       width: 100%;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      cursor: zoom-in;
     }
     .pdf-card a {
       display: inline-block;
       margin-top: 10px;
       font-weight: 600;
       color: #0085B4;
+    }
+
+    /* LIGHTBOX */
+    #lightboxOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    #lightboxImage {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 8px;
+      cursor: zoom-out;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
     }
 
     /* MOBILE */
@@ -158,7 +177,8 @@
 
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
-    <img src="/assets/weddingtrailmap_photo.jpg" class="header-photo" alt="Wedding Trail Map printed at event">
+    <!-- UPDATED FILENAME HERE -->
+    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo" alt="Wedding Trail Map printed at event">
 
     <div class="section">
       <h2>Map Pages</h2>
@@ -167,12 +187,12 @@
       <div class="pdf-row">
 
         <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page1.png" alt="Trail Map Page 1">
+          <img src="/assets/WeddingTrailMap_Page1.png" alt="Trail Map Page 1" onclick="openLightbox(this.src)">
           <a href="/assets/WeddingTrailMap_Page1.pdf" target="_blank">Download Page 1 (PDF)</a>
         </div>
 
         <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page2.png" alt="Trail Map Page 2">
+          <img src="/assets/WeddingTrailMap_Page2.png" alt="Trail Map Page 2" onclick="openLightbox(this.src)">
           <a href="/assets/WeddingTrailMap_Page2.pdf" target="_blank">Download Page 2 (PDF)</a>
         </div>
       </div>
@@ -201,12 +221,47 @@
   </main>
 </div>
 
+<!-- LIGHTBOX -->
+<div id="lightboxOverlay" onclick="closeLightbox()">
+  <img id="lightboxImage">
+</div>
+
 <script>
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
+}
+
+function openLightbox(src) {
+  document.getElementById("lightboxImage").src = src;
+  document.getElementById("lightboxOverlay").style.display = "flex";
+  document.addEventListener("keydown", arrowNav);
+}
+
+function closeLightbox() {
+  document.getElementById("lightboxOverlay").style.display = "none";
+  document.removeEventListener("keydown", arrowNav);
+}
+
+function arrowNav(e) {
+  const images = [
+    "/assets/WeddingTrailMap_Page1.png",
+    "/assets/WeddingTrailMap_Page2.png"
+  ];
+
+  let current = document.getElementById("lightboxImage").src;
+  let index = images.findIndex(img => current.includes(img));
+
+  if (e.key === "ArrowRight") {
+    index = (index + 1) % images.length;
+    document.getElementById("lightboxImage").src = images[index];
+  }
+  if (e.key === "ArrowLeft") {
+    index = (index - 1 + images.length) % images.length;
+    document.getElementById("lightboxImage").src = images[index];
+  }
 }
 </script>
 
