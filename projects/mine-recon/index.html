@@ -1,74 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Mine Reconciliation – Parker LeClair</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../../assets/PJL_Favicon2.png">
+
   <style>
-    body { margin: 0; font-family: system-ui, sans-serif; background: #f3f4f6; }
-    .layout { display: flex; min-height: 100vh; }
-    nav { width: 230px; background: #1f2933; color: #f9fafb; padding: 20px; }
-    nav a { color: #e5e7eb; padding: 6px 0; display: block; text-decoration: none; }
-    nav a:hover { color: #38bdf8; }
-    main { flex: 1; padding: 30px; max-width: 900px; margin: 0 auto; }
-    .section {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    body { margin:0; font-family:system-ui,sans-serif; background:#f3f4f6; }
+    .layout { display:flex; min-height:100vh; }
+
+    nav {
+      width:280px; background:#0085B4; color:white;
+      padding:20px; text-align:center;
+      transition:transform .3s ease;
     }
+
+    .profile-pic {
+      width:120px; height:120px; border-radius:50%;
+      object-fit:cover; margin:0 auto 20px;
+      border:3px solid #53D2FF;
+    }
+
+    nav a {
+      display:block; margin-top:12px;
+      color:#FFFF85; font-size:1.1rem; font-weight:600;
+      text-decoration:none; text-align:left; padding-left:10px;
+    }
+    nav a:hover { color:#B6DF89; }
+
+    main { flex:1; padding:30px; max-width:900px; margin:0 auto; }
+
+    .section {
+      background:white; padding:20px;
+      border-radius:8px; margin-bottom:20px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .hamburger {
+      display:none; position:fixed; top:15px; left:15px;
+      width:35px; height:30px; background:#53D2FF;
+      color:white; border-radius:6px;
+      justify-content:center; align-items:center;
+      font-size:22px; cursor:pointer; z-index:999;
+    }
+
+    @media(max-width:768px){
+      .hamburger{display:flex;}
+      nav{position:fixed;top:0;left:0;height:100%;transform:translateX(-100%);z-index:998;}
+      nav.open{transform:translateX(0);}
+      main{padding-top:80px;}
+    }
+
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:900;}
+    .overlay.show{display:block;}
   </style>
 </head>
 
 <body>
 
-<div class="layout">
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
-  <nav>
-    <h1>Parker LeClair</h1>
+<div class="layout">
+  <nav id="sidebar">
+    <img src="../../assets/PJL.jpg" class="profile-pic">
+
+    <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
-    <a href="../index.html">Home</a>
-    <a href="../projects.html">Projects</a>
-    <a href="../contact.html">Contact & Resume</a>
+
+    <a href="/">Home</a>
+    <a href="/projects">Projects</a>
+    <a href="/contact">Contact & Resume</a>
   </nav>
 
   <main>
-
-    <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
-
     <div class="section">
-      <h2>Summary</h2>
-      <p>
-        This project uses monthly UAV photogrammetry surveys to generate high-
-        resolution DSMs, remove outliers, compute lowest-elevation surfaces across
-        all surveys, and compare modeled versus actual ore and waste extraction
-        volumes. The workflow integrates SiteScan, CloudCompare, R, and ArcGIS Pro
-        to support mine planning and geologic interpretation.
-      </p>
+      <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
+      <p>Full project write-up goes here…</p>
     </div>
-
-    <div class="section">
-      <h2>Methods Overview</h2>
-      <ul>
-        <li>UAV flight planning and photogrammetry processing</li>
-        <li>Point cloud classification and outlier removal</li>
-        <li>DSM generation and grid-based downsampling</li>
-        <li>Lowest-elevation surface extraction across all survey dates</li>
-        <li>Comparison to geologic block model using R and GIS</li>
-        <li>Volume change calculations for ore/waste reconciliation</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Interactive Map</h2>
-      <p>Paste your ArcGIS Online embed code right here:</p>
-      <code>&lt;iframe ... &gt;&lt;/iframe&gt;</code>
-    </div>
-
   </main>
-
 </div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("overlay").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
