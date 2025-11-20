@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wedding Trail Map – Parker J. LeClair</title>
+  <title>Projects – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
 
   <style>
     :root {
-      --accent-red: #FD3E5E;
-      --accent-red-light: #FF758A;
-      --sidebar-green: #77A361;
-      --button-green-light: #A7C98A;
-      --button-green-dark: #6F8F4F;
+      --sidebar-blue: #0085B4;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
     }
 
     body {
@@ -29,7 +28,7 @@
     /* SIDEBAR */
     nav {
       width: 280px;
-      background: var(--sidebar-green);
+      background: var(--sidebar-blue);
       color: white;
       padding: 20px;
       box-sizing: border-box;
@@ -42,94 +41,110 @@
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 20px;
-      border: 4px solid var(--accent-red);
+      display: block;
+      margin: 0 auto;
+      border: 3px solid #53D2FF;
     }
 
-    nav h1,
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
+    }
+
     nav p {
-      color: white;
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
     }
 
-    /* SIDEBAR BUTTON LINKS */
     nav a {
       display: block;
-      margin: 14px 0;
-      padding: 12px 14px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      text-align: left;
-      text-decoration: none;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
       color: white;
-      background: linear-gradient(to bottom, var(--button-green-light), var(--button-green-dark));
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
       border-radius: 8px;
-      transition: all 0.2s ease;
+      text-align: center;
+
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
     }
 
     nav a:hover {
-      transform: scale(1.03) translateX(4px);
-      background: linear-gradient(to bottom, var(--accent-red-light), var(--accent-red));
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #005C78;
     }
 
-    /* MAIN CONTENT */
+    nav a:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #005C78;
+    }
+
+    /* MAIN */
     main {
       flex: 1;
       padding: 30px;
       max-width: 900px;
       margin: 0 auto;
-      color: var(--accent-red);
     }
 
-    h1,
-    h2 {
-      color: var(--accent-red);
-    }
-
-    .section {
+    .project-card {
       background: white;
       padding: 20px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      color: #333;
+      margin-bottom: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .header-photo {
+    .project-card img {
       width: 100%;
       border-radius: 10px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      cursor: pointer;
+      margin-bottom: 15px;
     }
 
-    .pdf-row {
-      display: flex;
-      gap: 20px;
-      margin-top: 20px;
+    .project-card h2 {
+      margin-top: 0;
     }
 
-    .pdf-card {
-      flex: 1;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      cursor: pointer;
+    .project-card a {
+      font-weight: bold;
+      color: #0085B4;
+      text-decoration: none;
     }
 
-    .pdf-card img {
-      width: 100%;
+    .project-card a:hover {
+      color: #005f7d;
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 34px;
+      background: var(--button-blue-light);
+      color: white;
       border-radius: 6px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
     }
 
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .pdf-row {
-        flex-direction: column;
-      }
+    .hamburger:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #006991;
+    }
 
+    @media (max-width: 768px) {
       .hamburger {
         display: flex;
       }
@@ -152,95 +167,16 @@
       }
     }
 
-    /* HAMBURGER BUTTON (MOBILE ONLY) */
-    .hamburger {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      width: 40px;
-      height: 34px;
-      background: var(--accent-red);
-      color: white;
-      border-radius: 6px;
-      justify-content: center;
-      align-items: center;
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 9999;
-    }
-
-    /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0,0,0,0.35);
       z-index: 900;
     }
+
     .overlay.show {
       display: block;
-    }
-
-    /* MODAL */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      overflow: hidden;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal img {
-      max-width: 95%;
-      max-height: 95%;
-      border-radius: 8px;
-      object-fit: contain;
-    }
-
-    /* CLOSE BUTTON */
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 40px;
-      color: white;
-      cursor: pointer;
-      user-select: none;
-      z-index: 3000;
-    }
-
-    /* DESKTOP ARROWS */
-    .modal-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 48px;
-      color: white;
-      cursor: pointer;
-      padding: 10px 18px;
-      user-select: none;
-      z-index: 3000;
-    }
-
-    .modal-arrow.left {
-      left: 20px;
-    }
-    .modal-arrow.right {
-      right: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .modal-arrow {
-        display: none;
-      }
     }
   </style>
 </head>
@@ -251,6 +187,7 @@
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
+
   <nav id="sidebar">
     <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture" />
     <h1>Parker J. LeClair</h1>
@@ -262,58 +199,30 @@
   </nav>
 
   <main>
-    <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
+    <h1>Projects</h1>
 
-    <img
-      src="/assets/wedding-trail-map-photo.jpg"
-      class="header-photo modal-trigger"
-      data-index="0"
-    />
-
-    <div class="section">
-      <h2>Map Pages</h2>
-      <p>Below are the front and back pages of the printed wedding trail map.</p>
-
-      <div class="pdf-row">
-        <div class="pdf-card modal-trigger" data-index="1">
-          <img src="/assets/WeddingTrailMap_Page1.png" />
-        </div>
-
-        <div class="pdf-card modal-trigger" data-index="2">
-          <img src="/assets/WeddingTrailMap_Page2.png" />
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Project Overview</h2>
+    <!-- Wedding Trail Map -->
+    <div class="project-card">
+      <img src="/assets/wedding-trail-map-photo.jpg" alt="Wedding Trail Map Project" />
+      <h2>Wedding Trail Map – Custom Cartography in QGIS</h2>
       <p>
-        This project was created as a custom wedding gift for my friend Sage, whose wedding was held in August 2025 in the
-        Adirondack Mountains of Upstate New York. The land includes an extensive network of hiking, biking, and ski trails,
-        which made producing a functional and visually appealing navigation map especially valuable for guests unfamiliar
-        with the area.
-
-        I designed the map in QGIS. Contours and hillshade were generated from a New York State 1-meter DSM to provide
-        accurate terrain representation, while water features were sourced from the National Hydrography Dataset (NHD).
-        Trail shapefiles and classifications were exported from Trailforks, allowing the final product to show trail
-        difficulty and type.
-
-        Custom artwork provided by Sage was incorporated into the layout to create consistent, personalized branding for
-        the event. The final deliverable consisted of two high-resolution, double-sided printed maps on letter-sized paper,
-        folded and distributed to wedding guests to help them navigate the property and enjoy the trails throughout the
-        day’s activities.
+        A custom navigation map created as a wedding gift, featuring trail networks, contours, hydrology, 
+        and custom artwork. Designed and produced in QGIS.
       </p>
+      <a href="/projects/wedding-trail-map">View Project →</a>
     </div>
+
+    <!-- Mine Reconciliation -->
+    <div class="project-card">
+      <h2>Mine Reconciliation Using UAV Photogrammetry & R</h2>
+      <p>
+        Monthly photogrammetry surveys processed to compare modeled and actual ore/waste volumes using 
+        point clouds, DSMs, and R-based reconciliation scripts.
+      </p>
+      <a href="/projects/mine-recon">View Project →</a>
+    </div>
+
   </main>
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-close" id="modalClose">✕</div>
-
-  <div class="modal-arrow left" id="modalPrev">❮</div>
-  <img id="modalImage" src="" />
-  <div class="modal-arrow right" id="modalNext">❯</div>
 </div>
 
 <script>
@@ -323,84 +232,6 @@ function toggleMenu() {
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
 }
-
-/* MODAL LOGIC */
-const modal = document.getElementById("modal");
-const modalImage = document.getElementById("modalImage");
-const modalClose = document.getElementById("modalClose");
-const modalPrev = document.getElementById("modalPrev");
-const modalNext = document.getElementById("modalNext");
-
-const images = [
-  "/assets/wedding-trail-map-photo.jpg",
-  "/assets/WeddingTrailMap_Page1.png",
-  "/assets/WeddingTrailMap_Page2.png"
-];
-
-let currentIndex = 0;
-
-function openModal(index) {
-  currentIndex = index;
-  modalImage.src = images[index];
-  modal.classList.add("show");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  modal.classList.remove("show");
-  document.body.style.overflow = "";
-}
-
-document.querySelectorAll(".modal-trigger").forEach(item => {
-  item.addEventListener("click", () => {
-    openModal(parseInt(item.dataset.index));
-  });
-});
-
-modalClose.addEventListener("click", closeModal);
-
-modal.addEventListener("click", e => {
-  if (e.target === modal) closeModal();
-});
-
-/* Desktop arrows */
-modalPrev.addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  modalImage.src = images[currentIndex];
-});
-
-modalNext.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % images.length;
-  modalImage.src = images[currentIndex];
-});
-
-/* Mobile swipe */
-let startX = 0;
-
-modal.addEventListener(
-  "touchstart",
-  e => {
-    startX = e.touches[0].clientX;
-  },
-  { passive: true }
-);
-
-modal.addEventListener(
-  "touchend",
-  e => {
-    let endX = e.changedTouches[0].clientX;
-
-    if (endX - startX > 50) {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      modalImage.src = images[currentIndex];
-    }
-    if (startX - endX > 50) {
-      currentIndex = (currentIndex + 1) % images.length;
-      modalImage.src = images[currentIndex];
-    }
-  },
-  { passive: true }
-);
 </script>
 
 </body>
