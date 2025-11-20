@@ -127,6 +127,20 @@
     #leftArrow { left: 30px; }
     #rightArrow { right: 30px; }
 
+    /* CLOSE X BUTTON */
+    #closeBtn {
+      position: fixed;
+      top: 25px;
+      right: 30px;
+      font-size: 2.7rem;
+      color: white;
+      cursor: pointer;
+      z-index: 10001;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    #closeBtn:hover { opacity: 1; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .pdf-row { flex-direction: column; }
@@ -241,8 +255,9 @@
   </main>
 </div>
 
-<!-- LIGHTBOX + ARROWS -->
+<!-- LIGHTBOX + ARROWS + CLOSE BUTTON -->
 <div id="lightboxOverlay">
+  <span id="closeBtn" onclick="closeLightbox()">✕</span>
   <span id="leftArrow" class="arrow" onclick="prevImage()">❮</span>
   <img id="lightboxImage">
   <span id="rightArrow" class="arrow" onclick="nextImage()">❯</span>
@@ -304,8 +319,8 @@ document.getElementById("lightboxOverlay").addEventListener("touchend", e => {
   let diff = startX - endX;
 
   if (Math.abs(diff) > 50) {
-    if (diff > 0) nextImage(); // swipe left
-    else prevImage();          // swipe right
+    if (diff > 0) nextImage();  // swipe left
+    else prevImage();           // swipe right
   }
 });
 </script>
