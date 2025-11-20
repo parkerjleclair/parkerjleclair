@@ -11,21 +11,14 @@
       margin: 0;
       font-family: system-ui, sans-serif;
       background: #f3f4f6;
-      overflow-x: hidden;
     }
 
-    body.no-scroll {
-      overflow: hidden;
-      touch-action: none;
-    }
-
-    /* ---------- LAYOUT ---------- */
     .layout {
       display: flex;
       min-height: 100vh;
     }
 
-    /* ---------- SIDEBAR ---------- */
+    /* SIDEBAR */
     nav {
       width: 280px;
       background: #0085B4;
@@ -37,10 +30,8 @@
     }
 
     .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
+      width: 120px; height: 120px;
+      border-radius: 50%; object-fit: cover;
       margin: 0 auto 20px auto;
       border: 3px solid #53D2FF;
     }
@@ -55,12 +46,9 @@
       text-align: left;
       padding-left: 10px;
     }
+    nav a:hover { color: #B6DF89; }
 
-    nav a:hover {
-      color: #B6DF89;
-    }
-
-    /* ---------- MAIN CONTENT ---------- */
+    /* MAIN CONTENT */
     main {
       flex: 1;
       padding: 30px;
@@ -81,9 +69,9 @@
       border-radius: 10px;
       margin-bottom: 30px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
 
-    /* ---------- MAP PAGES ---------- */
     .pdf-row {
       display: flex;
       gap: 20px;
@@ -97,46 +85,30 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: center;
+      cursor: pointer;
     }
 
     .pdf-card img {
       width: 100%;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-      cursor: pointer;
-      transition: 0.2s;
     }
 
-    .pdf-card img:hover {
-      opacity: 0.9;
-    }
-
-    /* ---------- MOBILE ---------- */
+    /* MOBILE */
     @media (max-width: 768px) {
-      .pdf-row {
-        flex-direction: column;
-      }
+      .pdf-row { flex-direction: column; }
 
-      .hamburger {
-        display: flex;
-      }
+      .hamburger { display: flex; }
 
       nav {
         position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
+        top: 0; left: 0; height: 100%;
         transform: translateX(-100%);
         z-index: 998;
       }
+      nav.open { transform: translateX(0); }
 
-      nav.open {
-        transform: translateX(0);
-      }
-
-      main {
-        padding-top: 80px;
-      }
+      main { padding-top: 80px; }
     }
 
     .hamburger {
@@ -163,69 +135,63 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
-    .overlay.show {
-      display: block;
-    }
+    .overlay.show { display: block; }
 
-    /* ---------- LIGHTBOX ---------- */
-    #lightbox {
+    /* MODAL */
+    .modal {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.85);
       display: none;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       z-index: 2000;
+      overflow: hidden;
     }
+    .modal.show { display: flex; }
 
-    #lightbox.show {
-      display: flex;
-    }
-
-    .lightbox-content {
-      position: relative;
-      max-width: 95vw;
-      max-height: 95vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      touch-action: pan-x pan-y;
-    }
-
-    .lightbox-content img {
-      max-width: 100%;
-      max-height: 100%;
+    .modal img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 8px;
       object-fit: contain;
-      cursor: grab;
-      touch-action: none;
+      pointer-events: none;
     }
 
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 32px;
-      color: white;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .arrow {
+    /* ARROWS + CLOSE BUTTON */
+    .modal-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 50px;
+      font-size: 45px;
+      color: white;
+      cursor: pointer;
+      padding: 10px 18px;
+      user-select: none;
+    }
+
+    .modal-arrow.left { left: 20px; }
+    .modal-arrow.right { right: 20px; }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 38px;
       color: white;
       cursor: pointer;
       user-select: none;
-      padding: 10px;
     }
 
-    .arrow.left { left: 20px; }
-    .arrow.right { right: 20px; }
+    /* MOBILE — bigger tap targets */
+    @media (max-width: 768px) {
+      .modal-arrow { font-size: 55px; padding: 20px; }
+      .modal-close { font-size: 48px; }
+    }
 
   </style>
 </head>
+
 
 <body>
 
@@ -248,19 +214,22 @@
 
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
-    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo" alt="Wedding Trail Map printed at event">
+    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo modal-trigger" data-index="0">
 
     <div class="section">
       <h2>Map Pages</h2>
+      <p>Below are the front and back pages of the printed wedding trail map.</p>
 
       <div class="pdf-row">
-        <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page1.png" alt="Trail Map Page 1" onclick="openLightbox(0)">
+
+        <div class="pdf-card modal-trigger" data-index="1">
+          <img src="/assets/WeddingTrailMap_Page1.png">
         </div>
 
-        <div class="pdf-card">
-          <img src="/assets/WeddingTrailMap_Page2.png" alt="Trail Map Page 2" onclick="openLightbox(1)">
+        <div class="pdf-card modal-trigger" data-index="2">
+          <img src="/assets/WeddingTrailMap_Page2.png">
         </div>
+
       </div>
     </div>
 
@@ -287,23 +256,15 @@
   </main>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox">
-  <div class="lightbox-content">
-    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
-    <span class="arrow left" onclick="prevImage()">❮</span>
-    <img id="lightbox-img" src="">
-    <span class="arrow right" onclick="nextImage()">❯</span>
-  </div>
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-close" id="modalClose">✕</div>
+  <div class="modal-arrow left" id="modalPrev">❮</div>
+  <img id="modalImage" src="">
+  <div class="modal-arrow right" id="modalNext">❯</div>
 </div>
 
 <script>
-let currentIndex = 0;
-const images = [
-  "/assets/WeddingTrailMap_Page1.png",
-  "/assets/WeddingTrailMap_Page2.png"
-];
-
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
@@ -311,37 +272,75 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-function openLightbox(index) {
+/* ---------------- MODAL LOGIC ---------------- */
+const modal = document.getElementById("modal");
+const modalImage = document.getElementById("modalImage");
+const modalClose = document.getElementById("modalClose");
+const modalPrev = document.getElementById("modalPrev");
+const modalNext = document.getElementById("modalNext");
+
+const images = [
+  "/assets/wedding-trail-map-photo.jpg",
+  "/assets/WeddingTrailMap_Page1.png",
+  "/assets/WeddingTrailMap_Page2.png"
+];
+
+let currentIndex = 0;
+
+function openModal(index) {
   currentIndex = index;
-  updateLightboxImage();
-  document.getElementById("lightbox").classList.add("show");
-  document.body.classList.add("no-scroll");
+  modalImage.src = images[index];
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden"; // prevent page scroll
 }
 
-function closeLightbox() {
-  document.getElementById("lightbox").classList.remove("show");
-  document.body.classList.remove("no-scroll");
+function closeModal() {
+  modal.classList.remove("show");
+  document.body.style.overflow = ""; 
 }
 
-function updateLightboxImage() {
-  document.getElementById("lightbox-img").src = images[currentIndex];
-}
+document.querySelectorAll(".modal-trigger").forEach(item => {
+  item.addEventListener("click", () => {
+    openModal(parseInt(item.dataset.index));
+  });
+});
 
-function nextImage() {
-  currentIndex = (currentIndex + 1) % images.length;
-  updateLightboxImage();
-}
+modalClose.addEventListener("click", closeModal);
 
-function prevImage() {
+modalPrev.addEventListener("click", () => {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
-  updateLightboxImage();
-}
+  modalImage.src = images[currentIndex];
+});
 
+modalNext.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  modalImage.src = images[currentIndex];
+});
+
+/* Click outside to close */
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) closeModal();
+});
+
+/* ESC closes modal */
 document.addEventListener("keydown", (e) => {
-  if (!document.getElementById("lightbox").classList.contains("show")) return;
-  if (e.key === "ArrowRight") nextImage();
-  if (e.key === "ArrowLeft") prevImage();
-  if (e.key === "Escape") closeLightbox();
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowLeft") modalPrev.click();
+  if (e.key === "ArrowRight") modalNext.click();
+});
+
+/* Mobile swipe */
+let startX = 0;
+
+modal.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+modal.addEventListener("touchend", (e) => {
+  let endX = e.changedTouches[0].clientX;
+
+  if (endX - startX > 50) modalPrev.click();
+  if (startX - endX > 50) modalNext.click();
 });
 </script>
 
