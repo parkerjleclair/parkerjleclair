@@ -4,56 +4,30 @@
   <meta charset="UTF-8" />
   <title>Parker LeClair – GIS Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f3f4f6;
     }
+
     .layout {
       display: flex;
       min-height: 100vh;
     }
+
+    /* -------- SIDEBAR -------- */
     nav {
       width: 230px;
-      background: #3A5A40;
-      color: #f9fafb;
+      background: #1E3A5F; /* Navy */
+      color: #ffffff;
       padding: 20px;
       box-sizing: border-box;
+      text-align: left;
     }
-    nav h1 {
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-    }
-    nav p {
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-      color: #d1d5db;
-    }
-    nav a {
-      display: block;
-      color: #e5e7eb;
-      text-decoration: none;
-      padding: 6px 0;
-      font-size: 0.95rem;
-    }
-    nav a:hover {
-      color: #344E41;
-    }
-    main {
-      flex: 1;
-      padding: 30px;
-      box-sizing: border-box;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .section {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
+
+    /* Profile image */
     .profile-pic {
       width: 120px;
       height: 120px;
@@ -61,9 +35,49 @@
       object-fit: cover;
       display: block;
       margin: 0 auto 20px auto;
-      border: 3px solid #38bdf8;
+      border: 3px solid #F6D860; /* Yellow accent */
     }
 
+    nav h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+
+    nav p {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+    }
+
+    nav a {
+      display: block;
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 6px 0;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #F6D860; /* Yellow highlight */
+    }
+
+    /* -------- CONTENT AREA -------- */
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
   </style>
 </head>
 
@@ -72,16 +86,16 @@
 <div class="layout">
 
   <nav>
-      <img src="assets/PJL.jpg" alt="Parker LeClair" class="profile-pic">
+    <!-- 🔹 Your actual profile picture -->
+    <img src="assets/PJL.jpg" alt="Profile Picture" class="profile-pic">
 
-      <h1>Parker LeClair</h1>
-      <p>GIS • Remote Sensing • Geology</p>
+    <h1>Parker LeClair</h1>
+    <p>GIS • Remote Sensing • Geology</p>
 
-      <a href="/">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html">Contact & Resume</a>
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact & Resume</a>
   </nav>
-
 
   <main>
     <div class="section">
