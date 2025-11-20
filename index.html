@@ -40,20 +40,49 @@
       border: 3px solid #53D2FF;
     }
 
+    nav h1, nav p {
+      margin: 0;
+      margin-bottom: 8px;
+    }
+
+    /* 3D BUTTON LINKS */
     nav a {
       display: block;
-      margin-top: 12px;
-      color: #FFFF85;
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 600;
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
       letter-spacing: 0.3px;
       text-align: left;
-      padding-left: 10px;
+      text-decoration: none;
+
+      color: #ffffff;
+      background: linear-gradient(to bottom, #27A3D1, #1C92BD);
+
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.5),
+        0 3px 6px rgba(0,0,0,0.25);
+
+      transition:
+        transform 0.07s ease,
+        box-shadow 0.07s ease,
+        background 0.07s ease;
     }
 
     nav a:hover {
-      color: #B6DF89;
+      background: linear-gradient(to bottom, #3AB7E4, #2096C1);
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.7),
+        0 4px 8px rgba(0,0,0,0.3);
+      transform: translateY(-1.5px);
+    }
+
+    nav a:active {
+      transform: translateY(2px);
+      box-shadow:
+        inset 0 1px 2px rgba(0,0,0,0.4),
+        0 1px 2px rgba(0,0,0,0.15);
     }
 
     /* ---------- MAIN CONTENT ---------- */
@@ -99,6 +128,7 @@
       z-index: 999;
     }
 
+    /* ---------- MOBILE ---------- */
     @media (max-width: 768px) {
       .hamburger {
         display: flex;
