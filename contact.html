@@ -2,26 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Contact – Parker LeClair</title>
+  <title>Contact – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" type="image/png" href="assets/PJL_Favicon2.png">
+
   <style>
     body { margin: 0; font-family: system-ui, sans-serif; background: #f3f4f6; }
     .layout { display: flex; min-height: 100vh; }
-    nav { width: 230px; background: #1f2933; color: #f9fafb; padding: 20px; }
-    nav a { color: #e5e7eb; display: block; padding: 6px 0; text-decoration: none; }
-    nav a:hover { color: #38bdf8; }
-    main { flex: 1; padding: 30px; max-width: 900px; margin: 0 auto; }
-    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+    nav {
+      width: 280px;
+      background: #0085B4;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 3px solid #53D2FF;
+    }
+
+    nav a {
+      display: block;
+      margin-top: 12px;
+      color: #FFFF85;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: left;
+      padding-left: 10px;
+    }
+    nav a:hover { color: #B6DF89; }
+
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 35px;
+      height: 30px;
+      background: #53D2FF;
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+      nav.open { transform: translateX(0); }
+      main { padding-top: 80px; }
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+    .overlay.show { display: block; }
   </style>
 </head>
 
 <body>
 
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
 <div class="layout">
-  <nav>
-    <h1>Parker LeClair</h1>
+
+  <nav id="sidebar">
+    <img src="assets/PJL.jpg" class="profile-pic" alt="Profile picture">
+
+    <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
-    <a href="index.html">Home</a>
+
+    <a href="/">Home</a>
     <a href="projects.html">Projects</a>
     <a href="contact.html">Contact & Resume</a>
   </nav>
@@ -30,13 +121,22 @@
     <h1>Contact & Resume</h1>
 
     <div class="card">
-      <p>Email: <a href="mailto:parker@example.com">parker@example.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/YOUR-LINK" target="_blank">View LinkedIn</a></p>
+      <p>Email: <a href="mailto:parkerjleclair@gmail.com.com">parkerjleclair@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/parkerleclair" target="_blank">View LinkedIn</a></p>
       <p><a href="assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a></p>
     </div>
-
   </main>
+
 </div>
+
+<script>
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
