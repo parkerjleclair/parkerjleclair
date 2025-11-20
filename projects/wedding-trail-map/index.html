@@ -11,6 +11,8 @@
       --accent-red: #FD3E5E;
       --accent-red-light: #FF758A;
       --sidebar-green: #77A361;
+      --btn-green-top: #9AC788;
+      --btn-green-bottom: #6FA459;
     }
 
     body {
@@ -36,36 +38,59 @@
     }
 
     .profile-pic {
-      width: 120px; height: 120px;
-      border-radius: 50%; object-fit: cover;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
       margin: 0 auto 20px auto;
       border: 4px solid var(--accent-red);
     }
 
     nav h1, nav p {
+      margin: 0;
+      margin-bottom: 8px;
       color: white;
     }
 
-    /* Sidebar links with halo */
+    /* 3D BUTTON LINKS – GREEN THEME */
     nav a {
       display: block;
-      margin-top: 14px;
-      color: var(--accent-red);
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 600;
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
       text-align: left;
-      padding-left: 10px;
+      text-decoration: none;
 
-      text-shadow:
-        -1px -1px 0 white,
-         1px -1px 0 white,
-        -1px  1px 0 white,
-         1px  1px 0 white;
+      color: #ffffff;
+      background: linear-gradient(to bottom, var(--btn-green-top), var(--btn-green-bottom));
+
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.5),
+        0 3px 6px rgba(0,0,0,0.25);
+
+      transition:
+        transform 0.07s ease,
+        box-shadow 0.07s ease,
+        background 0.07s ease;
     }
 
     nav a:hover {
-      color: var(--accent-red-light);
+      background: linear-gradient(to bottom, #A8D596, #6A9F55);
+      box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.7),
+        0 4px 8px rgba(0,0,0,0.3);
+      transform: translateY(-1.5px);
+    }
+
+    nav a:active {
+      transform: translateY(2px);
+      box-shadow:
+        inset 0 1px 2px rgba(0,0,0,0.4),
+        0 1px 2px rgba(0,0,0,0.15);
     }
 
     /* MAIN CONTENT */
@@ -77,7 +102,9 @@
       color: var(--accent-red);
     }
 
-    h1, h2 { color: var(--accent-red); }
+    h1, h2 {
+      color: var(--accent-red);
+    }
 
     .section {
       background: white;
@@ -118,7 +145,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
-    /* ---------- MOBILE ---------- */
+    /* MOBILE */
     @media (max-width: 768px) {
       .pdf-row { flex-direction: column; }
 
@@ -129,8 +156,7 @@
         top: 0;
         left: 0;
         height: 100%;
-        transform: translateX(-100%);   /* ← THE FIX */
-        transition: transform 0.3s ease;
+        transform: translateX(-100%);
         z-index: 998;
       }
 
@@ -138,10 +164,12 @@
         transform: translateX(0);
       }
 
-      main { padding-top: 80px; }
+      main {
+        padding-top: 80px;
+      }
     }
 
-    /* ---------- HAMBURGER ---------- */
+    /* HAMBURGER */
     .hamburger {
       display: none;
       position: fixed;
@@ -168,9 +196,11 @@
       z-index: 900;
     }
 
-    .overlay.show { display: block; }
+    .overlay.show {
+      display: block;
+    }
 
-    /* ---------- MODAL ---------- */
+    /* MODAL */
     .modal {
       position: fixed;
       inset: 0;
@@ -182,7 +212,9 @@
       overflow: hidden;
     }
 
-    .modal.show { display: flex; }
+    .modal.show {
+      display: flex;
+    }
 
     .modal img {
       max-width: 95%;
@@ -191,7 +223,6 @@
       object-fit: contain;
     }
 
-    /* Close button */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -203,7 +234,6 @@
       z-index: 3000;
     }
 
-    /* Desktop arrows */
     .modal-arrow {
       position: absolute;
       top: 50%;
@@ -257,7 +287,6 @@
       <p>Below are the front and back pages of the printed wedding trail map.</p>
 
       <div class="pdf-row">
-
         <div class="pdf-card modal-trigger" data-index="1">
           <img src="/assets/WeddingTrailMap_Page1.png">
         </div>
@@ -265,7 +294,6 @@
         <div class="pdf-card modal-trigger" data-index="2">
           <img src="/assets/WeddingTrailMap_Page2.png">
         </div>
-
       </div>
     </div>
 
@@ -276,15 +304,18 @@
         Adirondack Mountains of Upstate New York. The land includes an extensive network of hiking, biking, and ski trails, 
         which made producing a functional and visually appealing navigation map especially valuable for guests unfamiliar 
         with the area.
-
+      </p>
+      <p>
         I designed the map in QGIS. Contours and hillshade were generated from a New York State 1-meter DSM to provide 
         accurate terrain representation, while water features were sourced from the National Hydrography Dataset (NHD). 
         Trail shapefiles and classifications were exported from Trailforks, allowing the final product to show trail 
         difficulty and type.
-
+      </p>
+      <p>
         Custom artwork provided by Sage was incorporated into the layout to create consistent, personalized branding for 
         the event. The final deliverable consisted of two high-resolution, double-sided printed maps on letter-sized paper, 
-        folded and distributed to wedding guests.
+        folded and distributed to wedding guests to help them navigate the property and enjoy the trails throughout the 
+        day’s activities.
       </p>
     </div>
 
