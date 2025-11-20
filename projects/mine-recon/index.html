@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mine Reconciliation – Parker LeClair</title>
+  <title>Mine Reconciliation – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="../../assets/PJL_Favicon2.png">
 
@@ -29,7 +29,9 @@
     }
     nav a:hover { color:#B6DF89; }
 
-    main { flex:1; padding:30px; max-width:900px; margin:0 auto; }
+    main {
+      flex:1; padding:30px; max-width:900px; margin:0 auto;
+    }
 
     .section {
       background:white; padding:20px;
@@ -40,8 +42,7 @@
     .hamburger {
       display:none; position:fixed; top:15px; left:15px;
       width:35px; height:30px; background:#53D2FF;
-      color:white; border-radius:6px;
-      justify-content:center; align-items:center;
+      color:white; border-radius:6px; justify-content:center; align-items:center;
       font-size:22px; cursor:pointer; z-index:999;
     }
 
@@ -63,6 +64,7 @@
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
+
   <nav id="sidebar">
     <img src="../../assets/PJL.jpg" class="profile-pic">
 
@@ -77,15 +79,21 @@
   <main>
     <div class="section">
       <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
-      <p>Full project write-up goes here…</p>
+      <p>
+        Your full write-up goes here — methodology, workflow, screenshots,
+        point cloud steps, DSM generation, R code, reconciliation charts, etc.
+      </p>
     </div>
   </main>
+
 </div>
 
 <script>
 function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("open");
-  document.getElementById("overlay").classList.toggle("show");
+  sidebar = document.getElementById("sidebar");
+  overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
 }
 </script>
 
