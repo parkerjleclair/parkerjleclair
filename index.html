@@ -8,26 +8,27 @@
   <style>
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, sans-serif;
       background: #f3f4f6;
     }
 
+    /* ---------- LAYOUT ---------- */
     .layout {
       display: flex;
       min-height: 100vh;
     }
 
-    /* -------- SIDEBAR -------- */
+    /* ---------- SIDEBAR ---------- */
     nav {
       width: 230px;
-      background: #1E3A5F; /* Navy */
-      color: #ffffff;
+      background: #1E3A5F;
+      color: white;
       padding: 20px;
       box-sizing: border-box;
-      text-align: left;
+      transition: transform 0.3s ease;
     }
 
-    /* Profile image */
+    /* Profile photo */
     .profile-pic {
       width: 120px;
       height: 120px;
@@ -35,35 +36,22 @@
       object-fit: cover;
       display: block;
       margin: 0 auto 20px auto;
-      border: 3px solid #F6D860; /* Yellow accent */
-    }
-
-    nav h1 {
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-      text-align: left;
-    }
-
-    nav p {
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-      color: #ffffff;
+      border: 3px solid #F6D860;
     }
 
     nav a {
       display: block;
+      margin-top: 8px;
       color: #e5e7eb;
       text-decoration: none;
-      padding: 6px 0;
       font-size: 0.95rem;
-      transition: color 0.2s ease;
     }
 
     nav a:hover {
-      color: #F6D860; /* Yellow highlight */
+      color: #F6D860;
     }
 
-    /* -------- CONTENT AREA -------- */
+    /* ---------- MAIN CONTENT ---------- */
     main {
       flex: 1;
       padding: 30px;
@@ -74,20 +62,84 @@
     .section {
       background: white;
       padding: 20px;
-      border-radius: 8px;
       margin-bottom: 30px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* ---------- HAMBURGER BUTTON ---------- */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 35px;
+      height: 30px;
+      background: #1E3A5F;
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    /* ---------- MOBILE ONLY ---------- */
+    @media (max-width: 768px) {
+
+      /* Show hamburger button */
+      .hamburger {
+        display: flex;
+      }
+
+      /* Sidebar initially hidden */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+
+      /* When open */
+      nav.open {
+        transform: translateX(0);
+      }
+
+      /* Add space at top so text isn't covered */
+      main {
+        padding-top: 80px;
+      }
+    }
+
+    /* Optional dark overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+    .overlay.show {
+      display: block;
     }
   </style>
 </head>
 
 <body>
 
+<!-- MOBILE HAMBURGER BUTTON -->
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
 <div class="layout">
 
-  <nav>
-    <!-- 🔹 Your actual profile picture -->
-    <img src="assets/PJL.jpg" alt="Profile Picture" class="profile-pic">
+  <nav id="sidebar">
+    <img src="assets/PJL.jpg" class="profile-pic" alt="Profile picture">
 
     <h1>Parker LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
@@ -102,21 +154,26 @@
       <h2>About Me</h2>
       <p>
         I am a geologist and GIS analyst specializing in remote sensing, UAV
-        photogrammetry, land-cover classification, terrain analysis, and mine-site 
-        geospatial workflows. This portfolio highlights my work across drone-based
-        mapping, Landsat analysis, and geospatial modeling using R, ArcGIS Pro, and Python.
+        photogrammetry, land-cover classification, terrain analysis, and mine-site geospatial workflows...
       </p>
     </div>
 
     <div class="section">
       <h2>Welcome</h2>
-      <p>
-        Use the navigation on the left to explore my GIS projects and contact information.
-      </p>
+      <p>Use the navigation on the left to explore my GIS projects and contact information.</p>
     </div>
   </main>
 
 </div>
+
+<script>
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
