@@ -9,8 +9,9 @@
   <style>
     :root {
       --sidebar-blue: #0085B4;
-      --button-blue-top: #27A3D1;
-      --button-blue-bottom: #1C92BD;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
     }
 
     body {
@@ -24,15 +25,15 @@
       min-height: 100vh;
     }
 
-    /* ---------- SIDEBAR ---------- */
+    /* SIDEBAR */
     nav {
       width: 280px;
       background: var(--sidebar-blue);
       color: white;
       padding: 20px;
-      text-align: center;
       box-sizing: border-box;
-      transition: transform .3s ease;
+      transition: transform 0.3s ease;
+      text-align: center;
     }
 
     .profile-pic {
@@ -40,54 +41,50 @@
       height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 20px;
+      display: block;
+      margin: 0 auto;
       border: 3px solid #53D2FF;
     }
 
-    /* ---------- 3D BUTTON LINKS ---------- */
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
+    }
+
+    nav p {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+
     nav a {
       display: block;
-      margin: 14px 0;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      text-decoration: none;
-      text-align: left;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
       color: white;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
 
-      background: linear-gradient(
-        to bottom,
-        var(--button-blue-top),
-        var(--button-blue-bottom)
-      );
-
-      box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.5),
-        0 3px 6px rgba(0,0,0,0.25);
-
-      letter-spacing: 0.3px;
-      transition: transform 0.08s ease, box-shadow 0.1s ease;
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
     }
 
-    /* Hover effect — Option A (subtle lift + brighten) */
     nav a:hover {
+      background: var(--hover-yellow);
+      color: #004466;
       transform: translateY(-2px);
-      box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.7),
-        0 5px 8px rgba(0,0,0,0.28);
-      filter: brightness(1.07);
+      box-shadow: 0 4px 0 #005C78;
     }
 
-    /* Pressed click animation */
     nav a:active {
       transform: translateY(1px);
-      box-shadow:
-        inset 0 1px 2px rgba(0,0,0,0.35),
-        0 1px 2px rgba(0,0,0,0.15);
+      box-shadow: 0 1px 0 #005C78;
     }
 
-    /* ---------- MAIN CONTENT ---------- */
+    /* MAIN CONTENT */
     main {
       flex: 1;
       padding: 30px;
@@ -103,7 +100,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* ---------- HAMBURGER (same as main theme) ---------- */
+    /* HAMBURGER */
     .hamburger {
       display: none;
       position: fixed;
@@ -111,19 +108,26 @@
       left: 15px;
       width: 40px;
       height: 34px;
-      background: #53D2FF;
+      background: var(--button-blue-light);
       color: white;
       border-radius: 6px;
       justify-content: center;
       align-items: center;
       font-size: 22px;
       cursor: pointer;
-      z-index: 999;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
     }
 
-    /* ---------- MOBILE RESPONSIVENESS ---------- */
-    @media(max-width: 768px) {
-      .hamburger { display: flex; }
+    .hamburger:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #006991;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
 
       nav {
         position: fixed;
@@ -143,7 +147,6 @@
       }
     }
 
-    /* OVERLAY */
     .overlay {
       display: none;
       position: fixed;
@@ -160,16 +163,13 @@
 
 <body>
 
-<!-- HAMBURGER BUTTON -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
   <nav id="sidebar">
-    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture">
-
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture" />
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
 
@@ -178,29 +178,21 @@
     <a href="/contact">Contact & Resume</a>
   </nav>
 
-  <!-- MAIN CONTENT -->
   <main>
-
     <div class="section">
       <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
-
       <p>
-        This page will contain the full write-up of your mine reconciliation workflow:
-        UAV acquisition → photogrammetry processing → point cloud filtering →
-        DSM generation → statistical outlier removal → lowest-surface model →
-        spatial alignment → ore/waste comparison → production tracking.
+        This project applies UAV photogrammetry, point cloud processing, and R-based geospatial analysis 
+        to reconcile modeled geology with mined production data. Monthly drone surveys are converted to 
+        dense point clouds and DSMs, filtered to remove outliers, and aligned to the mine planning grid.
       </p>
-
       <p>
-        When you're ready, I can help you format:
-        <br>• Image galleries
-        <br>• R code blocks with syntax highlighting
-        <br>• Before/after DSM comparisons
-        <br>• Charts (volumetrics, benches, monthly trends)
-        <br>• Interactive maps (Leaflet/Mapbox/etc.)
+        A lowest-elevation composite surface is built from repeated surveys to approximate the hard rock 
+        surface over time. Volumes are then computed between modeled and observed surfaces to quantify 
+        ore and waste differences by bench and phase. Results support improved grade control surfaces, 
+        better understanding of dilution, and tighter feedback between geology and operations.
       </p>
     </div>
-
   </main>
 
 </div>
@@ -209,7 +201,6 @@
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
-
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
 }
