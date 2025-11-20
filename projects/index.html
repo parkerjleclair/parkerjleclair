@@ -18,6 +18,7 @@
       min-height: 100vh;
     }
 
+    /* SIDEBAR */
     nav {
       width: 280px;
       background: #0085B4;
@@ -25,6 +26,7 @@
       padding: 20px;
       box-sizing: border-box;
       text-align: center;
+      transition: transform 0.3s ease;
     }
 
     .profile-pic {
@@ -51,6 +53,7 @@
       color: #B6DF89;
     }
 
+    /* MAIN CONTENT */
     main {
       flex: 1;
       padding: 30px;
@@ -86,29 +89,37 @@
       color: #005f7d;
     }
 
+    /* MOBILE BEHAVIOR */
     @media (max-width: 768px) {
       .hamburger { display: flex; }
+
       nav {
         position: fixed;
         top: 0;
         left: 0;
         height: 100%;
         transform: translateX(-100%);
-        transition: transform 0.3s ease;
         z-index: 998;
       }
-      nav.open { transform: translateX(0); }
-      main { padding-top: 80px; }
+
+      nav.open {
+        transform: translateX(0);
+      }
+
+      main {
+        padding-top: 80px;
+      }
     }
 
+    /* HAMBURGER BUTTON — ORIGINAL BLUE */
     .hamburger {
       display: none;
       position: fixed;
       top: 15px;
       left: 15px;
-      width: 35px;
-      height: 30px;
-      background: #53D2FF;
+      width: 40px;
+      height: 34px;
+      background: #53D2FF; /* original blue */
       color: white;
       border-radius: 6px;
       justify-content: center;
@@ -118,6 +129,7 @@
       z-index: 999;
     }
 
+    /* BACKDROP */
     .overlay {
       display: none;
       position: fixed;
@@ -125,20 +137,26 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
-    .overlay.show { display: block; }
 
+    .overlay.show {
+      display: block;
+    }
   </style>
 </head>
 
 <body>
 
+<!-- HAMBURGER (Mobile Only) -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<!-- Overlays the page when sidebar is open -->
 <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
 <div class="layout">
 
   <nav id="sidebar">
-    <img src="/assets/PJL.jpg" class="profile-pic">
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture">
+
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
 
@@ -164,18 +182,20 @@
     <!-- Mine Reconciliation -->
     <div class="project-card">
       <h2>Mine Reconciliation Using UAV Photogrammetry & R</h2>
-      <p>Monthly photogrammetry surveys processed to compare modeled and actual ore/waste volumes.</p>
+      <p>
+        Monthly photogrammetry surveys processed to compare modeled and actual ore/waste volumes.
+      </p>
       <a href="/projects/mine-recon">View Project →</a>
     </div>
 
   </main>
-
 </div>
 
 <script>
 function toggleMenu() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
+
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
 }
