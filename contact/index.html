@@ -4,9 +4,16 @@
   <meta charset="UTF-8" />
   <title>Contact – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="../assets/PJL_Favicon2.png" />
+  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
 
   <style>
+    :root {
+      --sidebar-blue: #0085B4;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
@@ -21,12 +28,12 @@
     /* SIDEBAR */
     nav {
       width: 280px;
-      background: #0085B4;
+      background: var(--sidebar-blue);
       color: white;
       padding: 20px;
       box-sizing: border-box;
-      text-align: center;
       transition: transform 0.3s ease;
+      text-align: center;
     }
 
     .profile-pic {
@@ -35,53 +42,46 @@
       border-radius: 50%;
       object-fit: cover;
       display: block;
-      margin: 0 auto 20px auto;
+      margin: 0 auto;
       border: 3px solid #53D2FF;
     }
 
-    nav h1, nav p {
-      margin: 0;
-      margin-bottom: 8px;
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
     }
 
-    /* 3D BUTTON LINKS */
+    nav p {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+
     nav a {
       display: block;
-      margin: 14px 0;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      text-align: left;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
+      color: white;
       text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
 
-      color: #ffffff;
-      background: linear-gradient(to bottom, #27A3D1, #1C92BD);
-
-      box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.5),
-        0 3px 6px rgba(0,0,0,0.25);
-
-      transition:
-        transform 0.07s ease,
-        box-shadow 0.07s ease,
-        background 0.07s ease;
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
     }
 
     nav a:hover {
-      background: linear-gradient(to bottom, #3AB7E4, #2096C1);
-      box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.7),
-        0 4px 8px rgba(0,0,0,0.3);
-      transform: translateY(-1.5px);
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #005C78;
     }
 
     nav a:active {
-      transform: translateY(2px);
-      box-shadow:
-        inset 0 1px 2px rgba(0,0,0,0.4),
-        0 1px 2px rgba(0,0,0,0.15);
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #005C78;
     }
 
     /* MAIN */
@@ -115,16 +115,22 @@
       position: fixed;
       top: 15px;
       left: 15px;
-      width: 35px;
-      height: 30px;
-      background: #53D2FF;
+      width: 40px;
+      height: 34px;
+      background: var(--button-blue-light);
       color: white;
       border-radius: 6px;
       justify-content: center;
       align-items: center;
       font-size: 22px;
       cursor: pointer;
-      z-index: 999;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
+    }
+
+    .hamburger:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #006991;
     }
 
     @media (max-width: 768px) {
@@ -172,8 +178,7 @@
 <div class="layout">
 
   <nav id="sidebar">
-    <img src="../assets/PJL.jpg" class="profile-pic" alt="Profile picture">
-
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture" />
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
 
@@ -188,10 +193,10 @@
     <div class="card">
       <p>Email: <a href="mailto:parker@example.com">parker@example.com</a></p>
       <p>LinkedIn: <a href="https://www.linkedin.com/in/YOUR-LINK" target="_blank">View LinkedIn</a></p>
-      <p><a href="../assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a></p>
+      <p><a href="/assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a></p>
     </div>
-
   </main>
+
 </div>
 
 <script>
