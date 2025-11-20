@@ -108,7 +108,9 @@
       }
       nav.open { transform: translateX(0); }
 
-      main { padding-top: 80px; }
+      main {
+        padding-top: 80px;
+      }
     }
 
     .hamburger {
@@ -137,7 +139,7 @@
     }
     .overlay.show { display: block; }
 
-    /* MODAL */
+    /* ---------- MODAL (DESKTOP STYLE) ---------- */
     .modal {
       position: fixed;
       inset: 0;
@@ -158,12 +160,11 @@
       pointer-events: none;
     }
 
-    /* ARROWS + CLOSE BUTTON */
     .modal-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 45px;
+      font-size: 50px;
       color: white;
       cursor: pointer;
       padding: 10px 18px;
@@ -183,15 +184,41 @@
       user-select: none;
     }
 
-    /* MOBILE — bigger tap targets */
+    /* ---------- MOBILE-ONLY ARROW + CLOSE STYLING ---------- */
     @media (max-width: 768px) {
-      .modal-arrow { font-size: 55px; padding: 20px; }
-      .modal-close { font-size: 48px; }
+
+      .modal-arrow {
+        font-size: 34px;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        text-align: center;
+        border-radius: 50%;
+        color: #FD3E5E;
+        background: white;
+        border: 3px solid #FD3E5E;
+        padding: 0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      }
+
+      .modal-arrow.left { left: 12px; }
+      .modal-arrow.right { right: 12px; }
+
+      .modal-close {
+        font-size: 44px;
+        top: 16px;
+        right: 20px;
+        color: #FD3E5E;
+        background: white;
+        border-radius: 50%;
+        padding: 2px 12px 6px 12px;
+        border: 3px solid #FD3E5E;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      }
     }
 
   </style>
 </head>
-
 
 <body>
 
@@ -214,7 +241,11 @@
 
     <h1>Wedding Trail Map – Custom Cartography in QGIS</h1>
 
-    <img src="/assets/wedding-trail-map-photo.jpg" class="header-photo modal-trigger" data-index="0">
+    <img 
+      src="/assets/wedding-trail-map-photo.jpg" 
+      class="header-photo modal-trigger" 
+      data-index="0"
+    >
 
     <div class="section">
       <h2>Map Pages</h2>
@@ -272,7 +303,7 @@ function toggleMenu() {
   overlay.classList.toggle("show");
 }
 
-/* ---------------- MODAL LOGIC ---------------- */
+/* ---------- MODAL LOGIC ---------- */
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
@@ -291,12 +322,12 @@ function openModal(index) {
   currentIndex = index;
   modalImage.src = images[index];
   modal.classList.add("show");
-  document.body.style.overflow = "hidden"; // prevent page scroll
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
   modal.classList.remove("show");
-  document.body.style.overflow = ""; 
+  document.body.style.overflow = "";
 }
 
 document.querySelectorAll(".modal-trigger").forEach(item => {
@@ -317,28 +348,28 @@ modalNext.addEventListener("click", () => {
   modalImage.src = images[currentIndex];
 });
 
-/* Click outside to close */
+/* Click outside image closes modal */
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
 });
 
-/* ESC closes modal */
+/* Keyboard navigation */
 document.addEventListener("keydown", (e) => {
+  if (!modal.classList.contains("show")) return;
   if (e.key === "Escape") closeModal();
   if (e.key === "ArrowLeft") modalPrev.click();
   if (e.key === "ArrowRight") modalNext.click();
 });
 
-/* Mobile swipe */
+/* Mobile swipe support */
 let startX = 0;
 
 modal.addEventListener("touchstart", (e) => {
   startX = e.touches[0].clientX;
-});
+}, { passive: true });
 
 modal.addEventListener("touchend", (e) => {
   let endX = e.changedTouches[0].clientX;
-
   if (endX - startX > 50) modalPrev.click();
   if (startX - endX > 50) modalNext.click();
 });
