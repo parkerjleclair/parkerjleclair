@@ -14,22 +14,39 @@
       --hover-yellow: #FFFF85;
     }
 
-    /* Reduce spacing under job titles when followed by bullet points */
-    .section p + ul {
-      margin-top: 4px;   /* small space above bullet list */
-    }
+    /* ------------------------------------
+       UNIVERSAL TIGHT SPACING FIX
+    ------------------------------------ */
 
+    /* Tighten all section <p> spacing */
     .section p {
-      margin-bottom: 6px;  /* tighten general paragraph spacing */
+      margin: 4px 0;
     }
 
-    /* But keep big spacing before new employer names */
+    /* Add larger spacing ONLY before new employers, degrees, organizations */
     .section p strong {
       display: inline-block;
-      margin-top: 18px;   /* ensures larger spacing above employer name */
+      margin-top: 16px;
     }
 
+    /* Ensure bullet lists sit close to titles */
+    .section p + ul {
+      margin-top: 6px;
+    }
 
+    /* Tighten bullet spacing */
+    .section ul li {
+      margin: 3px 0;
+    }
+
+    /* Fix inconsistent card padding */
+    .section {
+      padding: 20px 24px;
+    }
+
+    /* ------------------------------------
+       PAGE LAYOUT DEFAULTS
+    ------------------------------------ */
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
@@ -98,7 +115,6 @@
       font-weight: 600;
       border-radius: 8px;
       text-align: center;
-
       background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
       box-shadow: 0 3px 0 #006991;
       transition: 0.15s ease;
@@ -194,7 +210,6 @@
     }
     .contact-info a:hover { color: #005f7d; }
 
-    /* Resume download button (Option A) */
     .resume-btn {
       display: inline-block;
       padding: 12px 18px;
@@ -220,15 +235,6 @@
     .resume-btn:active {
       transform: translateY(1px);
       box-shadow: 0 2px 0 #005C78;
-    }
-
-    /* Section cards */
-    .section {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
     }
 
     .section h2 {
@@ -265,14 +271,12 @@
     <!-- Header Split -->
     <div class="header-split">
 
-      <!-- Left: Contact info -->
       <div class="contact-info">
         <p><strong>Email:</strong> <a href="mailto:parkerjleclair@gmail.com">parkerjleclair@gmail.com</a></p>
         <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/parkerleclair" target="_blank">linkedin.com/in/parkerleclair</a></p>
         <p><strong>Location:</strong> Elizabethtown, New York</p>
       </div>
 
-      <!-- Right: Resume download -->
       <a class="resume-btn" href="/assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a>
 
     </div>
@@ -352,10 +356,13 @@
     <!-- Volunteering -->
     <div class="section">
       <h2>Volunteering</h2>
+      <p><strong>U. S. Forest Service • Tonto NF • July 2024</strong></p>
       <ul>
-        <p><strong>U. S. Forest Service • Tonto NF • July 2024</strong></p>
         <li>Abandoned Mines Inventory and Hazard Assessment</li>
-        <p><strong>Geological Society of America • Denver, CO • October 2022</strong></p>
+      </ul>
+
+      <p><strong>Geological Society of America • Denver, CO • October 2022</strong></p>
+      <ul>
         <li>Conference Assistant</li>
       </ul>
     </div>
