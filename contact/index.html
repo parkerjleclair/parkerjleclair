@@ -14,6 +14,22 @@
       --hover-yellow: #FFFF85;
     }
 
+    /* Reduce spacing under job titles when followed by bullet points */
+    .section p + ul {
+      margin-top: 4px;   /* small space above bullet list */
+    }
+
+    .section p {
+      margin-bottom: 6px;  /* tighten general paragraph spacing */
+    }
+
+    /* But keep big spacing before new employer names */
+    .section p strong {
+      display: inline-block;
+      margin-top: 18px;   /* ensures larger spacing above employer name */
+    }
+
+
     body {
       margin: 0;
       font-family: system-ui, sans-serif;
