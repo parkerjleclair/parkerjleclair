@@ -85,6 +85,31 @@
       box-shadow: 0 1px 0 #005C78;
     }
 
+        /* SIDEBAR BACKGROUND CONTOUR OVERLAY */
+    nav {
+      position: relative; /* required so overlay is clipped */
+      overflow: hidden;   /* clips contour image to sidebar */
+    }
+
+    /* The contour overlay (behind content but above base color) */
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("/assets/SidebarContours.png"); /* ← your contour PNG */
+      background-size: cover;   /* or "contain" or adjust as needed */
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;            /* adjust transparency */
+      z-index: 0;               /* behind text, photo, buttons */
+    }
+
+    /* Put sidebar content above the PNG overlay */
+    nav * {
+      position: relative;
+      z-index: 1;
+    }
+
     /* ---------- MAIN CONTENT ---------- */
     main {
       flex: 1;
