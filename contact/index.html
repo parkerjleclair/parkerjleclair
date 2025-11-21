@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Contact – Parker J. LeClair</title>
+  <title>Contact & Resume – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
 
@@ -25,7 +25,7 @@
       min-height: 100vh;
     }
 
-    /* SIDEBAR */
+    /* SIDEBAR --------------------------------------- */
     nav {
       width: 280px;
       background: var(--sidebar-blue);
@@ -34,7 +34,23 @@
       box-sizing: border-box;
       transition: transform 0.3s ease;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+
+    /* Contour overlay */
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    nav * { position: relative; z-index: 1; }
 
     .profile-pic {
       width: 120px;
@@ -69,7 +85,7 @@
 
       background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
       box-shadow: 0 3px 0 #006991;
-      transition: all 0.15s ease;
+      transition: 0.15s ease;
     }
 
     nav a:hover {
@@ -84,58 +100,7 @@
       box-shadow: 0 1px 0 #005C78;
     }
 
-    /* SIDEBAR BACKGROUND CONTOUR OVERLAY */
-    nav {
-      position: relative; /* required so overlay is clipped */
-      overflow: hidden;   /* clips contour image to sidebar */
-    }
-
-    /* The contour overlay (behind content but above base color) */
-    nav::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("/assets/SidebarContours.png"); /* ← your contour PNG */
-      background-size: cover;   /* or "contain" or adjust as needed */
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0.15;            /* adjust transparency */
-      z-index: 0;               /* behind text, photo, buttons */
-    }
-
-    /* Put sidebar content above the PNG overlay */
-    nav * {
-      position: relative;
-      z-index: 1;
-    }
-
-
-    /* MAIN */
-    main {
-      flex: 1;
-      padding: 30px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .card a {
-      color: #0085B4;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .card a:hover {
-      color: #005f7d;
-    }
-
-    /* HAMBURGER */
+    /* HAMBURGER ------------------------------------- */
     .hamburger {
       display: none;
       position: fixed;
@@ -160,26 +125,16 @@
     }
 
     @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-
+      .hamburger { display: flex; }
       nav {
         position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
+        left: 0; top: 0;
         transform: translateX(-100%);
+        height: 100%;
         z-index: 998;
       }
-
-      nav.open {
-        transform: translateX(0);
-      }
-
-      main {
-        padding-top: 80px;
-      }
+      nav.open { transform: translateX(0); }
+      main { padding-top: 80px; }
     }
 
     .overlay {
@@ -189,10 +144,82 @@
       background: rgba(0,0,0,0.35);
       z-index: 900;
     }
+    .overlay.show { display: block; }
 
-    .overlay.show {
-      display: block;
+    /* MAIN CONTENT ---------------------------------- */
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
     }
+
+    h1 { margin-top: 0; }
+
+    /* Header split layout */
+    .header-split {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+      gap: 20px;
+    }
+
+    .contact-info p {
+      margin: 4px 0;
+      font-size: 1rem;
+    }
+
+    .contact-info a {
+      color: #0085B4;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .contact-info a:hover { color: #005f7d; }
+
+    /* Resume download button (Option A) */
+    .resume-btn {
+      display: inline-block;
+      padding: 12px 18px;
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      color: white;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 0 #006991;
+      transition: 0.15s ease;
+      text-align: center;
+      min-width: 160px;
+    }
+
+    .resume-btn:hover {
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #005C78;
+    }
+
+    .resume-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 0 #005C78;
+    }
+
+    /* Section cards */
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: #0085B4;
+    }
+
   </style>
 </head>
 
@@ -203,8 +230,9 @@
 
 <div class="layout">
 
+  <!-- SIDEBAR -->
   <nav id="sidebar">
-    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture" />
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Parker LeClair">
     <h1>Parker J. LeClair</h1>
     <p>GIS • Remote Sensing • Geology</p>
 
@@ -213,16 +241,99 @@
     <a href="/contact">Contact & Resume</a>
   </nav>
 
+  <!-- MAIN -->
   <main>
+
     <h1>Contact & Resume</h1>
 
-    <div class="card">
-      <p>Email: <a href="mailto:parkerjleclair@gmail.com">parkerjleclair@gmail.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/parkerleclair" target="_blank">View LinkedIn</a></p>
-      <p><a href="/assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a></p>
-    </div>
-  </main>
+    <!-- Header Split -->
+    <div class="header-split">
 
+      <!-- Left: Contact info -->
+      <div class="contact-info">
+        <p><strong>Email:</strong> <a href="mailto:parkerjleclair@gmail.com">parkerjleclair@gmail.com</a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/parkerleclair" target="_blank">linkedin.com/in/parkerleclair</a></p>
+        <p><strong>Location:</strong> New York, USA</p>
+      </div>
+
+      <!-- Right: Resume download -->
+      <a class="resume-btn" href="/assets/Parker_LeClair_Resume.pdf" target="_blank">Download Resume (PDF)</a>
+
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+      <h2>Professional Summary</h2>
+      <p>
+        Geologist and GIS analyst specializing in remote sensing, landform mapping, volumetric change modeling, 
+        and geospatial workflow development. Experienced in UAV photogrammetry, ArcGIS Pro, QGIS, R, and producing 
+        operational-grade spatial products to support decision-making in mining and environmental settings.
+      </p>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+      <h2>Experience</h2>
+
+      <p><strong>Production Geologist – Imerys</strong> • 2024–Present</p>
+      <ul>
+        <li>Coordinate drilling, sampling, and geologic mapping to support mine planning.</li>
+        <li>Develop UAV-based reconciliation workflows integrating photogrammetry, R, and GIS.</li>
+        <li>Generate volumetric models comparing mined materials with geological predictions.</li>
+      </ul>
+
+      <p><strong>USGS / NAGT Field Mapping Intern</strong> – Southwest Montana</p>
+      <ul>
+        <li>Conducted detailed geologic mapping, structural analysis, and field data collection.</li>
+      </ul>
+
+      <p><strong>Teaching Assistant – Branson Geology Field Camp</strong></p>
+      <ul>
+        <li>Supported instruction for structural geology, mapping techniques, and field safety.</li>
+      </ul>
+
+      <p><strong>Volunteer – U.S. Forest Service</strong></p>
+      <ul>
+        <li>Provided GPS/GIS support and trail system mapping in public lands.</li>
+      </ul>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <h2>Education</h2>
+      <p><strong>B.A. Geology</strong>, SUNY Plattsburgh • Cum Laude (2019–2024)</p>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div class="section">
+      <h2>Certifications</h2>
+      <ul>
+        <li><strong>Fundamentals of Geology (FG) – Passed</strong>, pending NY Geologist-In-Training certification</li>
+        <li>FAA Part 107 Remote Pilot Certificate (expected soon if applicable)</li>
+      </ul>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+      <h2>Technical Skills</h2>
+      <ul>
+        <li>GIS & Remote Sensing: ArcGIS Pro, QGIS, ENVI</li>
+        <li>UAV Photogrammetry: SiteScan, Metashape</li>
+        <li>Programming: R (lidR, terra, tidyverse), Python (basic)</li>
+        <li>3D Modeling & Spatial Analysis</li>
+      </ul>
+    </div>
+
+    <!-- HONORS -->
+    <div class="section">
+      <h2>Honors & Awards</h2>
+      <ul>
+        <li>Graduated Cum Laude, SUNY Plattsburgh</li>
+        <li>NAGT/USGS Intern – Nationally competitive selection</li>
+      </ul>
+    </div>
+
+  </main>
 </div>
 
 <script>
