@@ -84,26 +84,24 @@
       box-shadow: 0 1px 0 #005C78;
     }
 
-        /* SIDEBAR BACKGROUND CONTOUR OVERLAY */
+    /* SIDEBAR BACKGROUND CONTOUR OVERLAY */
     nav {
-      position: relative; /* required so overlay is clipped */
-      overflow: hidden;   /* clips contour image to sidebar */
+      position: relative;
+      overflow: hidden;
     }
 
-    /* The contour overlay (behind content but above base color) */
     nav::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("/assets/SidebarContours.png"); /* ← your contour PNG */
-      background-size: cover;   /* or "contain" or adjust as needed */
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.15;            /* adjust transparency */
-      z-index: 0;               /* behind text, photo, buttons */
+      opacity: 0.15;
+      z-index: 0;
     }
 
-    /* Put sidebar content above the PNG overlay */
     nav * {
       position: relative;
       z-index: 1;
@@ -238,8 +236,6 @@
       <a href="/projects/adk-landslides">View Project →</a>
     </div>
 
-
-    
     <!-- Wedding Trail Map -->
     <div class="project-card">
       <img src="/assets/wedding-trail-map-photo.jpg" alt="Wedding Trail Map Project" />
@@ -251,14 +247,16 @@
       <a href="/projects/wedding-trail-map">View Project →</a>
     </div>
 
-    <!-- Mine Reconciliation -->
+    <!-- Oak Hill Minimum Elevation Surface -->
     <div class="project-card">
-      <h2>Mine Reconciliation Using UAV Photogrammetry & R</h2>
+      <img src="/assets/OakHill.png" alt="Aerial imagery of the Oak Hill pit in Lewis, New York" />
+      <h2>Oak Hill Minimum Elevation Surface Model</h2>
       <p>
-        Monthly photogrammetry surveys processed to compare modeled and actual ore/waste volumes using 
-        point clouds, DSMs, and R-based reconciliation scripts.
+        A multi-survey elevation model that uses repeated LiDAR and UAV photogrammetry to derive a 
+        minimum temporal surface for the Oak Hill pit, supporting mine reconciliation, dilution analysis, 
+        and future mine design.
       </p>
-      <a href="/projects/mine-recon">View Project →</a>
+      <a href="/projects/oak-hill/">View Project →</a>
     </div>
 
   </main>
