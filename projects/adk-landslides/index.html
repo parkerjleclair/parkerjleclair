@@ -69,6 +69,7 @@
     nav h1 {
       margin: 20px 0 8px 0;
       font-size: 1.4rem;
+      color: #ffffff; /* keep name white on all pages */
     }
 
     nav p {
@@ -232,6 +233,88 @@
       margin-top: 8px;
     }
 
+    /* Make main images clickable for zoom */
+    main img {
+      cursor: zoom-in;
+    }
+
+    /* LIGHTBOX OVERLAY */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img-wrapper {
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      transform-origin: center center;
+      transition: transform 0.15s ease;
+      cursor: grab;
+    }
+
+    .lightbox-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 6px;
+      z-index: 1;
+    }
+
+    .lightbox-btn {
+      border: none;
+      border-radius: 4px;
+      padding: 6px 9px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .lightbox-btn:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .lightbox-caption {
+      margin-top: 8px;
+      color: #f3f4f6;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 90vw;
+    }
+
+    @media (max-width: 600px) {
+      .lightbox-btn {
+        padding: 6px 8px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 
@@ -274,18 +357,30 @@
       </p>
     </div>
 
+    <!-- Field photo near top -->
+    <div class="section">
+      <figure>
+        <img src="/assets/giant_mountain.jpg"
+             alt="View looking southwest from the summit of Giant Mountain, showing large bedrock slides on the Great Range." />
+        <figcaption>
+          <strong>Field photo – Giant Mountain (2017).</strong>
+          View looking SW from the summit of Giant Mountain toward the major slide tracks on the Great Range.
+        </figcaption>
+      </figure>
+    </div>
+
     <!-- INTERACTIVE MAP -->
     <section class="section">
-     <h2>Interactive Map</h2>
+      <h2>Interactive Map</h2>
 
       <p>
-        The web map below combines my yearly landslide inventory (2018–2024) with hillshade basemaps.
+        The web map below combines my yearly landslide inventory (2018–2024) with NAIP and Sentinel-2 imagery.
         Landslides are symbolized by the year they first appear, allowing quick visual comparison
         between different storm seasons.
       </p>
 
       <p>
-        Use the <strong>zoom controls</strong> in the top-left corner to move in and out of the
+        Use the zoom controls, <strong>+ −</strong>, in the top-left corner to move in and out of the
         eastern High Peaks. The <strong>legend icon</strong> in the top-right opens the symbology
         for each landslide year. The <strong>layers button</strong> in the bottom-right lets you
         toggle imagery layers on and off – including the 2017 NAIP mosaic and the 2025 Sentinel-2
@@ -293,12 +388,16 @@
         polygon will display its <strong>year of first appearance</strong> and the
         <strong>mapped area</strong> of the slide.
       </p>
+      
+      <p>
+        Red pins mark field-photo locations. Clicking a camera symbol will open the attached
+        photo and its description for that specific location.
+      </p>
 
       <p>
-        The 2025 Sentinel-2 image already shows several additional fresh landslides that have not
-        yet been digitized or classified into the yearly inventory. Those will be added in a future
-        update once the 2025 embeddings dataset is available and the classification workflow has
-        been re-run.
+        The 2025 Sentinel-2 image already reveals several new landslides that are not 
+        yet included in the classification shown here. The 2025 embeddings dataset 
+        has not been released, and this map will be updated as soon as it becomes available.
       </p>
 
       <iframe
@@ -397,6 +496,18 @@
       </p>
     </div>
 
+    <!-- Mid-page field photo -->
+    <div class="section">
+      <figure>
+        <img src="/assets/sawteeth_mountain.jpg"
+             alt="View looking northwest from the summit of Sawteeth Mountain toward the High Peaks." />
+        <figcaption>
+          <strong>Field photo – Sawteeth Mountain (2013).</strong>
+          View looking NW from the summit of Sawteeth Mountain into the central High Peaks.
+        </figcaption>
+      </figure>
+    </div>
+
     <!-- RESULTS & FIGURES -->
     <div class="section">
       <h2>Early Results</h2>
@@ -419,7 +530,7 @@
 
         <figure>
           <img src="/assets/lc_transitions_alluvial_forest_bare_only.png"
-               alt="Sankey diagram of land cover transitions" />
+               alt="Sankey diagram of land cover transitions between forest and bare rock" />
           <figcaption>
             <strong>Figure 2 – Land-cover transitions.</strong> Sankey diagram highlighting 
             transitions between forest and bare rock. Forest→bare rock flows represent candidate 
@@ -431,7 +542,7 @@
       <div class="figure-grid">
         <figure>
           <img src="/assets/scatter_slide_vs_heavy_days.png"
-               alt="Scatter: new slide area vs heavy-rain days" />
+               alt="Scatter plot of new slide area versus heavy-rain days" />
           <figcaption>
             <strong>Figure 3 – New slide area vs heavy-rain days.</strong> Relationship between 
             yearly landslide area and the number of days exceeding a “heavy rain” threshold. 
@@ -442,7 +553,7 @@
 
         <figure>
           <img src="/assets/scatter_slide_vs_max1d.png"
-               alt="Scatter: new slide area vs max 1-day rainfall" />
+               alt="Scatter plot of new slide area versus maximum 1-day rainfall" />
           <figcaption>
             <strong>Figure 4 – New slide area vs max 1-day rainfall.</strong> Compares total new 
             slide area each year to the maximum single-day precipitation. A few large storms line up 
@@ -453,7 +564,7 @@
 
         <figure>
           <img src="/assets/scatter_slide_vs_total_rain.png"
-               alt="Scatter: new slide area vs annual precipitation" />
+               alt="Scatter plot of new slide area versus annual precipitation" />
           <figcaption>
             <strong>Figure 5 – New slide area vs annual precipitation.</strong> Annual precipitation 
             totals show weaker correlation with slide area than event-scale metrics, which matches the 
@@ -464,7 +575,7 @@
 
       <figure style="margin-top:20px;">
         <img src="/assets/ts_new_slide_area.png"
-             alt="Time series of new landslide area per year" />
+             alt="Time series of new landslide area per year from 2018 to 2024" />
         <figcaption>
           <strong>Figure 6 – Time series of new landslide area.</strong> Annual total area mapped 
           as newly exposed bare rock between 2018 and 2024. 2025 is expected to be a major landslide 
@@ -517,6 +628,18 @@
       </p>
     </div>
 
+    <!-- Bottom field photo -->
+    <div class="section">
+      <figure>
+        <img src="/assets/allen_mountain_slide.jpg"
+             alt="View looking northwest from the Allen Mountain slide trail, with the High Peaks in the distance." />
+        <figcaption>
+          <strong>Field photo – Allen Mountain slide (2018).</strong>
+          View looking NW from the slide on Allen Mountain, highlighting steep, sparsely vegetated terrain typical of mapped failures.
+        </figcaption>
+      </figure>
+    </div>
+
     <!-- CONCLUSION -->
     <div class="section">
       <h2>Takeaways</h2>
@@ -538,56 +661,70 @@
       <h2>References & Data Sources</h2>
       <ul>
         <li>
-          <strong>Google Satellite Embedding (Annual, 10 m)</strong> – 
+          <strong>Google Satellite Embedding (Annual, 10 m).</strong>
           Multiband representation of yearly surface reflectance used as the primary feature stack for 
           land-cover classification (2018–2024). Accessed via Google Earth Engine as 
           <code>GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL</code>.
         </li>
 
         <li>
-          <strong>Sentinel-2 Surface Reflectance (L2A)</strong> – 
+          <strong>Sentinel-2 Surface Reflectance (L2A).</strong>
           10–20 m multispectral imagery used for RGB visualization and contextual checks of landslide scars, 
           including the 2025 scene over the eastern High Peaks. Accessed via Google Earth Engine as 
           <code>COPERNICUS/S2_SR_HARMONIZED</code>.
         </li>
 
         <li>
-          <strong>NAIP Aerial Imagery (1 m)</strong> – 
+          <strong>NAIP Aerial Imagery (1 m).</strong>
           High-resolution orthoimagery used for manual validation of landslide polygons and as an optional 
           basemap layer in the web map (2017, 2019, 2022 scenes). Accessed via Google Earth Engine as 
           <code>USDA/NAIP/DOQQ</code>, and published as tiled imagery in ArcGIS Online.
         </li>
 
         <li>
-          <strong>USGS 3D Elevation Program (3DEP) DEM</strong> – 
+          <strong>USGS 3D Elevation Program (3DEP) DEM.</strong>
           10 m digital elevation model used to derive slope and hillshade, and to help separate steep 
           landslide-prone terrain from flatter human-built surfaces. Accessed via Google Earth Engine as 
           <code>USGS/3DEP/10m</code>.
         </li>
 
         <li>
-          <strong>ESA WorldCover 2021 (10 m)</strong> – 
+          <strong>ESA WorldCover 2021 (10 m).</strong>
           Global land-cover product used to mask built-up areas and to identify forest-capable zones. 
           Accessed via Google Earth Engine as <code>ESA/WorldCover/v200/2021</code> (band <code>Map</code>).
         </li>
 
         <li>
-          <strong>CHIRPS Daily Precipitation</strong> – 
+          <strong>CHIRPS Daily Precipitation.</strong>
           Climate Hazards Group InfraRed Precipitation with Station data, used to compute total precipitation, 
           heavy-rain days, and maximum 1-day rainfall for each landslide interval (2018→2019 through 2023→2024). 
           Accessed via Google Earth Engine as <code>UCSB-CHG/CHIRPS/DAILY</code>.
         </li>
 
         <li>
-          <strong>ArcGIS Online Basemaps & Services</strong> – 
-          Esri “Terrain with Labels” basemap and hosted imagery / feature services used to serve the 
+          <strong>ArcGIS Online Basemaps & Services.</strong>
+          Esri Terrain with Labels basemap and hosted imagery / feature services used to serve the 
           interactive landslide inventory, NAIP mosaics, and Sentinel-2 RGB composite in the web map.
         </li>
       </ul>
     </div>
 
-
   </main>
+</div>
+
+<!-- LIGHTBOX ELEMENT -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-content" role="dialog" aria-modal="true">
+    <div class="lightbox-controls">
+      <button type="button" class="lightbox-btn" id="zoomOutBtn">−</button>
+      <button type="button" class="lightbox-btn" id="zoomInBtn">+</button>
+      <button type="button" class="lightbox-btn" id="closeLightboxBtn">×</button>
+    </div>
+    <div class="lightbox-img-wrapper">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="" />
+    </div>
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
 </div>
 
 <script>
@@ -597,6 +734,119 @@ function toggleMenu() {
   sidebar.classList.toggle("open");
   overlay.classList.toggle("show");
 }
+
+// ---------- Lightbox logic ----------
+(function() {
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const captionEl = document.getElementById("lightboxCaption");
+  const zoomInBtn = document.getElementById("zoomInBtn");
+  const zoomOutBtn = document.getElementById("zoomOutBtn");
+  const closeBtn = document.getElementById("closeLightboxBtn");
+
+  let currentScale = 1;
+  const minScale = 0.75;
+  const maxScale = 4;
+
+  function setScale(s) {
+    currentScale = Math.min(maxScale, Math.max(minScale, s));
+    lightboxImg.style.transform = "scale(" + currentScale + ")";
+  }
+
+  function openLightbox(img) {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || "";
+    captionEl.textContent = img.alt || "";
+    setScale(1);
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImg.src = "";
+  }
+
+  // Attach click handlers to all images in <main>
+  window.addEventListener("DOMContentLoaded", function() {
+    const imgs = document.querySelectorAll("main img");
+    imgs.forEach(function(img) {
+      img.addEventListener("click", function() {
+        openLightbox(img);
+      });
+    });
+  });
+
+  // Buttons
+  zoomInBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    setScale(currentScale * 1.25);
+  });
+
+  zoomOutBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    setScale(currentScale / 1.25);
+  });
+
+  closeBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    closeLightbox();
+  });
+
+  // Click on dark background closes
+  lightbox.addEventListener("click", function(e) {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // ESC closes
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && lightbox.classList.contains("open")) {
+      closeLightbox();
+    }
+  });
+
+  // Mouse wheel zoom (desktop)
+  lightboxImg.addEventListener("wheel", function(e) {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setScale(currentScale + delta);
+  }, { passive: false });
+
+  // Simple pinch zoom (mobile)
+  let startDist = null;
+  let startScale = 1;
+
+  function getTouchDist(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  lightboxImg.addEventListener("touchstart", function(e) {
+    if (e.touches.length === 2) {
+      startDist = getTouchDist(e.touches);
+      startScale = currentScale;
+    }
+  }, { passive: true });
+
+  lightboxImg.addEventListener("touchmove", function(e) {
+    if (e.touches.length === 2 && startDist) {
+      e.preventDefault();
+      const newDist = getTouchDist(e.touches);
+      const ratio = newDist / startDist;
+      setScale(startScale * ratio);
+    }
+  }, { passive: false });
+
+  lightboxImg.addEventListener("touchend", function(e) {
+    if (e.touches.length < 2) {
+      startDist = null;
+    }
+  });
+})();
 </script>
 
 </body>
