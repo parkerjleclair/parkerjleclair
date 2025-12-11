@@ -340,37 +340,60 @@
     <div class="section">
       <h2>Methods & Workflow</h2>
       <p>
-        The workflow is built around yearly land-cover classifications and change detection:
+        The workflow is built around yearly land-cover classification, change detection, and terrain-based
+        filtering. All core classification and change logic is implemented in Google Earth Engine, with
+        summary tables exported for further analysis and plotting.
       </p>
       <ul>
         <li>
-          Use embeddings-based land-cover classification to generate annual maps (2018–2024) with  
-          classes: forest, water, bare rock.
+          <strong>Feature stack & classifier.</strong> Annual Google Satellite Embedding images
+          (<code>GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL</code>) provide 64-band feature vectors at 10 m
+          resolution. I sampled those embeddings within hand-drawn training polygons (forest, bare rock, water)
+          and trained a Random Forest classifier for each time slice (2018–2024).
         </li>
         <li>
-          Apply terrain and built-area masks to reduce obvious false positives from infrastructure and 
-          low-slope surfaces that still share a “bare” spectral signature.
+          <strong>Training data.</strong> Forest, bare rock, and water polygons were digitized using NAIP
+          imagery, Sentinel-2 RGB composites, and local knowledge of known slides and summits in the eastern
+          High Peaks. Training labels were kept intentionally simple for this phase to focus on separating
+          forest from exposed rock and open water.
         </li>
         <li>
-          Compare consecutive years to flag pixels that transition from forest to bare rock. Those 
-          pixels are grouped into polygons and filtered by minimum area to represent individual landslides.
+          <strong>Post-processing & smoothing.</strong> Each annual classification was passed through a
+          focal mode filter to remove isolated misclassified pixels, then cleaned with an eight-connected
+          component filter and a minimum patch-size threshold to retain only meaningful contiguous features.
         </li>
         <li>
-          Use NAIP and Sentinel-2 imagery for manual validation and for refining the polygon boundaries in 
-          the most complex areas.
+          <strong>Terrain and built-area masking.</strong> ESA WorldCover 2021 was used to mask built-up
+          land-cover classes, while a 10 m USGS 3DEP DEM provided slope thresholds to focus on steep,
+          landslide-prone terrain. Low-slope “bare” pixels and obvious infrastructure are largely removed
+          at this stage, though not perfectly.
+        </li>
+        <li>
+          <strong>Change detection.</strong> Consecutive annual maps were compared to flag pixels that
+          transitioned from forest to bare rock (new landslide candidates) and from bare rock back to forest
+          (revegetation). These change pixels were converted to polygons, filtered by minimum area, and tagged
+          with the first year they appeared as bare rock.
+        </li>
+        <li>
+          <strong>Visual validation.</strong> NAIP (1 m) and Sentinel-2 (10 m) imagery were used to visually
+          check new-slide polygons, correct obvious artifacts, and refine the separation between true slides,
+          long-standing summit cliffs, and sparsely vegetated slopes.
         </li>
       </ul>
       <p>
-        The project has already gone through several rounds of trial and error. One of the biggest issues is 
-        that landslide scars and high-elevation summit bedrock often have nearly identical spectral signatures. 
-        Without extra context, the classifier happily labels both as “new bare rock,” which inflates landslide 
-        counts in areas that have actually been exposed for decades.
+        The project has already gone through several rounds of trial and error. One of the biggest issues is
+        that fresh landslide scars, long-exposed slide tracks, and high-elevation summit bedrock all share
+        nearly identical spectral signatures in both the embeddings and the Sentinel-2 imagery. Without extra
+        context, the classifier happily labels all of them as “new bare rock,” which inflates annual landslide
+        area in zones that have actually been exposed for years or decades.
       </p>
       <p>
-        Another challenge is separating human-made surfaces (roads, parking lots, talus at ski areas, etc.) 
-        from true mass-wasting features. Many of these features sit on moderate slopes and are spectrally 
-        similar to rockfalls and debris fans, so additional masking using DEM-derived slope, curvature, and 
-        external building/road datasets will be important in the next phase.
+        Another persistent challenge is separating human-made surfaces (roads, parking lots, utility corridors,
+        ski infrastructure) and sparsely vegetated, rocky slopes from true mass-wasting features. Many of these
+        areas sit on moderate to steep terrain and look very similar to rockfall and debris-slide deposits.
+        Additional DEM-derived constraints (elevation bands, slope breaks, curvature), explicit masks for known
+        infrastructure, and a richer class scheme (e.g., shrub / early regrowth, talus, alpine meadow) are key
+        targets for the next phase of the workflow.
       </p>
     </div>
 
@@ -509,6 +532,60 @@
         extend the time series of mapped landslides and precipitation metrics.
       </p>
     </div>
+    
+    <!-- REFERENCES -->
+    <div class="section">
+      <h2>References & Data Sources</h2>
+      <ul>
+        <li>
+          <strong>Google Satellite Embedding (Annual, 10 m)</strong> – 
+          Multiband representation of yearly surface reflectance used as the primary feature stack for 
+          land-cover classification (2018–2024). Accessed via Google Earth Engine as 
+          <code>GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL</code>.
+        </li>
+
+        <li>
+          <strong>Sentinel-2 Surface Reflectance (L2A)</strong> – 
+          10–20 m multispectral imagery used for RGB visualization and contextual checks of landslide scars, 
+          including the 2025 scene over the eastern High Peaks. Accessed via Google Earth Engine as 
+          <code>COPERNICUS/S2_SR_HARMONIZED</code>.
+        </li>
+
+        <li>
+          <strong>NAIP Aerial Imagery (1 m)</strong> – 
+          High-resolution orthoimagery used for manual validation of landslide polygons and as an optional 
+          basemap layer in the web map (2017, 2019, 2022 scenes). Accessed via Google Earth Engine as 
+          <code>USDA/NAIP/DOQQ</code>, and published as tiled imagery in ArcGIS Online.
+        </li>
+
+        <li>
+          <strong>USGS 3D Elevation Program (3DEP) DEM</strong> – 
+          10 m digital elevation model used to derive slope and hillshade, and to help separate steep 
+          landslide-prone terrain from flatter human-built surfaces. Accessed via Google Earth Engine as 
+          <code>USGS/3DEP/10m</code>.
+        </li>
+
+        <li>
+          <strong>ESA WorldCover 2021 (10 m)</strong> – 
+          Global land-cover product used to mask built-up areas and to identify forest-capable zones. 
+          Accessed via Google Earth Engine as <code>ESA/WorldCover/v200/2021</code> (band <code>Map</code>).
+        </li>
+
+        <li>
+          <strong>CHIRPS Daily Precipitation</strong> – 
+          Climate Hazards Group InfraRed Precipitation with Station data, used to compute total precipitation, 
+          heavy-rain days, and maximum 1-day rainfall for each landslide interval (2018→2019 through 2023→2024). 
+          Accessed via Google Earth Engine as <code>UCSB-CHG/CHIRPS/DAILY</code>.
+        </li>
+
+        <li>
+          <strong>ArcGIS Online Basemaps & Services</strong> – 
+          Esri “Terrain with Labels” basemap and hosted imagery / feature services used to serve the 
+          interactive landslide inventory, NAIP mosaics, and Sentinel-2 RGB composite in the web map.
+        </li>
+      </ul>
+    </div>
+
 
   </main>
 </div>
