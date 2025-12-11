@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mine Reconciliation – Parker J. LeClair</title>
+  <title>Oak Hill Minimum Elevation Surface – Parker J. LeClair</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png">
 
@@ -34,6 +34,8 @@
       box-sizing: border-box;
       transition: transform 0.3s ease;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .profile-pic {
@@ -66,7 +68,6 @@
       font-weight: 600;
       border-radius: 8px;
       text-align: center;
-
       background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
       box-shadow: 0 3px 0 #006991;
       transition: all 0.15s ease;
@@ -85,30 +86,23 @@
     }
 
     /* SIDEBAR BACKGROUND CONTOUR OVERLAY */
-    nav {
-      position: relative; /* required so overlay is clipped */
-      overflow: hidden;   /* clips contour image to sidebar */
-    }
-
-    /* The contour overlay (behind content but above base color) */
     nav::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("/assets/SidebarContours.png"); /* ← your contour PNG */
-      background-size: cover;   /* or "contain" or adjust as needed */
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.15;            /* adjust transparency */
-      z-index: 0;               /* behind text, photo, buttons */
+      opacity: 0.15;
+      z-index: 0;
     }
 
-    /* Put sidebar content above the PNG overlay */
     nav * {
       position: relative;
       z-index: 1;
     }
-    
+
     /* MAIN CONTENT */
     main {
       flex: 1;
@@ -123,6 +117,19 @@
       border-radius: 8px;
       margin-bottom: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .section h1 {
+      margin-top: 0;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .section ul {
+      padding-left: 20px;
     }
 
     /* HAMBURGER */
@@ -204,18 +211,159 @@
   </nav>
 
   <main>
+    <!-- OVERVIEW -->
     <div class="section">
-      <h1>Mine Reconciliation Using UAV Photogrammetry & R</h1>
+      <h1>Oak Hill Minimum Elevation Surface</h1>
       <p>
-        This project applies UAV photogrammetry, point cloud processing, and R-based geospatial analysis 
-        to reconcile modeled geology with mined production data. Monthly drone surveys are converted to 
-        dense point clouds and DSMs, filtered to remove outliers, and aligned to the mine planning grid.
+        This project builds a “minimum temporal elevation” surface for the Oak Hill pit to better reconcile 
+        modeled geology with actual mined topography. Multiple LiDAR and UAV photogrammetry surveys are 
+        cleaned, brought into a consistent coordinate system, and gridded onto a shared master raster. 
+        For each grid cell, the lowest observed elevation across all surveys is retained to approximate 
+        the true hard-rock floor over time.
       </p>
       <p>
-        A lowest-elevation composite surface is built from repeated surveys to approximate the hard rock 
-        surface over time. Volumes are then computed between modeled and observed surfaces to quantify 
-        ore and waste differences by bench and phase. Results support improved grade control surfaces, 
-        better understanding of dilution, and tighter feedback between geology and operations.
+        The resulting surface helps separate blast floor from fill, identify areas where material may 
+        have been left behind, and provide a more defensible base surface for grade-control models and 
+        reconciliation reports.
+      </p>
+      <p style="font-size:0.9rem; color:#555;">
+        Note: all figures on this page are based on generalized or publicly accessible data. The original 
+        survey datasets used for reconciliation are proprietary.
+      </p>
+    </div>
+
+    <!-- OBJECTIVES -->
+    <div class="section">
+      <h2>Project Objectives</h2>
+      <ul>
+        <li>
+          Create a consistent, mine-wide elevation grid for the Oak Hill pit using repeated LiDAR/UAV surveys.
+        </li>
+        <li>
+          Derive a minimum temporal elevation surface that approximates the true rock floor, independent of 
+          temporary fill or stockpiles.
+        </li>
+        <li>
+          Enable volumetric comparisons between the minimum surface and geologic models to support 
+          reconciliation of ore, waste, and dilution.
+        </li>
+        <li>
+          Build a repeatable, script-based workflow in R that can be re-run as new surveys are collected.
+        </li>
+      </ul>
+    </div>
+
+    <!-- DATA & METHODS -->
+    <div class="section">
+      <h2>Data & Methods</h2>
+      <p>
+        The workflow is implemented in R using a combination of point cloud and raster packages. 
+        Individual surveys are processed into DEMs on a unified grid before being merged into a 
+        minimum-elevation composite.
+      </p>
+
+      <h3>Input Data</h3>
+      <ul>
+        <li>LiDAR and UAV photogrammetry point clouds covering the Oak Hill pit and surrounding area.</li>
+        <li>Mine planning coordinate system (e.g., NAD27 / New York East) and a defined pit bounding polygon.</li>
+        <li>A universal master grid definition (cell size, extent, and CRS) covering the full pit footprint.</li>
+      </ul>
+
+      <h3>Preprocessing</h3>
+      <ul>
+        <li>Reproject all point clouds into the mine planning CRS.</li>
+        <li>Clip each survey to the Oak Hill pit AOI to reduce noise outside the mining area.</li>
+        <li>
+          Apply point filtering to remove obvious outliers and spurious elevations (e.g., flight artifacts, 
+          isolated high/low points).
+        </li>
+      </ul>
+
+      <h3>Per-Survey DEM Generation</h3>
+      <ul>
+        <li>
+          For each cleaned point cloud, interpolate a DEM snapped to the shared master grid 
+          (identical origin, cell size, and extent).
+        </li>
+        <li>
+          Save each DEM and associated metadata (survey date, source, processing flags) to a structured 
+          output directory to keep the time series organized.
+        </li>
+      </ul>
+
+      <h3>Minimum Elevation Composite</h3>
+      <ul>
+        <li>
+          Stack all per-survey DEMs into a raster collection aligned on the master grid.
+        </li>
+        <li>
+          Compute the cell-wise minimum elevation across all time steps to produce the 
+          <strong>Oak Hill Minimum Elevation Surface</strong>.
+        </li>
+        <li>
+          Export the final surface as a GeoTIFF and as derived products (contours, hillshades, and 
+          visualization layers for GIS and mine-planning software).
+        </li>
+      </ul>
+    </div>
+
+    <!-- APPLICATIONS & RESULTS -->
+    <div class="section">
+      <h2>Applications & Results</h2>
+      <p>
+        The minimum elevation surface is used as a reference floor for volumetric and reconciliation work:
+      </p>
+      <ul>
+        <li>
+          Comparing geologic ore shells and block models against the minimum surface to estimate 
+          mined versus modeled volumes.
+        </li>
+        <li>
+          Highlighting areas where the blast floor sits significantly above the minimum rock surface, 
+          indicating potential underbreak or dilution.
+        </li>
+        <li>
+          Providing more stable base surfaces for long-term reconciliation, reducing the influence 
+          of temporary pads, ramps, and backfilled areas.
+        </li>
+      </ul>
+      <p>
+        In practice, this approach tightens the link between surveying, geology, and operations and 
+        makes year-over-year reconciliation less sensitive to how individual surveys captured 
+        temporary mine features.
+      </p>
+    </div>
+
+    <!-- LIMITATIONS & NEXT STEPS -->
+    <div class="section">
+      <h2>Limitations & Next Steps</h2>
+      <p>
+        While the minimum elevation approach works well for isolating a hard-rock floor, there are a 
+        few important limitations:
+      </p>
+      <ul>
+        <li>
+          <strong>Survey inconsistencies.</strong> Differences in flight paths, sensor types, and 
+          point densities can introduce small but systematic elevation offsets between surveys.
+        </li>
+        <li>
+          <strong>Mixed surfaces in a single cell.</strong> In areas with complex bench geometry, 
+          a single grid cell can contain points from multiple benches or phases at different times. 
+          The minimum value may belong to an older configuration that is no longer relevant.
+        </li>
+        <li>
+          <strong>Dependence on cleaning.</strong> If low outliers are not fully removed, they can 
+          be mistaken for true rock surface and pulled into the minimum composite.
+        </li>
+        <li>
+          <strong>CRS and grid alignment.</strong> Any mismatch in projection or grid definition 
+          between inputs will undermine the “universal grid” concept and introduce artifacts at edges.
+        </li>
+      </ul>
+      <p>
+        Future improvements could include confidence layers that flag cells with limited temporal 
+        coverage, integration of mine design surfaces as additional constraints, and tighter 
+        automation for quality checks before each update of the minimum surface.
       </p>
     </div>
   </main>
