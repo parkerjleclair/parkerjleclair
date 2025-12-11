@@ -351,7 +351,7 @@
       <p>
         The current workflow focuses on distinguishing newly exposed bare rock from forest and water to 
         identify landslides that occurred between 2018 and 2024. Longer-term, the goal is to integrate a 
-        wider range of satellite sources and near-real-time imagery so that landslides can be detected and 
+        wider range of satellite sources to increase the frequency in imagery so that landslides can be detected and 
         mapped soon after they occur, especially in remote parts of the Adirondacks where new slides often 
         go unnoticed.
       </p>
@@ -363,8 +363,9 @@
         <img src="/assets/Giant Mountain.JPG"
              alt="View looking southwest from the summit of Giant Mountain, showing large bedrock slides on the Great Range." />
         <figcaption>
-          <strong>Field photo – Giant Mountain (2017).</strong>
-          View looking SW from the summit of Giant Mountain toward the major slide tracks on the Great Range.
+          <strong>Giant Mountain (2017).</strong>
+          View looking SW from the summit of Giant Mountain toward the major slide tracks on the Great Range. Many summits of the Adirondacks
+          are often ridges of sparsely vegetated exposed bedrock.
         </figcaption>
       </figure>
     </div>
@@ -375,8 +376,7 @@
 
       <p>
         The web map below combines my yearly landslide inventory (2018–2024) with NAIP and Sentinel-2 imagery.
-        Landslides are symbolized by the year they first appear, allowing quick visual comparison
-        between different storm seasons.
+        Landslides are symbolized by the year they first appear.
       </p>
 
       <p>
@@ -390,12 +390,12 @@
       </p>
       
       <p>
-        Red pins mark field-photo locations. Clicking a camera symbol will open the attached
+        Red pins mark photo locations. Clicking a camera symbol will open the attached
         photo and its description for that specific location.
       </p>
 
       <p>
-        The 2025 Sentinel-2 image already reveals several new landslides that are not 
+        The 2025 Sentinel-2 image reveals several new landslides that are not 
         yet included in the classification shown here. The 2025 embeddings dataset 
         has not been released, and this map will be updated as soon as it becomes available.
       </p>
@@ -415,17 +415,17 @@
       <h2>Study Area & Data</h2>
       <p>
         The study area covers the eastern High Peaks region of the Adirondacks in Upstate New York, 
-        including well-known mass-wasting slopes around the Great Range and adjacent valleys.
+        including well-known mass-wasting slopes around the highest peaks in New York.
       </p>
       <p>
         The current phase uses:
       </p>
       <ul>
         <li>NAIP 1-m aerial imagery (2017, 2019, 2022) for high-resolution context and validation.</li>
-        <li>Landsat-based multispectral embeddings for annual land-cover classification from 2018–2024.</li>
+        <li>Multi-sourced multispectral embeddings for annual land-cover classification from 2018–2024.</li>
         <li>Sentinel-2 RGB imagery (10 m) to visualize recent years, including the 2025 landslide season.</li>
         <li>Digital elevation models and derived slope/hillshade to help separate steep rock faces from 
-            flatter human-built surfaces.</li>
+            flatter summits and human-built surfaces.</li>
       </ul>
       <p>
         For this class project, land-cover classes were intentionally kept simple: 
@@ -440,7 +440,7 @@
       <h2>Methods & Workflow</h2>
       <p>
         The workflow is built around yearly land-cover classification, change detection, and terrain-based
-        filtering. All core classification and change logic is implemented in Google Earth Engine, with
+        filtering. All core classification and change detection is implemented in Google Earth Engine, with
         summary tables exported for further analysis and plotting.
       </p>
       <ul>
@@ -448,7 +448,7 @@
           <strong>Feature stack & classifier.</strong> Annual Google Satellite Embedding images
           (<code>GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL</code>) provide 64-band feature vectors at 10 m
           resolution. I sampled those embeddings within hand-drawn training polygons (forest, bare rock, water)
-          and trained a Random Forest classifier for each time slice (2018–2024).
+          and trained a Random Forest classifier for each time interval (2018–2024).
         </li>
         <li>
           <strong>Training data.</strong> Forest, bare rock, and water polygons were digitized using NAIP
@@ -457,9 +457,12 @@
           forest from exposed rock and open water.
         </li>
         <li>
-          <strong>Post-processing & smoothing.</strong> Each annual classification was passed through a
-          focal mode filter to remove isolated misclassified pixels, then cleaned with an eight-connected
-          component filter and a minimum patch-size threshold to retain only meaningful contiguous features.
+          <strong>Post-processing & smoothing.</strong> After each yearly classification, I cleaned the 
+          map to get rid of speckled noise. A neighborhood filter replaced isolated pixels with 
+          whatever class most of their neighbors had, and then very small patches were removed so the 
+          final result only kept larger, continuous landslide areas. A mask was also applied to remove
+          pixels that changed from bare rock to forest to bare rock in consecutive years to remove the 
+          sparsely vegetated bare rock areas that are on the border between the forest and bare rock classifications.
         </li>
         <li>
           <strong>Terrain and built-area masking.</strong> ESA WorldCover 2021 was used to mask built-up
@@ -476,22 +479,23 @@
         <li>
           <strong>Visual validation.</strong> NAIP (1 m) and Sentinel-2 (10 m) imagery were used to visually
           check new-slide polygons, correct obvious artifacts, and refine the separation between true slides,
-          long-standing summit cliffs, and sparsely vegetated slopes.
+          long-standing summit exposures, and sparsely vegetated slopes.
         </li>
       </ul>
       <p>
         The project has already gone through several rounds of trial and error. One of the biggest issues is
-        that fresh landslide scars, long-exposed slide tracks, and high-elevation summit bedrock all share
+        that fresh landslide scars and high-elevation summit bedrock share
         nearly identical spectral signatures in both the embeddings and the Sentinel-2 imagery. Without extra
-        context, the classifier happily labels all of them as “new bare rock,” which inflates annual landslide
+        context, the classifier labels all of them as “new bare rock,” which increases annual landslide
         area in zones that have actually been exposed for years or decades.
       </p>
       <p>
-        Another persistent challenge is separating human-made surfaces (roads, parking lots, utility corridors,
-        ski infrastructure) and sparsely vegetated, rocky slopes from true mass-wasting features. Many of these
-        areas sit on moderate to steep terrain and look very similar to rockfall and debris-slide deposits.
+        Another persistent challenge is separating human-made surfaces (roads, parking lots, buildings) and 
+        sparsely vegetated, rocky slopes from true mass-wasting features. While human-made surfaces often have a
+        gentle slope and a slope mask can remove these misclassifications, the summit exposures can have slopes 
+        of the same degree as some landslides.
         Additional DEM-derived constraints (elevation bands, slope breaks, curvature), explicit masks for known
-        infrastructure, and a richer class scheme (e.g., shrub / early regrowth, talus, alpine meadow) are key
+        infrastructure, and a more comprehensive class scheme (e.g., forest types, early regrowth, wetland, grass, agriculture) are key
         targets for the next phase of the workflow.
       </p>
     </div>
@@ -502,7 +506,7 @@
         <img src="/assets/Sawteeth Mountain.jpg"
              alt="View looking northwest from the summit of Sawteeth Mountain toward the High Peaks." />
         <figcaption>
-          <strong>Field photo – Sawteeth Mountain (2013).</strong>
+          <strong>Sawteeth Mountain (2013).</strong>
           View looking NW from the summit of Sawteeth Mountain into the central High Peaks.
         </figcaption>
       </figure>
@@ -513,7 +517,7 @@
       <h2>Early Results</h2>
       <p>
         The figures below summarize how well the current classification performs and how landslide area 
-        changes through time. These are preliminary results from the trial phase—useful for diagnosing 
+        changes through time. These are preliminary results from the trial phase, useful for diagnosing 
         problems, but not yet something I would publish without further refinement.
       </p>
 
@@ -523,8 +527,8 @@
           <figcaption>
             <strong>Figure 1 – Accuracy by class.</strong> Bar plot showing overall accuracy and 
             class-specific performance for forest, bare rock, and water. Forest and water classify 
-            reasonably well; bare rock is less accurate due largely to summit outcrops and built 
-            surfaces being confused with landslide scars.
+            reasonably well; bare rock is slightly less accurate, likely from sparsely vegetated slopes 
+            on the border between bare rock and forest.
           </figcaption>
         </figure>
 
@@ -534,7 +538,10 @@
           <figcaption>
             <strong>Figure 2 – Land-cover transitions.</strong> Sankey diagram highlighting 
             transitions between forest and bare rock. Forest→bare rock flows represent candidate 
-            landslide pixels; persistent bare rock at summits is a key source of false positives.
+            landslide pixels; persistent bare rock at summits is a key source of false positives. 
+            This diagram displays changing classifications only. Unchanging landcover types are excluded. 
+            Comparing the land cover transitions between forest and bare rock highlights the higher rate of 
+            forest→bare rock and lower rate of bare rock→forest.
           </figcaption>
         </figure>
       </div>
@@ -558,7 +565,7 @@
             <strong>Figure 4 – New slide area vs max 1-day rainfall.</strong> Compares total new 
             slide area each year to the maximum single-day precipitation. A few large storms line up 
             with active landslide years, but there are also years where big storms occur without 
-            clearly mapped failures, highlighting both detection limits and sparse temporal sampling.
+            clearly mapped failures, highlighting both detection limits and sparse temporal imaging.
           </figcaption>
         </figure>
 
@@ -568,7 +575,7 @@
           <figcaption>
             <strong>Figure 5 – New slide area vs annual precipitation.</strong> Annual precipitation 
             totals show weaker correlation with slide area than event-scale metrics, which matches the 
-            idea that extreme storms—not just total yearly rainfall—drive most failures here.
+            idea that extreme storms—not just total yearly rainfall—drive most slope failures.
           </figcaption>
         </figure>
       </div>
@@ -594,27 +601,54 @@
       </p>
       <ul>
         <li>
-          <strong>Summit bare rock vs landslide scars.</strong> Alpine bedrock and long-exposed slides 
-          share the same spectral signature as fresh failures. Without explicit summit masks or age 
-          information, those surfaces are repeatedly flagged as “new.”
+          <strong>Summit bare rock vs landslide scars.</strong> Summit bedrock 
+          shares the same spectral signature as exposed bedrock from landslides. Without explicit summit masks, 
+          summit surfaces are repeatedly classified as bare rock.
         </li>
         <li>
           <strong>Sparsely vegetated slopes.</strong> Some areas with thin soils or open canopy that have 
-          changed very little since 2018 still classify as “new landslides,” especially on bright,  
-          south-facing slopes.
+          changed very little since 2018 still classify as “new landslides." This may be related to the 
+          time of year the satellite images are taken and the state 
+          of growth of vegetation.
         </li>
         <li>
           <strong>Human-built surfaces.</strong> Roads, clearings, and infrastructure sometimes pass the 
-          terrain filters and show up as false positives.
+          terrain filters and are classified as bare rock.
+        </li>
+        <li>
+          <strong>Noise filtering vs small slides.</strong> Smoothing and minimum-area
+          thresholds remove the salt and pepper effect but can also erase genuinely small landslides
+          or narrow scar margins, especially on steep, confined slopes. Thresholds that
+          work well for large, obvious scars can be too aggressive for small failures.
+        </li>
+        <li>
+          <strong>Resolution and timing of datasets.</strong> The 10 m embeddings and
+          Sentinel-2 imagery are not ideal for narrow scars or complex boundaries, and
+          annual composites can capture slopes at different points in the growing season.
+          This limits detection of very small slides and makes some year-to-year changes
+          sensitive to phenology and shadow rather than true mass wasting.
+        </li>
+        <li>
+          <strong>Dependence on a single embedding product.</strong> The current workflow relies on
+          Google’s annual satellite embeddings. If that product changes, is reprocessed, or becomes
+          unavailable, the classifier and thresholds may need to be retrained, which makes long term
+          consistency harder to guarantee. And the release of one dataset per year results in low 
+          temporal resolution.
+        </li>
+        <li>
+          <strong>Limited ground truth.</strong> Accuracy checks rely mostly on NAIP, Sentinel-2, and
+          personal knowledge of known slides rather than dense field mapping. In steep, remote terrain,
+          some mapped “errors” may actually be unmapped slides, while some accepted polygons may still
+          be misclassified.
         </li>
       </ul>
       <p>
         Near-term work will focus on:
       </p>
       <ul>
-        <li>Using DEM-derived masks (elevation bands, slope, curvature) to remove summit plateaus and low-slope built areas.</li>
+        <li>Using DEM-derived masks (elevation bands, slope, curvature) to remove summit exposures and low-slope built areas.</li>
         <li>Bringing in building/road layers to explicitly mask human infrastructure.</li>
-        <li>Expanding the class set beyond forest / water / bare rock to include shrub/early regrowth, talus, and alpine meadow, 
+        <li>Expanding the class set beyond forest / water / bare rock to include forest types, early regrowth, wetland, grass, agriculture, 
             which should help track revegetation and reduce confusion near slide margins.</li>
         <li>Refining the rainfall–landslide analysis with storm-scale metrics and better temporal alignment between 
             precipitation events and available imagery.</li>
@@ -623,8 +657,8 @@
       </ul>
       <p>
         Long-term, I’d like this to function as an operational landslide-monitoring tool for the Adirondacks: 
-        regularly updated maps, alerts for newly detected scars, and a public-facing web map for hikers, land 
-        managers, and researchers.
+        regularly updated maps generated by an automated workflow, alerts for newly detected scars, and a 
+        public-facing web map for hikers, land managers, and researchers.
       </p>
     </div>
 
@@ -634,7 +668,7 @@
         <img src="/assets/Allen Mountain.jpg"
              alt="View looking northwest from the Allen Mountain slide trail, with the High Peaks in the distance." />
         <figcaption>
-          <strong>Field photo – Allen Mountain slide (2018).</strong>
+          <strong>Allen Mountain slide (2018).</strong>
           View looking NW from the slide on Allen Mountain, highlighting steep, sparsely vegetated terrain typical of mapped failures.
         </figcaption>
       </figure>
