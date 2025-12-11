@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adirondack Landslide Monitoring – Parker J. LeClair</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
+
+  <style>
+    :root {
+      --sidebar-blue: #0085B4;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f3f4f6;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    nav {
+      width: 280px;
+      background: var(--sidebar-blue);
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Contour overlay */
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    nav * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+      border: 3px solid #53D2FF;
+    }
+
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
+    }
+
+    nav p {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      display: block;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
+    }
+
+    nav a:hover {
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #005C78;
+    }
+
+    nav a:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #005C78;
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 34px;
+      background: var(--button-blue-light);
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
+    }
+
+    .hamburger:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #006991;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+
+      nav.open {
+        transform: translateX(0);
+      }
+
+      main {
+        padding-top: 80px;
+      }
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1, h2, h3 {
+      color: #0085B4;
+      margin-top: 0;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .section p {
+      margin: 6px 0;
+      line-height: 1.5;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    figure {
+      margin: 0;
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    figure img {
+      width: 100%;
+      border-radius: 4px;
+      display: block;
+    }
+
+    figure figcaption {
+      font-size: 0.9rem;
+      margin-top: 6px;
+      color: #374151;
+    }
+
+    .map-embed {
+      width: 100%;
+      height: 550px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .callout {
+      font-size: 0.95rem;
+      background: #e0f4ff;
+      border-left: 4px solid #0085B4;
+      padding: 8px 10px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Parker LeClair" />
+    <h1>Parker J. LeClair</h1>
+    <p>GIS • Remote Sensing • Geology</p>
+
+    <a href="/">Home</a>
+    <a href="/projects">Projects</a>
+    <a href="/contact">Contact & Resume</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <h1>Adirondack Landslide Monitoring with Multispectral Imagery</h1>
+
+    <div class="section">
+      <h2>Project Overview</h2>
+      <p>
+        This is an ongoing, multi-phase project to map and monitor landslides in the eastern High Peaks 
+        region of the Adirondacks using satellite imagery, NAIP aerial photos, and terrain data. Right now 
+        I’m in the early “trial” phase: testing classification approaches, learning where they fail, and 
+        building the infrastructure for a long-term monitoring system.
+      </p>
+      <p>
+        The current workflow focuses on distinguishing newly exposed bare rock from forest and water to 
+        identify landslides that occurred between 2018 and 2024. Longer-term, the goal is to integrate a 
+        wider range of satellite sources and near-real-time imagery so that landslides can be detected and 
+        mapped soon after they occur, especially in remote parts of the Adirondacks where new slides often 
+        go unnoticed.
+      </p>
+    </div>
+
+    <!-- INTERACTIVE MAP -->
+    <div class="section">
+      <h2>Interactive Map</h2>
+      <p>
+        The web map below combines my yearly landslide inventory (2018–2024) with high-resolution NAIP 
+        imagery and a Sentinel-2 RGB composite. New landslide polygons are symbolized by year of first 
+        appearance, allowing quick visual comparison against pre- and post-slide imagery.
+      </p>
+
+      <!-- TODO: replace the src value with your AGOL embed URL -->
+      <iframe
+        class="map-embed"
+        src="YOUR_AGOL_EMBED_URL_HERE"
+        loading="lazy"
+        title="Adirondack Landslides Web Map">
+      </iframe>
+
+      <div class="callout">
+        Once the AGOL item is finalized, this iframe will display the 2017 NAIP mosaic and the 
+        2025 Sentinel-2 RGB image alongside the yearly landslide polygons.
+      </div>
+    </div>
+
+    <!-- STUDY AREA & DATA -->
+    <div class="section">
+      <h2>Study Area & Data</h2>
+      <p>
+        The study area covers the eastern High Peaks region of the Adirondacks in Upstate New York, 
+        including well-known mass-wasting slopes around the Great Range and adjacent valleys.
+      </p>
+      <p>
+        The current phase uses:
+      </p>
+      <ul>
+        <li>NAIP 1-m aerial imagery (2017, 2019, 2022) for high-resolution context and validation.</li>
+        <li>Landsat-based multispectral embeddings for annual land-cover classification from 2018–2024.</li>
+        <li>Sentinel-2 RGB imagery (10 m) to visualize recent years, including the 2025 landslide season.</li>
+        <li>Digital elevation models and derived slope/hillshade to help separate steep rock faces from 
+            flatter human-built surfaces.</li>
+      </ul>
+      <p>
+        For this class project, land-cover classes were intentionally kept simple: 
+        <strong>Forest</strong>, <strong>Water</strong>, and <strong>Bare Rock</strong>.  
+        Newly exposed bare rock between time steps is interpreted as potential landslide area, which is 
+        then refined using elevation and slope masks.
+      </p>
+    </div>
+
+    <!-- METHODS -->
+    <div class="section">
+      <h2>Methods & Workflow</h2>
+      <p>
+        The workflow is built around yearly land-cover classifications and change detection:
+      </p>
+      <ul>
+        <li>
+          Use embeddings-based land-cover classification to generate annual maps (2018–2024) with  
+          classes: forest, water, bare rock.
+        </li>
+        <li>
+          Apply terrain and built-area masks to reduce obvious false positives from infrastructure and 
+          low-slope surfaces that still share a “bare” spectral signature.
+        </li>
+        <li>
+          Compare consecutive years to flag pixels that transition from forest to bare rock. Those 
+          pixels are grouped into polygons and filtered by minimum area to represent individual landslides.
+        </li>
+        <li>
+          Use NAIP and Sentinel-2 imagery for manual validation and for refining the polygon boundaries in 
+          the most complex areas.
+        </li>
+      </ul>
+      <p>
+        The project has already gone through several rounds of trial and error. One of the biggest issues is 
+        that landslide scars and high-elevation summit bedrock often have nearly identical spectral signatures. 
+        Without extra context, the classifier happily labels both as “new bare rock,” which inflates landslide 
+        counts in areas that have actually been exposed for decades.
+      </p>
+      <p>
+        Another challenge is separating human-made surfaces (roads, parking lots, talus at ski areas, etc.) 
+        from true mass-wasting features. Many of these features sit on moderate slopes and are spectrally 
+        similar to rockfalls and debris fans, so additional masking using DEM-derived slope, curvature, and 
+        external building/road datasets will be important in the next phase.
+      </p>
+    </div>
+
+    <!-- RESULTS & FIGURES -->
+    <div class="section">
+      <h2>Early Results</h2>
+      <p>
+        The figures below summarize how well the current classification performs and how landslide area 
+        changes through time. These are preliminary results from the trial phase—useful for diagnosing 
+        problems, but not yet something I would publish without further refinement.
+      </p>
+
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/accuracy_barplot.png" alt="Classification accuracy by class" />
+          <figcaption>
+            <strong>Figure 1 – Accuracy by class.</strong> Bar plot showing overall accuracy and 
+            class-specific performance for forest, bare rock, and water. Forest and water classify 
+            reasonably well; bare rock is less accurate due largely to summit outcrops and built 
+            surfaces being confused with landslide scars.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="/assets/lc_transitions_alluvial_forest_bare_only.png"
+               alt="Sankey diagram of land cover transitions" />
+          <figcaption>
+            <strong>Figure 2 – Land-cover transitions.</strong> Sankey diagram highlighting 
+            transitions between forest and bare rock. Forest→bare rock flows represent candidate 
+            landslide pixels; persistent bare rock at summits is a key source of false positives.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="figure-grid">
+        <figure>
+          <img src="/assets/scatter_slide_vs_heavy_days.png"
+               alt="Scatter: new slide area vs heavy-rain days" />
+          <figcaption>
+            <strong>Figure 3 – New slide area vs heavy-rain days.</strong> Relationship between 
+            yearly landslide area and the number of days exceeding a “heavy rain” threshold. 
+            Patterns are noisy, partly because satellite snapshots poorly align with the exact timing 
+            of storms.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="/assets/scatter_slide_vs_max1d.png"
+               alt="Scatter: new slide area vs max 1-day rainfall" />
+          <figcaption>
+            <strong>Figure 4 – New slide area vs max 1-day rainfall.</strong> Compares total new 
+            slide area each year to the maximum single-day precipitation. A few large storms line up 
+            with active landslide years, but there are also years where big storms occur without 
+            clearly mapped failures, highlighting both detection limits and sparse temporal sampling.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="/assets/scatter_slide_vs_total_rain.png"
+               alt="Scatter: new slide area vs annual precipitation" />
+          <figcaption>
+            <strong>Figure 5 – New slide area vs annual precipitation.</strong> Annual precipitation 
+            totals show weaker correlation with slide area than event-scale metrics, which matches the 
+            idea that extreme storms—not just total yearly rainfall—drive most failures here.
+          </figcaption>
+        </figure>
+      </div>
+
+      <figure style="margin-top:20px;">
+        <img src="/assets/ts_new_slide_area.png"
+             alt="Time series of new landslide area per year" />
+        <figcaption>
+          <strong>Figure 6 – Time series of new landslide area.</strong> Annual total area mapped 
+          as newly exposed bare rock between 2018 and 2024. 2025 is expected to be a major landslide 
+          year in this region, so once the 2025 embeddings data are available this plot will be 
+          extended and used as a key checkpoint on classification quality.
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- LIMITATIONS & NEXT STEPS -->
+    <div class="section">
+      <h2>Limitations & Next Steps</h2>
+      <p>
+        The current maps successfully capture many large, obvious landslides but still struggle in a few 
+        consistent ways:
+      </p>
+      <ul>
+        <li>
+          <strong>Summit bare rock vs landslide scars.</strong> Alpine bedrock and long-exposed slides 
+          share the same spectral signature as fresh failures. Without explicit summit masks or age 
+          information, those surfaces are repeatedly flagged as “new.”
+        </li>
+        <li>
+          <strong>Sparsely vegetated slopes.</strong> Some areas with thin soils or open canopy that have 
+          changed very little since 2018 still classify as “new landslides,” especially on bright,  
+          south-facing slopes.
+        </li>
+        <li>
+          <strong>Human-built surfaces.</strong> Roads, clearings, and infrastructure sometimes pass the 
+          terrain filters and show up as false positives.
+        </li>
+      </ul>
+      <p>
+        Near-term work will focus on:
+      </p>
+      <ul>
+        <li>Using DEM-derived masks (elevation bands, slope, curvature) to remove summit plateaus and low-slope built areas.</li>
+        <li>Bringing in building/road layers to explicitly mask human infrastructure.</li>
+        <li>Expanding the class set beyond forest / water / bare rock to include shrub/early regrowth, talus, and alpine meadow, 
+            which should help track revegetation and reduce confusion near slide margins.</li>
+        <li>Refining the rainfall–landslide analysis with storm-scale metrics and better temporal alignment between 
+            precipitation events and available imagery.</li>
+        <li>Extending the historic inventory as far back as possible by combining older aerial photography, NAIP, and 
+            any usable pre-2018 satellite archives to estimate landslide rates through time.</li>
+      </ul>
+      <p>
+        Long-term, I’d like this to function as an operational landslide-monitoring tool for the Adirondacks: 
+        regularly updated maps, alerts for newly detected scars, and a public-facing web map for hikers, land 
+        managers, and researchers.
+      </p>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="section">
+      <h2>Takeaways</h2>
+      <p>
+        Even in this early phase, the project has been useful for understanding where automated approaches 
+        to landslide mapping break down: summit bedrock, sparse vegetation, and human-built surfaces all 
+        look more “landslide-like” to the classifier than they should. Working through those problems is 
+        the main focus of the next phase, along with incorporating more frequent, higher-resolution imagery 
+        for years like 2025 that were especially active.
+      </p>
+      <p>
+        This page will continue to evolve as I improve the classifier, add additional data sources, and 
+        extend the time series of mapped landslides and precipitation metrics.
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
