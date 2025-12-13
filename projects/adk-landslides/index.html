@@ -340,18 +340,51 @@
   <main>
     <h1>Adirondack Landslide Monitoring with Multispectral Imagery</h1>
 
+    <!-- ABSTRACT -->
     <div class="section">
-      <h2>Project Overview</h2>
+      <h2>Abstract</h2>
       <p>
-        This is an ongoing, multi-phase project to map and monitor landslides in the eastern High Peaks 
-        region of the Adirondacks using satellite imagery, NAIP aerial photos, and terrain data. Right now 
-        I’m in the early “trial” phase: testing classification approaches, learning where they fail, and 
-        building the infrastructure for a long-term monitoring system.
+        This mini project tests whether annual satellite embeddings and terrain data can be used to map
+        recent landslides in the eastern High Peaks of the Adirondacks and explore how slide activity
+        relates to heavy rainfall. Annual land-cover maps (2018–2024) were generated from a Random
+        Forest classifier trained on Google’s 64-band satellite embeddings and simple classes
+        (forest, water, bare rock). Change detection between years highlights pixels that transition
+        from forest to bare rock as candidate landslides, which are then filtered using slope,
+        elevation, and masks for built-up areas.
       </p>
       <p>
+        The resulting inventory captures many large, obvious slides but still confuses summit
+        bedrock, sparsely vegetated slopes, and some human-built surfaces with true failures.
+        Scatterplots compare new slide area to several rainfall metrics derived from CHIRPS
+        precipitation data. Relationships with storm-scale rainfall are suggestive but noisy,
+        reflecting both data limitations and the coarse temporal resolution of yearly composites.
+        Overall, the project shows that embeddings are a useful starting point for regional
+        landslide mapping, but more detailed classes, stronger terrain masks, and higher-frequency
+        imagery are needed before this approach can support operational monitoring.
+      </p>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="section">
+      <h2>Introduction</h2>
+      <p>
+        This is an ongoing, multi-phase project to map and monitor landslides in the eastern High Peaks 
+        region of the Adirondacks using satellite imagery, NAIP aerial photos, and terrain data. The
+        Adirondacks experience steep topography, intense storms, and thin soils, which combine to
+        produce frequent shallow landslides in remote terrain.
+      </p>
+      <p>
+        For this mini project, the main questions are:
+      </p>
+      <ul>
+        <li>Where have new landslides occurred between 2018 and 2024 in the eastern High Peaks?</li>
+        <li>How well can annual satellite embeddings separate new landslide scars from long-exposed summit bedrock and human-built surfaces?</li>
+        <li>Is there any clear relationship between new landslide area and heavy-rainfall metrics over the same period?</li>
+      </ul>
+      <p>
         The current workflow focuses on distinguishing newly exposed bare rock from forest and water to 
-        identify landslides that occurred between 2018 and 2024. Longer-term, the goal is to integrate a 
-        wider range of satellite sources to increase the frequency in imagery so that landslides can be detected and 
+        identify landslides that occurred between 2018 and 2024. Longer term, the goal is to integrate a 
+        wider range of satellite sources to increase the frequency of imagery so that landslides can be detected and 
         mapped soon after they occur, especially in remote parts of the Adirondacks where new slides often 
         go unnoticed.
       </p>
@@ -383,9 +416,10 @@
       <ul>
         <li><strong>Zoom:</strong> + / − buttons in the top-left</li>
         <li><strong>Legend:</strong> icon in the top-right</li>
-        <li><strong>Layers:</strong> button in the bottom-right (switch imagery & overlays)</li>
-        <li><strong>Red Pins:</strong> Photographs</li>
+        <li><strong>Layers:</strong> button in the bottom-right (switch imagery and overlays)</li>
+        <li><strong>Red pins:</strong> field photographs</li>
       </ul>
+
       <h3>
         Swipe comparison: left – 2017 NAIP aerial imagery (1&nbsp;m); right – 2025 Sentinel-2 RGB (10&nbsp;m)
       </h3>
@@ -431,7 +465,7 @@
 
     <!-- METHODS -->
     <div class="section">
-      <h2>Methods & Workflow</h2>
+      <h2>Methods</h2>
       <p>
         The workflow is built around yearly land-cover classification, change detection, and terrain-based
         filtering. All core classification and change detection is implemented in Google Earth Engine, with
@@ -439,7 +473,7 @@
       </p>
       <ul>
         <li>
-          <strong>Feature stack & classifier.</strong> Annual Google Satellite Embedding images
+          <strong>Feature stack and classifier.</strong> Annual Google Satellite Embedding images
           (<code>GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL</code>) provide 64-band feature vectors at 10 m
           resolution. I sampled those embeddings within hand-drawn training polygons (forest, bare rock, water)
           and trained a Random Forest classifier for each time interval (2018–2024).
@@ -447,11 +481,11 @@
         <li>
           <strong>Training data.</strong> Forest, bare rock, and water polygons were digitized using NAIP
           imagery, Sentinel-2 RGB composites, and local knowledge of known slides and summits in the eastern
-          High Peaks. Training labels were kept intentionally simple for this phase to focus on separating
+          High Peaks. Labels were kept intentionally simple for this phase to focus on separating
           forest from exposed rock and open water.
         </li>
         <li>
-          <strong>Post-processing & smoothing.</strong> After each yearly classification, I cleaned the 
+          <strong>Post-processing and smoothing.</strong> After each yearly classification, I cleaned the 
           map to get rid of speckled noise. A neighborhood filter replaced isolated pixels with 
           whatever class most of their neighbors had, and then very small patches were removed so the 
           final result only kept larger, continuous landslide areas. A mask was also applied to remove
@@ -487,9 +521,8 @@
         Another persistent challenge is separating human-made surfaces (roads, parking lots, buildings) and 
         sparsely vegetated, rocky slopes from true mass-wasting features. While human-made surfaces often have a
         gentle slope and a slope mask can remove these misclassifications, the summit exposures can have slopes 
-        of the same degree as some landslides.
-        Additional DEM-derived constraints (elevation bands, slope breaks, curvature), explicit masks for known
-        infrastructure, and a more comprehensive class scheme (e.g., forest types, early regrowth, wetland, grass, agriculture) are key
+        of the same degree as some landslides. Additional DEM-derived constraints (elevation bands, slope breaks, curvature), explicit masks for known
+        infrastructure, and a more comprehensive class scheme (for example forest types, early regrowth, wetland, grass, agriculture) are key
         targets for the next phase of the workflow.
       </p>
     </div>
@@ -506,9 +539,9 @@
       </figure>
     </div>
 
-    <!-- RESULTS & FIGURES -->
+    <!-- RESULTS -->
     <div class="section">
-      <h2>Early Results</h2>
+      <h2>Results</h2>
       <p>
         The figures below summarize how well the current classification performs and how landslide area 
         changes through time. These are preliminary results from the trial phase, useful for diagnosing 
@@ -533,8 +566,8 @@
             <strong>Figure 2 – Land-cover transitions.</strong> Sankey diagram highlighting 
             transitions between forest and bare rock. Forest→bare rock flows represent candidate 
             landslide pixels; persistent bare rock at summits is a key source of false positives. 
-            This diagram displays changing classifications only. Unchanging landcover types are excluded. 
-            Comparing the land cover transitions between forest and bare rock highlights the higher rate of 
+            This diagram displays changing classifications only. Unchanging land-cover types are excluded. 
+            Comparing the land-cover transitions between forest and bare rock highlights the higher rate of 
             forest→bare rock and lower rate of bare rock→forest.
           </figcaption>
         </figure>
@@ -569,7 +602,7 @@
           <figcaption>
             <strong>Figure 5 – New slide area vs annual precipitation.</strong> Annual precipitation 
             totals show weaker correlation with slide area than event-scale metrics, which matches the 
-            idea that extreme storms—not just total yearly rainfall—drive most slope failures.
+            idea that extreme storms, not just total yearly rainfall, drive most slope failures.
           </figcaption>
         </figure>
       </div>
@@ -586,9 +619,9 @@
       </figure>
     </div>
 
-    <!-- LIMITATIONS & NEXT STEPS -->
+    <!-- DISCUSSION -->
     <div class="section">
-      <h2>Limitations & Next Steps</h2>
+      <h2>Discussion</h2>
       <p>
         The current maps successfully capture many large, obvious landslides but still struggle in a few 
         consistent ways:
@@ -601,9 +634,8 @@
         </li>
         <li>
           <strong>Sparsely vegetated slopes.</strong> Some areas with thin soils or open canopy that have 
-          changed very little since 2018 still classify as “new landslides." This may be related to the 
-          time of year the satellite images are taken and the state 
-          of growth of vegetation.
+          changed very little since 2018 still classify as “new landslides”. This may be related to the 
+          time of year the satellite images are taken and the state of vegetation growth.
         </li>
         <li>
           <strong>Human-built surfaces.</strong> Roads, clearings, and infrastructure sometimes pass the 
@@ -625,8 +657,8 @@
         <li>
           <strong>Dependence on a single embedding product.</strong> The current workflow relies on
           Google’s annual satellite embeddings. If that product changes, is reprocessed, or becomes
-          unavailable, the classifier and thresholds may need to be retrained, which makes long term
-          consistency harder to guarantee. And the release of one dataset per year results in low 
+          unavailable, the classifier and thresholds may need to be retrained, which makes long-term
+          consistency harder to guarantee. The release of one dataset per year also results in low 
           temporal resolution.
         </li>
         <li>
@@ -641,19 +673,14 @@
       </p>
       <ul>
         <li>Using DEM-derived masks (elevation bands, slope, curvature) to remove summit exposures and low-slope built areas.</li>
-        <li>Bringing in building/road layers to explicitly mask human infrastructure.</li>
-        <li>Expanding the class set beyond forest / water / bare rock to include forest types, early regrowth, wetland, grass, agriculture, 
-            which should help track revegetation and reduce confusion near slide margins.</li>
+        <li>Bringing in building and road layers to explicitly mask human infrastructure.</li>
+        <li>Expanding the class set beyond forest, water, and bare rock to include forest types, early regrowth, wetland, grass, and agriculture 
+            to track revegetation and reduce confusion near slide margins.</li>
         <li>Refining the rainfall–landslide analysis with storm-scale metrics and better temporal alignment between 
             precipitation events and available imagery.</li>
         <li>Extending the historic inventory as far back as possible by combining older aerial photography, NAIP, and 
             any usable pre-2018 satellite archives to estimate landslide rates through time.</li>
       </ul>
-      <p>
-        Long-term, I’d like this to function as an operational landslide-monitoring tool for the Adirondacks: 
-        regularly updated maps generated by an automated workflow, alerts for newly detected scars, and a 
-        public-facing web map for hikers, land managers, and researchers.
-      </p>
     </div>
 
     <!-- Bottom field photo -->
@@ -670,23 +697,24 @@
 
     <!-- CONCLUSION -->
     <div class="section">
-      <h2>Takeaways</h2>
+      <h2>Conclusion</h2>
       <p>
         Even in this early phase, the project has been useful for understanding where automated approaches 
-        to landslide mapping break down: summit bedrock, sparse vegetation, and human-built surfaces all 
+        to landslide mapping break down. Summit bedrock, sparse vegetation, and human-built surfaces all 
         look more “landslide-like” to the classifier than they should. Working through those problems is 
         the main focus of the next phase, along with incorporating more frequent, higher-resolution imagery 
         for years like 2025 that were especially active.
       </p>
       <p>
-        This page will continue to evolve as I improve the classifier, add additional data sources, and 
-        extend the time series of mapped landslides and precipitation metrics.
+        Long-term, the goal is for this to function as an operational landslide-monitoring tool for the Adirondacks: 
+        regularly updated maps generated by an automated workflow, alerts for newly detected scars, and a 
+        public-facing web map for hikers, land managers, and researchers.
       </p>
     </div>
     
-    <!-- REFERENCES -->
+    <!-- WORKS CITED -->
     <div class="section">
-      <h2>References & Data Sources</h2>
+      <h2>Works Cited</h2>
       <ul>
         <li>
           <strong>Google Satellite Embedding (Annual, 10 m).</strong>
@@ -730,8 +758,8 @@
         </li>
 
         <li>
-          <strong>ArcGIS Online Basemaps & Services.</strong>
-          Esri Terrain with Labels basemap and hosted imagery / feature services used to serve the 
+          <strong>ArcGIS Online Basemaps and Services.</strong>
+          Esri Terrain with Labels basemap and hosted imagery and feature services used to serve the 
           interactive landslide inventory, NAIP mosaics, and Sentinel-2 RGB composite in the web map.
         </li>
       </ul>
