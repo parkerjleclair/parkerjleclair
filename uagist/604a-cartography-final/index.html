@@ -1089,819 +1089,584 @@
          MAIN CONTENT
          ===================================================== -->
 
-    <main>
+   <main>
+
+  <!-- PAGE HEADER -->
+
+  <div class="page-header">
+
+    <h1>
+      GIST 604A – Cartography Final
+    </h1>
+
+    <p>
+      Simplified Bedrock Geology of Adirondack Park, New York
+    </p>
+
+  </div>
 
 
-      <!-- PAGE HEADER -->
+  <!-- PROJECT OVERVIEW -->
 
-      <div class="page-header">
+  <div class="section">
 
-        <h1>
-          GIST 604A – Cartography Final
-        </h1>
+    <h2>
+      Project Overview
+    </h2>
 
-        <p>
-          Simplified Bedrock Geology of Adirondack Park, New York
-        </p>
+    <p>
+      For my GIST 604A Cartography final, I created a simplified bedrock
+      geologic map of Adirondack Park in northern New York. I wanted to make
+      a map that still showed the major geologic patterns of the Adirondacks
+      without trying to display every unit included in the original New York
+      State bedrock geology data.
+    </p>
+
+    <p>
+      The original geology is extremely detailed, which works well at larger
+      scales but becomes difficult to read when the entire Adirondack Park is
+      shown on one map. A large part of this project was figuring out how much
+      of that detail I could simplify while still keeping the geology
+      meaningful.
+    </p>
+
+    <p>
+      The final map combines the generalized bedrock geology with water
+      bodies, selected towns, shaded relief, the Adirondack Park boundary,
+      and a locator map showing the park within New York State. I used the
+      project to apply several concepts from the course, including
+      generalization, qualitative color, visual hierarchy, labeling,
+      typography, shaded relief, and inset map design.
+    </p>
+
+  </div>
+
+
+  <!-- FINAL MAP -->
+
+  <div class="section">
+
+    <h2>
+      Final Map
+    </h2>
+
+    <a
+      class="map-link"
+      href="/assets/LeClair_604A_Final_ADK_Geology.png"
+      target="_blank"
+      rel="noopener"
+    >
+
+      <img
+        src="/assets/LeClair_604A_Final_ADK_Geology.png"
+        alt="Simplified bedrock geology map of Adirondack Park, New York"
+        class="project-map"
+      />
+
+    </a>
+
+    <p class="map-caption">
+      Final 11 × 17 cartographic layout at a scale of 1:800,000.
+      Click the map to open the full-size PNG.
+    </p>
+
+    <div class="map-buttons">
+
+      <a
+        class="download-btn"
+        href="/assets/LeClair_604A_Final_ADK_Geology.pdf"
+        download
+      >
+        Download Full Map (PDF)
+      </a>
+
+      <a
+        class="download-btn secondary-btn"
+        href="/assets/LeClair_604A_Final_ADK_Geology.png"
+        target="_blank"
+        rel="noopener"
+      >
+        Open Full-Size PNG
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- WORKFLOW -->
+
+  <div class="section">
+
+    <h2>
+      Workflow
+    </h2>
+
+    <p>
+      I built the map in ArcGIS Pro using several geology, hydrography,
+      elevation, and reference datasets. One of the first challenges was that
+      Adirondack Park crosses two New York State bedrock geology sheets, so I
+      had to combine the Adirondack and Hudson–Mohawk datasets before I could
+      work with the geology as one continuous layer.
+    </p>
+
+    <ol>
+
+      <li>
+        Clipped the Adirondack and Hudson–Mohawk bedrock geology datasets
+        to the Adirondack Park boundary.
+      </li>
+
+      <li>
+        Merged the clipped geology into one working bedrock dataset.
+      </li>
+
+      <li>
+        Used the New York State bedrock geology master legend to interpret
+        the original geologic unit codes.
+      </li>
+
+      <li>
+        Created new fields for broad geologic age, generalized rock type,
+        and the final map class.
+      </li>
+
+      <li>
+        Grouped the original detailed units into broader age and lithologic
+        categories.
+      </li>
+
+      <li>
+        Used Pairwise Dissolve to remove boundaries between neighboring
+        polygons that had been assigned to the same generalized class.
+      </li>
+
+      <li>
+        Added water bodies and selected towns to provide geographic
+        reference without adding too much clutter.
+      </li>
+
+      <li>
+        Converted USGS GNIS populated-place coordinates into point features
+        using XY Table To Point.
+      </li>
+
+      <li>
+        Mosaicked USGS DEM tiles into a continuous elevation raster covering
+        Adirondack Park.
+      </li>
+
+      <li>
+        Created a hillshade from the DEM and clipped it to the park boundary
+        using Extract by Mask.
+      </li>
+
+      <li>
+        Symbolized the generalized geology with Unique Values using a muted
+        qualitative color palette.
+      </li>
+
+      <li>
+        Created a New York State locator map showing where Adirondack Park is
+        located within the state.
+      </li>
+
+      <li>
+        Built the final 11 × 17 landscape layout with the map, legend, town
+        labels, scale bars, north arrow, locator map, projection information,
+        and data credits.
+      </li>
+
+    </ol>
+
+  </div>
+
+
+  <!-- TOOLS USED -->
+
+  <div class="section">
+
+    <h2>
+      Tools Used
+    </h2>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+
+        <h3>
+          Geoprocessing
+        </h3>
+
+        <ul>
+          <li>Clip</li>
+          <li>Merge</li>
+          <li>Calculate Field</li>
+          <li>Pairwise Dissolve</li>
+          <li>Export Features</li>
+          <li>XY Table To Point</li>
+          <li>Mosaic To New Raster</li>
+          <li>Hillshade</li>
+          <li>Extract by Mask</li>
+        </ul>
 
       </div>
 
 
+      <div class="info-card">
 
-      <!-- ===================================================
-           PROJECT OVERVIEW
-           =================================================== -->
+        <h3>
+          Cartographic Design
+        </h3>
 
-      <div class="section">
-
-        <h2>
-          Project Overview
-        </h2>
-
-
-        <p>
-
-          This final project for GIST 604A Cartography presents a simplified
-          bedrock geologic map of Adirondack Park in northern New York.
-          The project was designed to preserve the major regional geologic
-          patterns while reducing the complexity of detailed geologic mapping
-          so the final map would remain clear and readable at a regional scale.
-
-        </p>
-
-
-        <p>
-
-          The final design combines generalized bedrock geology, water bodies,
-          selected populated places, shaded relief, the Adirondack Park
-          boundary, and a New York State locator map. The project applies
-          cartographic principles including qualitative color, visual
-          hierarchy, generalization, labeling, scale, typography, and inset
-          map design.
-
-        </p>
+        <ul>
+          <li>Unique Values symbology</li>
+          <li>Definition Queries</li>
+          <li>Qualitative color design</li>
+          <li>Shaded relief</li>
+          <li>Map labeling</li>
+          <li>Visual hierarchy</li>
+          <li>Scale-based generalization</li>
+          <li>Locator inset design</li>
+          <li>ArcGIS Pro layout tools</li>
+        </ul>
 
       </div>
 
+    </div>
+
+  </div>
 
 
-      <!-- ===================================================
-           FINAL MAP
-           =================================================== -->
+  <!-- ORIGINAL BEDROCK SHEETS -->
 
-      <div class="section">
+  <div class="section">
 
-        <h2>
-          Final Map
-        </h2>
+    <h2>
+      Original Bedrock Geology Sheets
+    </h2>
 
+    <p>
+      Adirondack Park overlaps portions of two New York State bedrock geology
+      sheets: the Adirondack sheet and the Hudson–Mohawk sheet. Looking at the
+      original maps makes the main challenge of this project pretty obvious:
+      there is a huge amount of geologic detail.
+    </p>
+
+    <p>
+      Trying to carry all of those individual units into a single map of the
+      entire park would have created an enormous legend and made many of the
+      colors and boundaries difficult to distinguish. I used these maps as the
+      starting point, then simplified the geology into a much smaller set of
+      classes that made more sense at the scale of my final map.
+    </p>
+
+    <div class="source-map-grid">
+
+      <figure>
 
         <a
-          class="map-link"
-          href="/assets/LeClair_604A_Final_ADK_Geology.png"
+          href="/assets/Adirondack_Bedrock_Sheet.jpg"
           target="_blank"
           rel="noopener"
         >
 
           <img
-            src="/assets/LeClair_604A_Final_ADK_Geology.png"
-            alt="Simplified bedrock geology map of Adirondack Park, New York"
-            class="project-map"
+            src="/assets/Adirondack_Bedrock_Sheet.jpg"
+            alt="Original Adirondack bedrock geology sheet"
+            class="source-map-image"
           />
 
         </a>
 
+        <figcaption>
+          Original Adirondack bedrock geology source sheet used for this
+          project. Click to open the full-size image.
+        </figcaption>
 
-        <p class="map-caption">
+      </figure>
 
-          Final 11 × 17 cartographic layout at a scale of 1:800,000.
-          Click the map to open the full-size PNG.
 
-        </p>
+      <figure>
 
-
-        <div class="map-buttons">
-
-
-          <a
-            class="download-btn"
-            href="/assets/LeClair_604A_Final_ADK_Geology.pdf"
-            download
-          >
-
-            Download Full Map (PDF)
-
-          </a>
-
-
-          <a
-            class="download-btn secondary-btn"
-            href="/assets/LeClair_604A_Final_ADK_Geology.png"
-            target="_blank"
-            rel="noopener"
-          >
-
-            Open Full-Size PNG
-
-          </a>
-
-
-        </div>
-
-      </div>
-
-
-
-      <!-- ===================================================
-           WORKFLOW
-           =================================================== -->
-
-      <div class="section">
-
-        <h2>
-          Workflow
-        </h2>
-
-
-        <p>
-
-          The map was created in ArcGIS Pro using geologic, hydrographic,
-          elevation, and reference datasets. Because Adirondack Park crosses
-          more than one New York State bedrock geology sheet, the source
-          geology first had to be combined into a single working dataset
-          before it could be generalized and symbolized.
-
-        </p>
-
-
-        <ol>
-
-
-          <li>
-
-            Clipped the Adirondack and Hudson–Mohawk bedrock geology datasets
-            to the Adirondack Park boundary.
-
-          </li>
-
-
-          <li>
-
-            Merged the clipped geology layers into one working bedrock dataset.
-
-          </li>
-
-
-          <li>
-
-            Examined the original geologic unit codes using the New York State
-            bedrock geology master legend.
-
-          </li>
-
-
-          <li>
-
-            Created new fields representing broad geologic age, generalized
-            rock type, and the final cartographic map class.
-
-          </li>
-
-
-          <li>
-
-            Used field calculations to assign the original detailed units to
-            broader age and lithologic categories.
-
-          </li>
-
-
-          <li>
-
-            Used Pairwise Dissolve to remove internal boundaries between
-            adjacent polygons assigned to the same generalized map class.
-
-          </li>
-
-
-          <li>
-
-            Added water bodies and selected populated places to provide
-            geographic reference without overwhelming the geology.
-
-          </li>
-
-
-          <li>
-
-            Converted U.S. Geological Survey GNIS populated-place data from
-            latitude and longitude coordinates using XY Table To Point.
-
-          </li>
-
-
-          <li>
-
-            Mosaicked U.S. Geological Survey DEM tiles to create a continuous
-            elevation surface for Adirondack Park.
-
-          </li>
-
-
-          <li>
-
-            Generated a hillshade and used Extract by Mask to limit the terrain
-            relief to the Adirondack Park boundary.
-
-          </li>
-
-
-          <li>
-
-            Applied Unique Values symbology using a coordinated, muted
-            qualitative color scheme.
-
-          </li>
-
-
-          <li>
-
-            Created a New York State locator map showing the position of
-            Adirondack Park within the state.
-
-          </li>
-
-
-          <li>
-
-            Assembled the final 11 × 17 landscape layout with title, legend,
-            place labels, scale bars, north arrow, locator map, projection
-            information, and data credits.
-
-          </li>
-
-
-        </ol>
-
-
-      </div>
-
-
-
-      <!-- ===================================================
-           TOOLS USED
-           =================================================== -->
-
-      <div class="section">
-
-
-        <h2>
-          Tools Used
-        </h2>
-
-
-        <div class="info-grid">
-
-
-          <div class="info-card">
-
-
-            <h3>
-              Geoprocessing
-            </h3>
-
-
-            <ul>
-
-              <li>Clip</li>
-
-              <li>Merge</li>
-
-              <li>Calculate Field</li>
-
-              <li>Pairwise Dissolve</li>
-
-              <li>Export Features</li>
-
-              <li>XY Table To Point</li>
-
-              <li>Mosaic To New Raster</li>
-
-              <li>Hillshade</li>
-
-              <li>Extract by Mask</li>
-
-            </ul>
-
-
-          </div>
-
-
-
-          <div class="info-card">
-
-
-            <h3>
-              Cartographic Design
-            </h3>
-
-
-            <ul>
-
-              <li>Unique Values symbology</li>
-
-              <li>Definition Queries</li>
-
-              <li>Qualitative color design</li>
-
-              <li>Shaded relief</li>
-
-              <li>Map labeling</li>
-
-              <li>Visual hierarchy</li>
-
-              <li>Scale-based generalization</li>
-
-              <li>Locator inset design</li>
-
-              <li>ArcGIS Pro layout tools</li>
-
-            </ul>
-
-
-          </div>
-
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- ===================================================
-           ORIGINAL BEDROCK SHEETS
-           =================================================== -->
-
-      <div class="section">
-
-
-        <h2>
-          Original Bedrock Geology Sheets
-        </h2>
-
-
-        <p>
-
-          Adirondack Park spans portions of two New York State bedrock geology
-          sheets: the Adirondack sheet and the Hudson–Mohawk sheet. These
-          source maps contain a large number of detailed geologic units and
-          extensive geologic linework.
-
-        </p>
-
-
-        <p>
-
-          At the regional scale used for this project, displaying every
-          original unit individually would produce a very complex legend and
-          make many of the mapped patterns difficult to distinguish. The
-          original sheets below illustrate the level of detail in the source
-          mapping before the geology was clipped, merged, grouped, and
-          dissolved into broader cartographic classes.
-
-        </p>
-
-
-
-        <div class="source-map-grid">
-
-
-          <figure>
-
-
-            <a
-              href="/assets/Adirondack_Bedrock_Sheet.jpg"
-              target="_blank"
-              rel="noopener"
-            >
-
-              <img
-                src="/assets/Adirondack_Bedrock_Sheet.jpg"
-                alt="Original Adirondack bedrock geology sheet"
-                class="source-map-image"
-              />
-
-            </a>
-
-
-            <figcaption>
-
-              Original Adirondack bedrock geology source sheet used for this
-              project. Click to open the full-size image.
-
-            </figcaption>
-
-
-          </figure>
-
-
-
-          <figure>
-
-
-            <a
-              href="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
-              target="_blank"
-              rel="noopener"
-            >
-
-              <img
-                src="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
-                alt="Original Hudson-Mohawk bedrock geology sheet"
-                class="source-map-image"
-              />
-
-            </a>
-
-
-            <figcaption>
-
-              Original Hudson–Mohawk bedrock geology source sheet used for
-              this project. Click to open the full-size image.
-
-            </figcaption>
-
-
-          </figure>
-
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- ===================================================
-           GEOLOGIC UNIT GENERALIZATION
-           =================================================== -->
-
-      <div class="section">
-
-
-        <h2>
-          Geologic Unit Generalization
-        </h2>
-
-
-        <p>
-
-          The original New York State bedrock geology contains dozens of
-          individual map units. Displaying every source unit separately would
-          have produced a complicated legend and made many units difficult to
-          distinguish at the final map scale.
-
-        </p>
-
-
-        <p>
-
-          Instead of preserving every original unit as a separate symbol, the
-          geology was generalized using both geologic age and broad lithology.
-          This preserved the dominant regional geologic patterns while
-          reducing visual clutter.
-
-        </p>
-
-
-
-        <h3>
-          Generalization Fields
-        </h3>
-
-
-        <ul>
-
-
-          <li>
-
-            <strong>AGE_GROUP</strong> – classified source units into broad
-            geologic age groups.
-
-          </li>
-
-
-          <li>
-
-            <strong>ROCK_GROUP</strong> – grouped similar lithologies into
-            broader rock categories.
-
-          </li>
-
-
-          <li>
-
-            <strong>MAP_CLASS</strong> – combined age and lithology into the
-            final classes used for map symbology.
-
-          </li>
-
-
-        </ul>
-
-
-
-        <h3>
-          Final Geologic Classes
-        </h3>
-
-
-        <ul class="class-list">
-
-
-          <li>
-            Cenozoic – Quaternary deposits
-          </li>
-
-
-          <li>
-            Mesozoic – Intrusive igneous rocks
-          </li>
-
-
-          <li>
-            Paleozoic – Carbonate sedimentary rocks
-          </li>
-
-
-          <li>
-            Paleozoic – Mixed sedimentary rocks
-          </li>
-
-
-          <li>
-            Paleozoic – Siliciclastic sedimentary rocks
-          </li>
-
-
-          <li>
-            Precambrian – Anorthosite and related mafic rocks
-          </li>
-
-
-          <li>
-            Precambrian – Granitic, syenitic and charnockitic gneiss
-          </li>
-
-
-          <li>
-            Precambrian – Mafic metamorphic rocks
-          </li>
-
-
-          <li>
-            Precambrian – Marble and calc-silicate rocks
-          </li>
-
-
-          <li>
-            Precambrian – Metasedimentary gneiss and quartzite
-          </li>
-
-
-        </ul>
-
-
-
-        <p>
-
-          Additional distinction was retained among Precambrian rocks because
-          they dominate much of Adirondack Park and are central to the region's
-          geologic character. Younger units were generalized more broadly
-          because they occupy smaller portions of the final map.
-
-        </p>
-
-
-        <p>
-
-          After classification, polygons assigned to the same final map class
-          were dissolved. This removed unnecessary internal boundaries,
-          including boundaries related to the original source map sheets,
-          while retaining boundaries between the broader generalized units.
-
-        </p>
-
-
-      </div>
-
-
-
-      <!-- ===================================================
-           MASTER LEGEND
-           =================================================== -->
-
-      <div class="section">
-
-
-        <h2>
-          Original Geologic Unit Reference
-        </h2>
-
-
-        <p>
-
-          The New York State bedrock geology master legend was used to
-          interpret the abbreviated source-unit codes and determine the
-          appropriate age and lithologic group for each unit.
-
-        </p>
-
-
-        <figure>
-
+        <a
+          href="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
+          target="_blank"
+          rel="noopener"
+        >
 
           <img
-            src="/assets/Bedrock_Master_Legend.jpg"
-            alt="New York State bedrock geology master unit legend"
-            class="project-image"
+            src="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
+            alt="Original Hudson-Mohawk bedrock geology sheet"
+            class="source-map-image"
           />
 
+        </a>
 
-          <figcaption>
+        <figcaption>
+          Original Hudson–Mohawk bedrock geology source sheet used for this
+          project. Click to open the full-size image.
+        </figcaption>
 
-            New York State bedrock geology master unit legend used as the
-            reference for interpreting and grouping the original geologic map
-            units.
+      </figure>
 
-          </figcaption>
+    </div>
 
+  </div>
 
-        </figure>
 
+  <!-- GEOLOGIC UNIT GENERALIZATION -->
 
-      </div>
+  <div class="section">
 
+    <h2>
+      Geologic Unit Generalization
+    </h2>
 
+    <p>
+      Generalizing the geology was probably the biggest part of the project.
+      The original data contains dozens of individual bedrock units, and many
+      of them are much more detailed than I needed for a map covering all of
+      Adirondack Park.
+    </p>
 
-      <!-- ===================================================
-           CARTOGRAPHIC DESIGN
-           =================================================== -->
+    <p>
+      I decided to group the units using two things that would still be useful
+      to someone reading the map: geologic age and broad rock type. This let
+      me reduce the number of classes substantially without losing the major
+      geologic patterns I wanted the map to show.
+    </p>
 
-      <div class="section">
 
+    <h3>
+      Generalization Fields
+    </h3>
 
-        <h2>
-          Cartographic Design
-        </h2>
+    <p>
+      I added three fields to help organize the original units:
+    </p>
 
+    <ul>
 
-        <p>
+      <li>
+        <strong>AGE_GROUP</strong> – the broad geologic age of the unit.
+      </li>
 
-          The final color scheme uses muted colors rather than highly
-          saturated categorical colors. Related units are organized by broad
-          geologic age while differences in hue and value keep individual
-          lithologies distinguishable.
+      <li>
+        <strong>ROCK_GROUP</strong> – a simplified lithologic grouping.
+      </li>
 
-        </p>
+      <li>
+        <strong>MAP_CLASS</strong> – the final age-and-rock-type class used
+        to symbolize the map.
+      </li>
 
+    </ul>
 
-        <p>
 
-          Water bodies use a contrasting blue, while the Adirondack Park
-          boundary is emphasized with a stronger blue outline. The Adirondack
-          Park boundary is commonly known as the <em>Blue Line</em>.
+    <h3>
+      Final Geologic Classes
+    </h3>
 
-        </p>
+    <ul class="class-list">
 
+      <li>
+        Cenozoic – Quaternary deposits
+      </li>
 
-        <p>
+      <li>
+        Mesozoic – Intrusive igneous rocks
+      </li>
 
-          A custom hillshade generated from USGS elevation data provides
-          terrain texture beneath the geology. The shaded relief was kept
-          visually subdued so that topography supports the geologic patterns
-          rather than competing with them.
+      <li>
+        Paleozoic – Carbonate sedimentary rocks
+      </li>
 
-        </p>
+      <li>
+        Paleozoic – Mixed sedimentary rocks
+      </li>
 
+      <li>
+        Paleozoic – Siliciclastic sedimentary rocks
+      </li>
 
-        <p>
+      <li>
+        Precambrian – Anorthosite and related mafic rocks
+      </li>
 
-          Only selected communities and reference features were retained.
-          Limiting the number of labels and ancillary features helped establish
-          a clear visual hierarchy in which the bedrock geology remains the
-          primary subject of the map.
+      <li>
+        Precambrian – Granitic, syenitic and charnockitic gneiss
+      </li>
 
-        </p>
+      <li>
+        Precambrian – Mafic metamorphic rocks
+      </li>
 
+      <li>
+        Precambrian – Marble and calc-silicate rocks
+      </li>
 
-      </div>
+      <li>
+        Precambrian – Metasedimentary gneiss and quartzite
+      </li>
 
+    </ul>
 
+    <p>
+      I kept more detail within the Precambrian rocks because they make up so
+      much of Adirondack Park and are a major part of the geology I wanted to
+      show. The younger rocks cover much smaller areas, so I was able to group
+      those more broadly.
+    </p>
 
-      <!-- ===================================================
-           SOURCES
-           =================================================== -->
+    <p>
+      Once the units were classified, I dissolved polygons with the same final
+      map class. This removed a lot of unnecessary internal boundaries,
+      including the seam between the original source sheets, and made the
+      geology read much more clearly at 1:800,000.
+    </p>
 
-      <div class="section">
+  </div>
 
 
-        <h2>
-          Sources & References
-        </h2>
+  <!-- MASTER LEGEND -->
 
+  <div class="section">
 
-        <ul class="sources-list">
+    <h2>
+      Original Geologic Unit Reference
+    </h2>
 
-
-          <li>
-
-            <strong>
-              New York State Museum / New York State Geological Survey.
-            </strong>
-
-            Bedrock geology datasets, Adirondack and Hudson–Mohawk bedrock
-            geology sheets, and New York State bedrock geology master unit
-            legend.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              Adirondack Park Agency.
-            </strong>
-
-            Adirondack Park boundary and hydrography.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              U.S. Geological Survey.
-            </strong>
-
-            Digital elevation model data used to generate shaded relief.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              U.S. Geological Survey – Geographic Names Information System
-              (GNIS).
-            </strong>
-
-            Populated-place names and geographic coordinates.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              Natural Earth.
-            </strong>
-
-            New York State boundary used for the locator map.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              Software:
-            </strong>
-
-            Esri ArcGIS Pro.
-
-          </li>
-
-
-          <li>
-
-            <strong>
-              Map projection:
-            </strong>
-
-            NAD 1983 (2011) UTM Zone 18N.
-
-          </li>
-
-
-        </ul>
-
-
-      </div>
-
-
-    </main>
+    <p>
+      The source data uses abbreviated unit codes, so I used the New York State
+      bedrock geology master legend to identify what each unit represented and
+      decide which age and rock group it belonged in.
+    </p>
+
+    <figure>
+
+      <img
+        src="/assets/Bedrock_Master_Legend.jpg"
+        alt="New York State bedrock geology master unit legend"
+        class="project-image"
+      />
+
+      <figcaption>
+        New York State bedrock geology master unit legend used to interpret
+        and group the original geologic units.
+      </figcaption>
+
+    </figure>
+
+  </div>
+
+
+  <!-- CARTOGRAPHIC DESIGN -->
+
+  <div class="section">
+
+    <h2>
+      Cartographic Design
+    </h2>
+
+    <p>
+      For the geology, I wanted colors that were different enough to separate
+      the units but still felt like they belonged together. I ended up using a
+      muted palette instead of very bright categorical colors. I also tried to
+      give related age groups some visual similarity while still making the
+      individual rock types easy to tell apart.
+    </p>
+
+    <p>
+      Water is shown in blue, and I used a stronger blue outline for the
+      Adirondack Park boundary. This also fits the park well because its
+      boundary is commonly referred to as the <em>Blue Line</em>.
+    </p>
+
+    <p>
+      I created the hillshade from USGS elevation data rather than using a
+      basemap hillshade. I kept it fairly subtle so the terrain would help show
+      the shape of the Adirondacks without overpowering the geology.
+    </p>
+
+    <p>
+      I also intentionally left out a lot of reference features. I only labeled
+      a small number of towns and kept the hydrography fairly simple. Adding
+      everything available in the source data made the map feel crowded very
+      quickly, so deciding what not to show became just as important as deciding
+      what to include.
+    </p>
+
+  </div>
+
+
+  <!-- SOURCES -->
+
+  <div class="section">
+
+    <h2>
+      Sources & References
+    </h2>
+
+    <ul class="sources-list">
+
+      <li>
+        <strong>
+          New York State Museum / New York State Geological Survey.
+        </strong>
+        Bedrock geology datasets, Adirondack and Hudson–Mohawk bedrock
+        geology sheets, and New York State bedrock geology master unit
+        legend.
+      </li>
+
+      <li>
+        <strong>
+          Adirondack Park Agency.
+        </strong>
+        Adirondack Park boundary and hydrography.
+      </li>
+
+      <li>
+        <strong>
+          U.S. Geological Survey.
+        </strong>
+        Digital elevation model data used to generate shaded relief.
+      </li>
+
+      <li>
+        <strong>
+          U.S. Geological Survey – Geographic Names Information System
+          (GNIS).
+        </strong>
+        Populated-place names and geographic coordinates.
+      </li>
+
+      <li>
+        <strong>
+          Natural Earth.
+        </strong>
+        New York State boundary used for the locator map.
+      </li>
+
+      <li>
+        <strong>
+          Software:
+        </strong>
+        Esri ArcGIS Pro.
+      </li>
+
+      <li>
+        <strong>
+          Map projection:
+        </strong>
+        NAD 1983 (2011) UTM Zone 18N.
+      </li>
+
+    </ul>
+
+  </div>
+
+</main>
 
 
   </div>
