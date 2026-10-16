@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>University of Arizona M.S. GIST – Parker J. LeClair</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
+
+  <style>
+    :root {
+      --sidebar-blue: #0085B4;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f3f4f6;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    nav {
+      width: 280px;
+      background: var(--sidebar-blue);
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    nav * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+      border: 3px solid #53D2FF;
+    }
+
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
+    }
+
+    nav p {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      display: block;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--button-blue-light), var(--button-blue-dark));
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
+    }
+
+    nav a:hover {
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #005C78;
+    }
+
+    nav a:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #005C78;
+    }
+
+    main {
+      flex: 1;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: white;
+      padding: 20px 24px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: #0085B4;
+    }
+
+    .project-card {
+      display: block;
+      padding: 18px;
+      border-radius: 8px;
+      background: #f8fafc;
+      text-decoration: none;
+      color: #111827;
+      border: 1px solid #d9dee5;
+      transition: 0.15s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-2px);
+      border-color: #53D2FF;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .project-card h3 {
+      margin: 0 0 6px 0;
+      color: #0085B4;
+    }
+
+    .project-card p {
+      margin: 0;
+    }
+
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 34px;
+      background: var(--button-blue-light);
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+
+      nav.open {
+        transform: translateX(0);
+      }
+
+      main {
+        padding-top: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<div class="layout">
+
+  <nav id="sidebar">
+    <img src="/assets/PJL.jpg" class="profile-pic" alt="Profile picture" />
+
+    <h1>Parker J. LeClair</h1>
+    <p>GIS • Remote Sensing • Geology</p>
+
+    <a href="/">Home</a>
+    <a href="/projects">Projects</a>
+    <a href="/uagist">University of Arizona M.S. GIST</a>
+    <a href="/contact">Contact & Resume</a>
+  </nav>
+
+  <main>
+
+    <h1>University of Arizona M.S. GIST</h1>
+
+    <div class="section">
+      <h2>Coursework & Projects</h2>
+      <p>
+        Selected coursework and projects from the University of Arizona
+        M.S. in Geographic Information Systems Technology program.
+      </p>
+
+      <a class="project-card" href="/uagist/604a-cartography-final/">
+        <h3>GIST 604A – Cartography Final</h3>
+        <p>Simplified bedrock geology of Adirondack Park, New York.</p>
+      </a>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
