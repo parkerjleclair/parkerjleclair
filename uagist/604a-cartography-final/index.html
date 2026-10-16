@@ -398,7 +398,7 @@
           This final project for GIST 604A Cartography presents a simplified
           bedrock geologic map of Adirondack Park in northern New York. The
           project was designed to preserve the major geologic patterns of the
-          region while reducing the complexity of the original detailed
+          region while reducing the complexity of detailed
           geologic mapping so that the final map would remain clear and
           readable at a regional scale.
         </p>
@@ -471,7 +471,7 @@
 
         <p>
           The map was created in ArcGIS Pro using multiple geologic,
-          hydrographic, elevation, and reference datasets. Because Adirondack
+          hydrographic, elevation, and reference datasets. Because the Adirondack
           Park crosses more than one New York State bedrock geology sheet, the
           source geology first had to be combined into a single working
           dataset before it could be generalized and symbolized.
@@ -509,12 +509,7 @@
           </li>
 
           <li>
-            Exported source polygons representing water to preserve water
-            areas that were represented as gaps within the original geology.
-          </li>
-
-          <li>
-            Added major water bodies and selected populated places to provide
+            Added water bodies and selected populated places to provide
             geographic reference without overwhelming the geology.
           </li>
 
@@ -524,23 +519,17 @@
           </li>
 
           <li>
-            Selected a small number of recognizable communities including
-            Lake Placid, Saranac Lake, Tupper Lake, Old Forge, Lake George,
-            Elizabethtown, North Creek, Keene, Keene Valley, and Speculator.
-          </li>
-
-          <li>
             Mosaicked U.S. Geological Survey DEM tiles to create a continuous
             elevation surface for Adirondack Park.
           </li>
 
           <li>
-            Generated a custom hillshade and used Extract by Mask to limit the
+            Generated a hillshade and used Extract by Mask to limit the
             relief to the Adirondack Park boundary.
           </li>
 
           <li>
-            Applied a muted qualitative color scheme designed to distinguish
+            Applied a color scheme using Unique Values symbology to distinguish
             geologic classes while maintaining a cohesive geologic-map
             appearance.
           </li>
@@ -667,8 +656,7 @@
 
         <p>
           Additional distinction was retained among the Precambrian rocks
-          because they dominate Adirondack Park and represent an important part
-          of the region's geologic character. Younger units were generalized
+          because they dominate Adirondack Park. Younger units were generalized
           more broadly because they occupy smaller areas of the final map.
         </p>
 
@@ -676,8 +664,7 @@
           After the classification was completed, polygons assigned to the same
           final map class were dissolved. This removed unnecessary internal
           boundaries, including boundaries associated with the original source
-          map sheets, while preserving geologically meaningful boundaries
-          between the generalized classes.
+          map sheets.
         </p>
 
       </div>
@@ -690,7 +677,7 @@
 
         <p>
           The New York State bedrock geology master legend was used to interpret
-          the abbreviated source-unit codes and determine the appropriate age
+          the abbreviated source-unit code attributes and determine the appropriate age
           and lithologic group for each unit.
         </p>
 
@@ -719,24 +706,18 @@
 
         <p>
           The final color scheme uses muted colors rather than highly saturated
-          categorical colors. Related units are visually grouped by broad
+          categorical colors. Related units are grouped by
           geologic age while individual lithologies remain distinguishable.
           Water bodies use a contrasting blue and the Adirondack Park boundary
-          is shown with a stronger outline to clearly define the mapped region.
+          is shown with a stronger blue outline to clearly define the mapped region.
+          The Adirondack Park boundary is often referred to as "The Blue Line".
         </p>
 
         <p>
           A custom hillshade generated from USGS elevation data provides subtle
-          terrain context beneath the bedrock geology. The hillshade was kept
-          visually subordinate so that relief supports the geologic patterns
+          terrain texture beneath the bedrock geology. The hillshade was kept
+          muted so that relief supports the geologic patterns
           rather than competing with them.
-        </p>
-
-        <p>
-          Only selected communities and major water features were retained.
-          This deliberate feature selection reduces clutter and supports the
-          visual hierarchy of the map, with bedrock geology remaining the
-          primary subject.
         </p>
 
       </div>
