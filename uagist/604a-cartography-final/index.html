@@ -1,393 +1,1048 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <title>604A Cartography Final – Parker J. LeClair</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="/assets/PJL_Favicon2.png" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/PJL_Favicon2.png"
+  />
+
 
   <style>
+
+    /* =========================================================
+       COLOR PALETTE
+       Based on the final Adirondack geology map
+       ========================================================= */
+
     :root {
-      --sidebar-blue: #0085B4;
-      --button-blue-light: #53D2FF;
-      --button-blue-dark: #0085B4;
-      --hover-yellow: #FFFF85;
+
+      /* Geologic map colors */
+
+      --sand: #E6D7B8;
+
+      --terracotta: #C97C63;
+
+      --sage: #8FAE9D;
+
+      --slate-blue: #708DB4;
+
+      --olive: #A3A07A;
+
+      --lavender: #9C93C7;
+
+      --dusty-rose: #B98595;
+
+      --warm-brown: #9A7A60;
+
+      --peach: #D9B29B;
+
+      --deep-plum: #6E647E;
+
+
+      /* Page colors */
+
+      --page-background: #F2EFEB;
+
+      --card-background: #FFFEFC;
+
+      --soft-background: #F7F4F1;
+
+      --text-dark: #332F36;
+
+      --text-muted: #716A73;
+
+      --border-color: #D8D1CC;
+
+
+      /* Sidebar and buttons */
+
+      --sidebar-dark: #6E647E;
+
+      --sidebar-light: #857994;
+
+      --button-light: #9C93C7;
+
+      --button-dark: #708DB4;
+
+      --button-shadow: #596F90;
+
+      --hover-color: #E6D7B8;
+
     }
+
+
+
+    /* =========================================================
+       PAGE DEFAULTS
+       ========================================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
 
     body {
+
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #f3f4f6;
-      color: #1f2937;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--page-background);
+
+      color: var(--text-dark);
+
     }
+
+
 
     .layout {
+
       display: flex;
+
       min-height: 100vh;
+
     }
 
-    /* ---------- SIDEBAR ---------- */
+
+
+    /* =========================================================
+       SIDEBAR
+       ========================================================= */
 
     nav {
+
       width: 280px;
-      background: var(--sidebar-blue);
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--sidebar-light),
+          var(--sidebar-dark)
+        );
+
       color: white;
+
       padding: 20px;
-      box-sizing: border-box;
-      transition: transform 0.3s ease;
+
       text-align: center;
+
       position: relative;
+
       overflow: hidden;
+
       flex-shrink: 0;
+
+      transition: transform 0.3s ease;
+
     }
+
+
+
+    /* Existing contour background */
 
     nav::before {
+
       content: "";
+
       position: absolute;
+
       inset: 0;
-      background-image: url("/assets/SidebarContours.png");
+
+      background-image:
+        url("/assets/SidebarContours.png");
+
       background-size: cover;
+
       background-repeat: no-repeat;
+
       background-position: center;
-      opacity: 0.15;
+
+      opacity: 0.11;
+
       z-index: 0;
+
     }
+
+
 
     nav * {
+
       position: relative;
+
       z-index: 1;
+
     }
+
+
 
     .profile-pic {
+
       width: 120px;
+
       height: 120px;
+
       border-radius: 50%;
+
       object-fit: cover;
+
       display: block;
+
       margin: 0 auto;
-      border: 3px solid #53D2FF;
+
+      border: 3px solid var(--sand);
+
     }
+
+
 
     nav h1 {
+
       margin: 20px 0 8px 0;
+
       font-size: 1.4rem;
+
     }
+
+
 
     nav p {
+
       margin: 0 0 20px 0;
+
       font-size: 0.95rem;
+
     }
+
+
 
     nav a {
+
       display: block;
+
       margin: 0 0 12px 0;
+
       padding: 10px 12px;
+
       color: white;
+
       text-decoration: none;
-      font-size: 1.15rem;
+
+      font-size: 1.05rem;
+
       font-weight: 600;
+
       border-radius: 8px;
+
       text-align: center;
-      background: linear-gradient(
-        to bottom,
-        var(--button-blue-light),
-        var(--button-blue-dark)
-      );
-      box-shadow: 0 3px 0 #006991;
-      transition: all 0.15s ease;
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--button-light),
+          var(--button-dark)
+        );
+
+      box-shadow:
+        0 3px 0 var(--button-shadow);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+
     }
+
+
 
     nav a:hover {
-      background: var(--hover-yellow);
-      color: #004466;
+
+      background: var(--hover-color);
+
+      color: #4A4250;
+
       transform: translateY(-2px);
-      box-shadow: 0 4px 0 #005C78;
+
+      box-shadow:
+        0 4px 0 var(--warm-brown);
+
     }
+
+
 
     nav a:active {
+
       transform: translateY(1px);
-      box-shadow: 0 1px 0 #005C78;
+
+      box-shadow:
+        0 1px 0 var(--button-shadow);
+
     }
 
-    /* ---------- MAIN CONTENT ---------- */
+
+
+    /* =========================================================
+       MAIN CONTENT
+       ========================================================= */
 
     main {
+
       flex: 1;
-      padding: 30px;
-      max-width: 1100px;
+
+      width: 100%;
+
+      max-width: 1120px;
+
+      padding: 34px;
+
       margin: 0 auto;
-      box-sizing: border-box;
+
     }
+
+
 
     .page-header {
+
       margin-bottom: 25px;
+
+      border-left:
+        6px solid var(--dusty-rose);
+
+      padding-left: 16px;
+
     }
+
+
 
     .page-header h1 {
-      margin: 0 0 6px 0;
+
+      margin:
+        0 0 6px 0;
+
+      color: var(--deep-plum);
+
+      font-size: 2rem;
+
     }
+
+
 
     .page-header p {
+
       margin: 0;
-      color: #6b7280;
-      font-size: 1.05rem;
+
+      color: var(--text-muted);
+
+      font-size: 1.08rem;
+
     }
+
+
+
+    /* =========================================================
+       SECTIONS
+       ========================================================= */
 
     .section {
-      background: white;
-      padding: 22px 26px;
-      margin-bottom: 28px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+      background:
+        var(--card-background);
+
+      padding:
+        24px 28px;
+
+      margin-bottom:
+        28px;
+
+      border-radius:
+        10px;
+
+      border:
+        1px solid var(--border-color);
+
+      box-shadow:
+        0 2px 7px rgba(65, 55, 65, 0.08);
+
     }
+
+
 
     .section h2 {
+
       margin-top: 0;
-      color: #0085B4;
+
+      color: var(--deep-plum);
+
+      border-bottom:
+        2px solid var(--sand);
+
+      padding-bottom:
+        8px;
+
     }
+
+
 
     .section h3 {
-      color: #374151;
+
+      color: var(--warm-brown);
+
       margin-bottom: 8px;
+
     }
+
+
 
     .section p {
-      line-height: 1.6;
+
+      line-height: 1.65;
+
     }
+
+
 
     .section li {
-      margin: 6px 0;
-      line-height: 1.45;
+
+      margin: 7px 0;
+
+      line-height: 1.5;
+
     }
 
-    /* ---------- MAP ---------- */
+
+
+    /* =========================================================
+       FINAL MAP
+       ========================================================= */
 
     .project-map,
     .project-image {
+
       width: 100%;
+
       height: auto;
+
       display: block;
+
       border-radius: 8px;
+
     }
+
+
 
     .project-map {
+
       margin-top: 15px;
-      border: 1px solid #d1d5db;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+
+      border:
+        1px solid var(--border-color);
+
+      box-shadow:
+        0 4px 14px rgba(65, 55, 65, 0.14);
+
       background: white;
+
     }
+
+
 
     .map-link {
+
       display: block;
+
       text-decoration: none;
+
     }
+
+
 
     .map-caption {
+
       font-size: 0.92rem;
-      color: #6b7280;
+
+      color: var(--text-muted);
+
       line-height: 1.5;
-      margin: 10px 0 0 0;
+
+      margin:
+        10px 0 0 0;
+
     }
 
-    /* ---------- BUTTONS ---------- */
+
+
+    /* =========================================================
+       BUTTONS
+       ========================================================= */
 
     .map-buttons {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 12px;
+
       margin-top: 18px;
+
     }
+
+
 
     .download-btn {
+
       display: inline-block;
-      padding: 11px 18px;
-      background: linear-gradient(
-        to bottom,
-        var(--button-blue-light),
-        var(--button-blue-dark)
-      );
+
+      padding:
+        11px 18px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--button-light),
+          var(--button-dark)
+        );
+
       color: white;
+
       border-radius: 9px;
+
       font-size: 1rem;
+
       font-weight: 600;
+
       text-decoration: none;
-      box-shadow: 0 3px 0 #006991;
+
+      box-shadow:
+        0 3px 0 var(--button-shadow);
+
       transition: all 0.15s ease;
+
     }
+
+
 
     .download-btn:hover {
-      background: var(--hover-yellow);
-      color: #004466;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 #005C78;
+
+      background:
+        var(--hover-color);
+
+      color: #4A4250;
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 4px 0 var(--warm-brown);
+
     }
+
+
 
     .download-btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 0 #005C78;
+
+      transform:
+        translateY(1px);
+
+      box-shadow:
+        0 1px 0 var(--button-shadow);
+
     }
+
+
 
     .secondary-btn {
-      background: linear-gradient(to bottom, #8cbfd8, #5e95b1);
-      box-shadow: 0 3px 0 #4d7589;
+
+      background:
+        linear-gradient(
+          to bottom,
+          var(--sage),
+          #728F83
+        );
+
+      box-shadow:
+        0 3px 0 #61786E;
+
     }
 
-    /* ---------- FIGURES ---------- */
+
+
+    /* =========================================================
+       FIGURES
+       ========================================================= */
 
     figure {
-      margin: 20px 0 0 0;
+
+      margin:
+        20px 0 0 0;
+
     }
+
+
 
     figcaption {
-      margin-top: 8px;
-      color: #6b7280;
-      font-size: 0.9rem;
-      line-height: 1.4;
+
+      margin-top:
+        9px;
+
+      color:
+        var(--text-muted);
+
+      font-size:
+        0.9rem;
+
+      line-height:
+        1.45;
+
     }
 
-    /* ---------- TWO-COLUMN INFO ---------- */
+
+
+    /* =========================================================
+       TOOLS GRID
+       ========================================================= */
 
     .info-grid {
+
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
       gap: 20px;
+
     }
+
+
 
     .info-card {
-      background: #f8fafc;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 16px 18px;
+
+      background:
+        var(--soft-background);
+
+      border:
+        1px solid var(--border-color);
+
+      border-radius:
+        8px;
+
+      padding:
+        17px 19px;
+
     }
+
+
+
+    .info-card:first-child {
+
+      border-top:
+        5px solid var(--slate-blue);
+
+    }
+
+
+
+    .info-card:last-child {
+
+      border-top:
+        5px solid var(--sage);
+
+    }
+
+
 
     .info-card h3 {
+
       margin-top: 0;
+
+      color:
+        var(--deep-plum);
+
     }
 
-    /* ---------- SOURCES ---------- */
 
-    .sources-list {
-      padding-left: 22px;
-    }
 
-    .sources-list li {
-      margin-bottom: 10px;
-    }
-
-    /* ---------- HAMBURGER ---------- */
-
-    .hamburger {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      width: 40px;
-      height: 34px;
-      background: var(--button-blue-light);
-      color: white;
-      border-radius: 6px;
-      justify-content: center;
-      align-items: center;
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 9999;
-      box-shadow: 0 3px 0 #006991;
-    }
-
-    .hamburger:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 0 #006991;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      z-index: 900;
-    }
-
-    .overlay.show {
-      display: block;
-    }
+    /* =========================================================
+       ORIGINAL SOURCE MAPS
+       ========================================================= */
 
     .source-map-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 18px;
-}
 
-.source-map-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  background: white;
-}
+      display: grid;
 
-.source-map-grid a {
-  display: block;
-}
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-@media (max-width: 768px) {
-  .source-map-grid {
-    grid-template-columns: 1fr;
-  }
-}
+      gap: 22px;
 
-    /* ---------- MOBILE ---------- */
+      margin-top: 20px;
+
+    }
+
+
+
+    .source-map-image {
+
+      width: 100%;
+
+      height: auto;
+
+      display: block;
+
+      border-radius: 8px;
+
+      border:
+        1px solid var(--border-color);
+
+      box-shadow:
+        0 3px 10px rgba(65, 55, 65, 0.10);
+
+      background: white;
+
+      transition:
+        transform 0.15s ease;
+
+    }
+
+
+
+    .source-map-image:hover {
+
+      transform:
+        translateY(-2px);
+
+    }
+
+
+
+    .source-map-grid a {
+
+      display: block;
+
+    }
+
+
+
+    /* =========================================================
+       GEOLOGIC CLASS LIST
+       ========================================================= */
+
+    .class-list {
+
+      list-style: none;
+
+      padding-left: 0;
+
+    }
+
+
+
+    .class-list li {
+
+      padding:
+        7px 10px;
+
+      margin:
+        5px 0;
+
+      border-left:
+        5px solid var(--border-color);
+
+      background:
+        var(--soft-background);
+
+    }
+
+
+
+    .class-list li:nth-child(1) {
+      border-left-color: var(--sand);
+    }
+
+
+    .class-list li:nth-child(2) {
+      border-left-color: var(--terracotta);
+    }
+
+
+    .class-list li:nth-child(3) {
+      border-left-color: var(--sage);
+    }
+
+
+    .class-list li:nth-child(4) {
+      border-left-color: var(--slate-blue);
+    }
+
+
+    .class-list li:nth-child(5) {
+      border-left-color: var(--olive);
+    }
+
+
+    .class-list li:nth-child(6) {
+      border-left-color: var(--lavender);
+    }
+
+
+    .class-list li:nth-child(7) {
+      border-left-color: var(--dusty-rose);
+    }
+
+
+    .class-list li:nth-child(8) {
+      border-left-color: var(--warm-brown);
+    }
+
+
+    .class-list li:nth-child(9) {
+      border-left-color: var(--peach);
+    }
+
+
+    .class-list li:nth-child(10) {
+      border-left-color: var(--deep-plum);
+    }
+
+
+
+    /* =========================================================
+       SOURCES
+       ========================================================= */
+
+    .sources-list {
+
+      padding-left: 22px;
+
+    }
+
+
+
+    .sources-list li {
+
+      margin-bottom: 12px;
+
+    }
+
+
+
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
+    .hamburger {
+
+      display: none;
+
+      position: fixed;
+
+      top: 15px;
+
+      left: 15px;
+
+      width: 42px;
+
+      height: 36px;
+
+      background:
+        var(--lavender);
+
+      color: white;
+
+      border-radius: 6px;
+
+      justify-content: center;
+
+      align-items: center;
+
+      font-size: 22px;
+
+      cursor: pointer;
+
+      z-index: 9999;
+
+      box-shadow:
+        0 3px 0 var(--button-shadow);
+
+    }
+
+
+
+    .hamburger:active {
+
+      transform:
+        translateY(1px);
+
+    }
+
+
+
+    .overlay {
+
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(40, 35, 44, 0.42);
+
+      z-index: 900;
+
+    }
+
+
+
+    .overlay.show {
+
+      display: block;
+
+    }
+
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
 
     @media (max-width: 768px) {
 
       .hamburger {
+
         display: flex;
+
       }
+
 
       nav {
+
         position: fixed;
+
         top: 0;
+
         left: 0;
+
         height: 100%;
-        transform: translateX(-100%);
+
+        transform:
+          translateX(-100%);
+
         z-index: 998;
+
       }
+
 
       nav.open {
-        transform: translateX(0);
+
+        transform:
+          translateX(0);
+
       }
+
 
       main {
-        padding: 80px 18px 30px 18px;
+
+        padding:
+          80px 18px 30px 18px;
+
       }
+
 
       .info-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
+
+
+      .source-map-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
 
       .map-buttons {
-        flex-direction: column;
+
+        flex-direction:
+          column;
+
       }
 
+
       .download-btn {
-        text-align: center;
+
+        text-align:
+          center;
+
       }
+
+
+      .page-header h1 {
+
+        font-size:
+          1.65rem;
+
+      }
+
     }
+
   </style>
+
 </head>
+
+
 
 <body>
 
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-  <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+  <!-- MOBILE MENU -->
+
+  <div
+    class="hamburger"
+    onclick="toggleMenu()"
+  >
+    ☰
+  </div>
+
+
+  <div
+    id="overlay"
+    class="overlay"
+    onclick="toggleMenu()"
+  >
+  </div>
+
+
 
   <div class="layout">
 
-    <!-- SIDEBAR -->
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <nav id="sidebar">
+
 
       <img
         src="/assets/PJL.jpg"
@@ -395,57 +1050,111 @@
         alt="Parker J. LeClair"
       />
 
-      <h1>Parker J. LeClair</h1>
 
-      <p>GIS • Remote Sensing • Geology</p>
+      <h1>
+        Parker J. LeClair
+      </h1>
 
-      <a href="/">Home</a>
-      <a href="/projects">Projects</a>
-      <a href="/uagist">University of Arizona M.S. GIST</a>
-      <a href="/contact">Contact & Resume</a>
+
+      <p>
+        GIS • Remote Sensing • Geology
+      </p>
+
+
+      <a href="/">
+        Home
+      </a>
+
+
+      <a href="/projects">
+        Projects
+      </a>
+
+
+      <a href="/uagist">
+        University of Arizona M.S. GIST
+      </a>
+
+
+      <a href="/contact">
+        Contact & Resume
+      </a>
+
 
     </nav>
 
-    <!-- MAIN PAGE -->
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
 
     <main>
 
+
+      <!-- PAGE HEADER -->
+
       <div class="page-header">
-        <h1>GIST 604A – Cartography Final</h1>
-        <p>Simplified Bedrock Geology of Adirondack Park, New York</p>
+
+        <h1>
+          GIST 604A – Cartography Final
+        </h1>
+
+        <p>
+          Simplified Bedrock Geology of Adirondack Park, New York
+        </p>
+
       </div>
 
-      <!-- PROJECT OVERVIEW -->
+
+
+      <!-- ===================================================
+           PROJECT OVERVIEW
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Project Overview</h2>
+        <h2>
+          Project Overview
+        </h2>
+
 
         <p>
+
           This final project for GIST 604A Cartography presents a simplified
-          bedrock geologic map of Adirondack Park in northern New York. The
-          project was designed to preserve the major geologic patterns of the
-          region while reducing the complexity of detailed
-          geologic mapping so that the final map would remain clear and
-          readable at a regional scale.
+          bedrock geologic map of Adirondack Park in northern New York.
+          The project was designed to preserve the major regional geologic
+          patterns while reducing the complexity of detailed geologic mapping
+          so the final map would remain clear and readable at a regional scale.
+
         </p>
 
+
         <p>
-          The final design combines generalized bedrock geology, major water
-          bodies, selected populated places, shaded relief, the Adirondack Park
+
+          The final design combines generalized bedrock geology, water bodies,
+          selected populated places, shaded relief, the Adirondack Park
           boundary, and a New York State locator map. The project applies
           cartographic principles including qualitative color, visual
           hierarchy, generalization, labeling, scale, typography, and inset
           map design.
+
         </p>
 
       </div>
 
-      <!-- FINAL MAP -->
+
+
+      <!-- ===================================================
+           FINAL MAP
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Final Map</h2>
+        <h2>
+          Final Map
+        </h2>
+
 
         <a
           class="map-link"
@@ -462,20 +1171,28 @@
 
         </a>
 
+
         <p class="map-caption">
+
           Final 11 × 17 cartographic layout at a scale of 1:800,000.
           Click the map to open the full-size PNG.
+
         </p>
 
+
         <div class="map-buttons">
+
 
           <a
             class="download-btn"
             href="/assets/LeClair_604A_Final_ADK_Geology.pdf"
             download
           >
+
             Download Full Map (PDF)
+
           </a>
+
 
           <a
             class="download-btn secondary-btn"
@@ -483,295 +1200,527 @@
             target="_blank"
             rel="noopener"
           >
+
             Open Full-Size PNG
+
           </a>
+
 
         </div>
 
       </div>
 
-      <!-- WORKFLOW -->
+
+
+      <!-- ===================================================
+           WORKFLOW
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Workflow</h2>
+        <h2>
+          Workflow
+        </h2>
+
 
         <p>
-          The map was created in ArcGIS Pro using multiple geologic,
-          hydrographic, elevation, and reference datasets. Because the Adirondack
-          Park crosses more than one New York State bedrock geology sheet, the
-          source geology first had to be combined into a single working
-          dataset before it could be generalized and symbolized.
+
+          The map was created in ArcGIS Pro using geologic, hydrographic,
+          elevation, and reference datasets. Because Adirondack Park crosses
+          more than one New York State bedrock geology sheet, the source
+          geology first had to be combined into a single working dataset
+          before it could be generalized and symbolized.
+
         </p>
 
+
         <ol>
+
+
           <li>
+
             Clipped the Adirondack and Hudson–Mohawk bedrock geology datasets
             to the Adirondack Park boundary.
+
           </li>
 
-          <li>
-            Merged the clipped bedrock geology layers into one working
-            geologic dataset.
-          </li>
 
           <li>
+
+            Merged the clipped geology layers into one working bedrock dataset.
+
+          </li>
+
+
+          <li>
+
             Examined the original geologic unit codes using the New York State
             bedrock geology master legend.
+
           </li>
 
-          <li>
-            Created new fields for broad geologic age, generalized rock type,
-            and the final cartographic map class.
-          </li>
 
           <li>
+
+            Created new fields representing broad geologic age, generalized
+            rock type, and the final cartographic map class.
+
+          </li>
+
+
+          <li>
+
             Used field calculations to assign the original detailed units to
             broader age and lithologic categories.
+
           </li>
 
-          <li>
-            Used Pairwise Dissolve to remove boundaries between adjacent
-            polygons assigned to the same generalized map class.
-          </li>
 
           <li>
+
+            Used Pairwise Dissolve to remove internal boundaries between
+            adjacent polygons assigned to the same generalized map class.
+
+          </li>
+
+
+          <li>
+
             Added water bodies and selected populated places to provide
             geographic reference without overwhelming the geology.
+
           </li>
 
+
           <li>
+
             Converted U.S. Geological Survey GNIS populated-place data from
             latitude and longitude coordinates using XY Table To Point.
+
           </li>
 
+
           <li>
+
             Mosaicked U.S. Geological Survey DEM tiles to create a continuous
             elevation surface for Adirondack Park.
+
           </li>
 
+
           <li>
-            Generated a hillshade and used Extract by Mask to limit the
+
+            Generated a hillshade and used Extract by Mask to limit the terrain
             relief to the Adirondack Park boundary.
+
           </li>
 
-          <li>
-            Applied a color scheme using Unique Values symbology to distinguish
-            geologic classes while maintaining a cohesive geologic-map
-            appearance.
-          </li>
 
           <li>
-            Created a New York State locator map showing the location of
+
+            Applied Unique Values symbology using a coordinated, muted
+            qualitative color scheme.
+
+          </li>
+
+
+          <li>
+
+            Created a New York State locator map showing the position of
             Adirondack Park within the state.
+
           </li>
 
+
           <li>
+
             Assembled the final 11 × 17 landscape layout with title, legend,
-            town labels, scale bars, north arrow, locator map, projection
+            place labels, scale bars, north arrow, locator map, projection
             information, and data credits.
+
           </li>
+
+
         </ol>
+
 
       </div>
 
-      <!-- TOOLS USED -->
+
+
+      <!-- ===================================================
+           TOOLS USED
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Tools Used</h2>
+
+        <h2>
+          Tools Used
+        </h2>
+
 
         <div class="info-grid">
 
+
           <div class="info-card">
 
-            <h3>Geoprocessing</h3>
+
+            <h3>
+              Geoprocessing
+            </h3>
+
 
             <ul>
+
               <li>Clip</li>
+
               <li>Merge</li>
+
               <li>Calculate Field</li>
+
               <li>Pairwise Dissolve</li>
+
               <li>Export Features</li>
+
               <li>XY Table To Point</li>
+
               <li>Mosaic To New Raster</li>
+
               <li>Hillshade</li>
+
               <li>Extract by Mask</li>
+
             </ul>
 
+
           </div>
+
+
 
           <div class="info-card">
 
-            <h3>Cartographic Design</h3>
+
+            <h3>
+              Cartographic Design
+            </h3>
+
 
             <ul>
+
               <li>Unique Values symbology</li>
+
               <li>Definition Queries</li>
+
               <li>Qualitative color design</li>
+
               <li>Shaded relief</li>
+
               <li>Map labeling</li>
+
               <li>Visual hierarchy</li>
+
               <li>Scale-based generalization</li>
+
               <li>Locator inset design</li>
+
               <li>ArcGIS Pro layout tools</li>
+
             </ul>
 
+
           </div>
+
 
         </div>
 
+
       </div>
 
-      <!-- ORIGINAL BEDROCK SHEETS -->
+
+
+      <!-- ===================================================
+           ORIGINAL BEDROCK SHEETS
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Original Bedrock Geology Sheets</h2>
+
+        <h2>
+          Original Bedrock Geology Sheets
+        </h2>
+
 
         <p>
+
           Adirondack Park spans portions of two New York State bedrock geology
-          sheets: the Adirondack sheet and the Hudson–Mohawk sheet. These source maps
-          contain a large number of detailed geologic units and extensive linework.
-          At the regional scale used for this project, displaying every original unit
-          individually would make the map difficult to interpret and would produce an
-          excessively complex legend.
+          sheets: the Adirondack sheet and the Hudson–Mohawk sheet. These
+          source maps contain a large number of detailed geologic units and
+          extensive geologic linework.
+
         </p>
 
+
         <p>
-          The original sheets are shown below to illustrate the level of detail in the
-          source data before the units were clipped, merged, grouped, and dissolved
-          into broader cartographic classes.
+
+          At the regional scale used for this project, displaying every
+          original unit individually would produce a very complex legend and
+          make many of the mapped patterns difficult to distinguish. The
+          original sheets below illustrate the level of detail in the source
+          mapping before the geology was clipped, merged, grouped, and
+          dissolved into broader cartographic classes.
+
         </p>
+
+
 
         <div class="source-map-grid">
 
+
           <figure>
+
+
             <a
               href="/assets/Adirondack_Bedrock_Sheet.jpg"
               target="_blank"
               rel="noopener"
             >
+
               <img
                 src="/assets/Adirondack_Bedrock_Sheet.jpg"
                 alt="Original Adirondack bedrock geology sheet"
                 class="source-map-image"
-            />
+              />
+
             </a>
 
+
             <figcaption>
-              Adirondack bedrock geology sheet. Click to open the full-size image.
+
+              Original Adirondack bedrock geology source sheet used for this
+              project. Click to open the full-size image.
+
             </figcaption>
+
+
           </figure>
 
+
+
           <figure>
+
+
             <a
               href="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
               target="_blank"
               rel="noopener"
             >
+
               <img
                 src="/assets/Hudson_Mohawk_Bedrock_Sheet.jpg"
                 alt="Original Hudson-Mohawk bedrock geology sheet"
                 class="source-map-image"
               />
+
             </a>
 
+
             <figcaption>
-              Hudson–Mohawk bedrock geology sheet. Click to open the full-size image.
+
+              Original Hudson–Mohawk bedrock geology source sheet used for
+              this project. Click to open the full-size image.
+
             </figcaption>
+
+
           </figure>
+
 
         </div>
 
+
       </div>
 
-      <!-- GENERALIZATION -->
+
+
+      <!-- ===================================================
+           GEOLOGIC UNIT GENERALIZATION
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Geologic Unit Generalization</h2>
+
+        <h2>
+          Geologic Unit Generalization
+        </h2>
+
 
         <p>
-          The original New York State bedrock geology contained dozens of
+
+          The original New York State bedrock geology contains dozens of
           individual map units. Displaying every source unit separately would
           have produced a complicated legend and made many units difficult to
           distinguish at the final map scale.
+
         </p>
+
 
         <p>
+
           Instead of preserving every original unit as a separate symbol, the
           geology was generalized using both geologic age and broad lithology.
-          This allowed the most important regional geologic patterns to remain
-          visible while reducing visual clutter.
+          This preserved the dominant regional geologic patterns while
+          reducing visual clutter.
+
         </p>
 
-        <h3>Generalization Fields</h3>
+
+
+        <h3>
+          Generalization Fields
+        </h3>
+
 
         <ul>
-          <li>
-            <strong>AGE_GROUP</strong> – classified units into broad geologic
-            age groups.
-          </li>
+
 
           <li>
+
+            <strong>AGE_GROUP</strong> – classified source units into broad
+            geologic age groups.
+
+          </li>
+
+
+          <li>
+
             <strong>ROCK_GROUP</strong> – grouped similar lithologies into
             broader rock categories.
+
           </li>
+
 
           <li>
+
             <strong>MAP_CLASS</strong> – combined age and lithology into the
             final classes used for map symbology.
+
           </li>
+
+
         </ul>
 
-        <h3>Final Geologic Classes</h3>
 
-        <ul>
-          <li>Cenozoic – Quaternary deposits</li>
-          <li>Mesozoic – Intrusive igneous rocks</li>
-          <li>Paleozoic – Carbonate sedimentary rocks</li>
-          <li>Paleozoic – Mixed sedimentary rocks</li>
-          <li>Paleozoic – Siliciclastic sedimentary rocks</li>
-          <li>Precambrian – Anorthosite and related mafic rocks</li>
+
+        <h3>
+          Final Geologic Classes
+        </h3>
+
+
+        <ul class="class-list">
+
+
+          <li>
+            Cenozoic – Quaternary deposits
+          </li>
+
+
+          <li>
+            Mesozoic – Intrusive igneous rocks
+          </li>
+
+
+          <li>
+            Paleozoic – Carbonate sedimentary rocks
+          </li>
+
+
+          <li>
+            Paleozoic – Mixed sedimentary rocks
+          </li>
+
+
+          <li>
+            Paleozoic – Siliciclastic sedimentary rocks
+          </li>
+
+
+          <li>
+            Precambrian – Anorthosite and related mafic rocks
+          </li>
+
+
           <li>
             Precambrian – Granitic, syenitic and charnockitic gneiss
           </li>
-          <li>Precambrian – Mafic metamorphic rocks</li>
-          <li>Precambrian – Marble and calc-silicate rocks</li>
+
+
+          <li>
+            Precambrian – Mafic metamorphic rocks
+          </li>
+
+
+          <li>
+            Precambrian – Marble and calc-silicate rocks
+          </li>
+
+
           <li>
             Precambrian – Metasedimentary gneiss and quartzite
           </li>
+
+
         </ul>
 
-        <p>
-          Additional distinction was retained among the Precambrian rocks
-          because they dominate Adirondack Park. Younger units were generalized
-          more broadly because they occupy smaller areas of the final map.
-        </p>
+
 
         <p>
-          After the classification was completed, polygons assigned to the same
-          final map class were dissolved. This removed unnecessary internal
-          boundaries, including boundaries associated with the original source
-          map sheets.
+
+          Additional distinction was retained among Precambrian rocks because
+          they dominate much of Adirondack Park and are central to the region's
+          geologic character. Younger units were generalized more broadly
+          because they occupy smaller portions of the final map.
+
         </p>
+
+
+        <p>
+
+          After classification, polygons assigned to the same final map class
+          were dissolved. This removed unnecessary internal boundaries,
+          including boundaries related to the original source map sheets,
+          while retaining boundaries between the broader generalized units.
+
+        </p>
+
 
       </div>
 
-      <!-- ORIGINAL MASTER LEGEND -->
+
+
+      <!-- ===================================================
+           MASTER LEGEND
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Original Geologic Unit Reference</h2>
+
+        <h2>
+          Original Geologic Unit Reference
+        </h2>
+
 
         <p>
-          The New York State bedrock geology master legend was used to interpret
-          the abbreviated source-unit code attributes and determine the appropriate age
-          and lithologic group for each unit.
+
+          The New York State bedrock geology master legend was used to
+          interpret the abbreviated source-unit codes and determine the
+          appropriate age and lithologic group for each unit.
+
         </p>
 
+
         <figure>
+
 
           <img
             src="/assets/Bedrock_Master_Legend.jpg"
@@ -779,100 +1728,206 @@
             class="project-image"
           />
 
+
           <figcaption>
+
             New York State bedrock geology master unit legend used as the
-            reference for grouping the original geologic map units.
+            reference for interpreting and grouping the original geologic map
+            units.
+
           </figcaption>
+
 
         </figure>
 
+
       </div>
 
-      <!-- CARTOGRAPHIC DESIGN -->
+
+
+      <!-- ===================================================
+           CARTOGRAPHIC DESIGN
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Cartographic Design</h2>
+
+        <h2>
+          Cartographic Design
+        </h2>
+
 
         <p>
-          The final color scheme uses muted colors rather than highly saturated
-          categorical colors. Related units are grouped by
-          geologic age while individual lithologies remain distinguishable.
-          Water bodies use a contrasting blue and the Adirondack Park boundary
-          is shown with a stronger blue outline to clearly define the mapped region.
-          The Adirondack Park boundary is often referred to as "The Blue Line".
+
+          The final color scheme uses muted colors rather than highly
+          saturated categorical colors. Related units are organized by broad
+          geologic age while differences in hue and value keep individual
+          lithologies distinguishable.
+
         </p>
 
+
         <p>
-          A custom hillshade generated from USGS elevation data provides subtle
-          terrain texture beneath the bedrock geology. The hillshade was kept
-          muted so that relief supports the geologic patterns
+
+          Water bodies use a contrasting blue, while the Adirondack Park
+          boundary is emphasized with a stronger blue outline. The Adirondack
+          Park boundary is commonly known as the <em>Blue Line</em>.
+
+        </p>
+
+
+        <p>
+
+          A custom hillshade generated from USGS elevation data provides
+          terrain texture beneath the geology. The shaded relief was kept
+          visually subdued so that topography supports the geologic patterns
           rather than competing with them.
+
         </p>
+
+
+        <p>
+
+          Only selected communities and reference features were retained.
+          Limiting the number of labels and ancillary features helped establish
+          a clear visual hierarchy in which the bedrock geology remains the
+          primary subject of the map.
+
+        </p>
+
 
       </div>
 
-      <!-- SOURCES -->
+
+
+      <!-- ===================================================
+           SOURCES
+           =================================================== -->
 
       <div class="section">
 
-        <h2>Sources & References</h2>
+
+        <h2>
+          Sources & References
+        </h2>
+
 
         <ul class="sources-list">
 
-          <li>
-            <strong>New York State Museum / New York State Geological Survey.</strong>
-            Bedrock geology datasets and New York State bedrock geology master
-            unit legend.
-          </li>
 
           <li>
-            <strong>Adirondack Park Agency.</strong>
+
+            <strong>
+              New York State Museum / New York State Geological Survey.
+            </strong>
+
+            Bedrock geology datasets, Adirondack and Hudson–Mohawk bedrock
+            geology sheets, and New York State bedrock geology master unit
+            legend.
+
+          </li>
+
+
+          <li>
+
+            <strong>
+              Adirondack Park Agency.
+            </strong>
+
             Adirondack Park boundary and hydrography.
+
           </li>
 
+
           <li>
-            <strong>U.S. Geological Survey.</strong>
+
+            <strong>
+              U.S. Geological Survey.
+            </strong>
+
             Digital elevation model data used to generate shaded relief.
+
           </li>
 
-          <li>
-            <strong>U.S. Geological Survey – Geographic Names Information System (GNIS).</strong>
-            Populated-place names and coordinates.
-          </li>
 
           <li>
-            <strong>Natural Earth.</strong>
+
+            <strong>
+              U.S. Geological Survey – Geographic Names Information System
+              (GNIS).
+            </strong>
+
+            Populated-place names and geographic coordinates.
+
+          </li>
+
+
+          <li>
+
+            <strong>
+              Natural Earth.
+            </strong>
+
             New York State boundary used for the locator map.
+
           </li>
 
+
           <li>
-            <strong>Software:</strong>
+
+            <strong>
+              Software:
+            </strong>
+
             Esri ArcGIS Pro.
+
           </li>
 
+
           <li>
-            <strong>Map projection:</strong>
+
+            <strong>
+              Map projection:
+            </strong>
+
             NAD 1983 (2011) UTM Zone 18N.
+
           </li>
+
 
         </ul>
 
+
       </div>
+
 
     </main>
 
+
   </div>
 
+
+
   <script>
+
     function toggleMenu() {
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
+
+      const sidebar =
+        document.getElementById("sidebar");
+
+      const overlay =
+        document.getElementById("overlay");
+
 
       sidebar.classList.toggle("open");
+
       overlay.classList.toggle("show");
+
     }
+
   </script>
 
+
 </body>
+
 </html>
