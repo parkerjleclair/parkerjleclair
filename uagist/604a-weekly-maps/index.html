@@ -1,1 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>GIST 604A Weekly Maps – Parker J. LeClair</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/assets/PJL_Favicon2.png"
+  />
+
+  <style>
+
+    :root {
+      --sidebar-blue: #0085B4;
+      --button-blue-light: #53D2FF;
+      --button-blue-dark: #0085B4;
+      --hover-yellow: #FFFF85;
+      --page-bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-dark: #1f2937;
+      --text-muted: #6b7280;
+      --border: #d9dee5;
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--page-bg);
+      color: var(--text-dark);
+    }
+
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+
+    /* =========================================================
+       SIDEBAR
+       ========================================================= */
+
+    nav {
+      width: 280px;
+      background: var(--sidebar-blue);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("/assets/SidebarContours.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+
+    nav * {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+      border: 3px solid #53D2FF;
+    }
+
+
+    nav h1 {
+      margin: 20px 0 8px 0;
+      font-size: 1.4rem;
+    }
+
+
+    nav p {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+    }
+
+
+    nav a {
+      display: block;
+      margin: 0 0 12px 0;
+      padding: 10px 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
+      background: linear-gradient(
+        to bottom,
+        var(--button-blue-light),
+        var(--button-blue-dark)
+      );
+      box-shadow: 0 3px 0 #006991;
+      transition: all 0.15s ease;
+    }
+
+
+    nav a:hover {
+      background: var(--hover-yellow);
+      color: #004466;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #005C78;
+    }
+
+
+    nav a:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #005C78;
+    }
+
+
+    /* =========================================================
+       MAIN CONTENT
+       ========================================================= */
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+
+    .page-header h1 {
+      margin: 0 0 7px 0;
+      color: #0085B4;
+    }
+
+
+    .page-header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================================
+       WEEKLY MAP CARDS
+       ========================================================= */
+
+    .map-section {
+      background: var(--card-bg);
+      padding: 24px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+    }
+
+
+    .map-section h2 {
+      margin: 0 0 4px 0;
+      color: #0085B4;
+    }
+
+
+    .map-topic {
+      margin: 0 0 14px 0;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+
+    .map-section p {
+      line-height: 1.6;
+    }
+
+
+    .weekly-map-link {
+      display: block;
+      margin-top: 18px;
+      text-decoration: none;
+    }
+
+
+    .weekly-map {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.15s ease;
+      background: white;
+    }
+
+
+    .weekly-map:hover {
+      transform: translateY(-2px);
+    }
+
+
+    .map-caption {
+      margin-top: 9px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+
+    /* =========================================================
+       HAMBURGER
+       ========================================================= */
+
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 34px;
+      background: var(--button-blue-light);
+      color: white;
+      border-radius: 6px;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 3px 0 #006991;
+    }
+
+
+    .hamburger:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #006991;
+    }
+
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+
+
+    .overlay.show {
+      display: block;
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+
+      .hamburger {
+        display: flex;
+      }
+
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 998;
+      }
+
+
+      nav.open {
+        transform: translateX(0);
+      }
+
+
+      main {
+        padding: 80px 18px 30px 18px;
+      }
+
+
+      .map-section {
+        padding: 18px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <div
+    class="hamburger"
+    onclick="toggleMenu()"
+  >
+    ☰
+  </div>
+
+
+  <div
+    id="overlay"
+    class="overlay"
+    onclick="toggleMenu()"
+  ></div>
+
+
+  <div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <nav id="sidebar">
+
+
+      <img
+        src="/assets/PJL.jpg"
+        class="profile-pic"
+        alt="Parker J. LeClair"
+      />
+
+
+      <h1>
+        Parker J. LeClair
+      </h1>
+
+
+      <p>
+        GIS • Remote Sensing • Geology
+      </p>
+
+
+      <a href="/">
+        Home
+      </a>
+
+
+      <a href="/projects">
+        Projects
+      </a>
+
+
+      <a href="/uagist">
+        University of Arizona M.S. GIST
+      </a>
+
+
+      <a href="/contact">
+        Contact & Resume
+      </a>
+
+
+    </nav>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+      <div class="page-header">
+
+        <h1>
+          GIST 604A – Weekly Maps
+        </h1>
+
+        <p>
+          Maps created throughout GIST 604A Cartography, showing the different
+          cartographic techniques and design concepts covered during the course.
+        </p>
+
+      </div>
+
+
+
+      <!-- WEEK 1 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 1 – Essex County Reference Map
+        </h2>
+
+        <p class="map-topic">
+          Topic: Reference mapping and basic cartographic design
+        </p>
+
+        <p>
+          The first map focused on building a complete reference map and
+          organizing several types of geographic information into one readable
+          layout. I mapped Essex County, New York using roads, hydrography,
+          land classification, populated places, and Mount Marcy as a point of
+          interest. The main focus was establishing visual hierarchy, creating
+          a usable legend, labeling important features, and balancing the map
+          with supporting layout elements.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week1_Essex_County.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week1_Essex_County.png"
+            class="weekly-map"
+            alt="Reference map of Essex County, New York"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+
+      <!-- WEEK 2 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 2 – U.S. Data Distributions
+        </h2>
+
+        <p class="map-topic">
+          Topic: Choropleth maps, classification, and qualitative vs. quantitative color
+        </p>
+
+        <p>
+          This assignment compared several ways of symbolizing state-level
+          data. The four maps show change in unemployment rate, total
+          population, U.S. regions, and the percentage of the population living
+          in rural areas. The exercise focused on choosing appropriate
+          classification methods and color schemes for different kinds of data,
+          including sequential, diverging, and qualitative datasets.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week2_Choropleth.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week2_Choropleth.png"
+            class="weekly-map"
+            alt="Four thematic maps showing data distributions in the contiguous United States"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+
+      <!-- WEEK 3 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 3 – Hawaiʻi Island: Color and Texture
+        </h2>
+
+        <p class="map-topic">
+          Topic: Color, terrain representation, and visual texture
+        </p>
+
+        <p>
+          This week focused on using color and texture to represent several
+          different kinds of geographic information. My Hawaiʻi Island layout
+          combines imagery with separate maps of solar radiation, elevation,
+          and agricultural land use. The goal was to use color intentionally
+          while allowing the terrain and underlying surface texture to remain
+          visible, especially in the elevation and land-use maps.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week3_Hawaii_Color_and_Texture.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week3_Hawaii_Color_and_Texture.png"
+            class="weekly-map"
+            alt="Hawaii Island maps showing terrain, solar radiation, elevation, and agricultural land use"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+
+      <!-- WEEK 4 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 4 – California Reference Map
+        </h2>
+
+        <p class="map-topic">
+          Topic: Reference-map design, labeling, and visual hierarchy
+        </p>
+
+        <p>
+          For this assignment I created a statewide reference map of California
+          along with detailed views of the San Francisco Bay Area and Southern
+          California. The map combines cities, airports, highways, railroads,
+          rivers, lakes, protected lands, urban areas, and the San Andreas
+          Fault. The main challenge was organizing a large number of reference
+          features without allowing any one layer to overwhelm the map.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week4_California_Reference.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week4_California_Reference.png"
+            class="weekly-map"
+            alt="California reference map with detailed maps of San Francisco and Southern California"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+
+      <!-- WEEK 5 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 5 – 2012 Presidential Election
+        </h2>
+
+        <p class="map-topic">
+          Topic: Proportional symbols and multivariate thematic mapping
+        </p>
+
+        <p>
+          This map uses graduated circle size to represent county population
+          while color shows whether Barack Obama or Mitt Romney won each county
+          in the 2012 presidential election. Combining two variables in the same
+          symbol made it possible to show both the geographic pattern of the
+          election and the large differences in population between counties.
+          The assignment also explored annotation by highlighting counties with
+          especially high vote percentages for each candidate.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week5_USA_Election.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week5_USA_Election.png"
+            class="weekly-map"
+            alt="2012 presidential election map using proportional symbols by county"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+
+      <!-- WEEK 6 -->
+
+      <div class="map-section">
+
+        <h2>
+          Week 6 – Generalization of New England
+        </h2>
+
+        <p class="map-topic">
+          Topic: Map scale and cartographic generalization
+        </p>
+
+        <p>
+          The final weekly exercise looked at how the amount of detail shown on
+          a map should change with scale. I displayed the same New England
+          region at 1:10,000,000, 1:50,000,000, and 1:100,000,000. As the map
+          scale becomes smaller, geographic features, labels, and reference
+          information have to be simplified or removed to keep the map
+          readable. This exercise directly influenced the amount of
+          generalization I used later in my final Adirondack geology project.
+        </p>
+
+        <a
+          class="weekly-map-link"
+          href="/assets/604A_Week6_New_England_Generalization.png"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <img
+            src="/assets/604A_Week6_New_England_Generalization.png"
+            class="weekly-map"
+            alt="Generalization of New England at three different map scales"
+          />
+
+        </a>
+
+        <div class="map-caption">
+          Click the map to open the full-resolution image.
+        </div>
+
+      </div>
+
+
+    </main>
+
+
+  </div>
+
+
+
+  <script>
+
+    function toggleMenu() {
+
+      const sidebar =
+        document.getElementById("sidebar");
+
+      const overlay =
+        document.getElementById("overlay");
+
+      sidebar.classList.toggle("open");
+
+      overlay.classList.toggle("show");
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
